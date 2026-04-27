@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My First Website</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <h1 class="site-title">Princehacky</h1>
+      <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+      <nav id="main-nav">
+        <ul>
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Home Section -->
+    <section id="home" class="section">
+      <div class="container">
+        <h2>Welcome to My Website! 👋</h2>
+        <p class="intro">
+          Hi there! I'm <strong>Princehacky</strong>, and this is my little corner of the internet.
+          I'm passionate about coding, building cool projects, and learning something new every day.
+          Feel free to explore and say hello!
+        </p>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section alt-bg">
+      <div class="container">
+        <h2>About Me</h2>
+        <p>
+          I'm on an exciting journey of learning to code and building websites from scratch.
+          Every line of HTML, CSS, and JavaScript I write brings me one step closer to turning
+          my ideas into real, working projects. I believe that with curiosity, persistence, and
+          a bit of creativity, anyone can become a developer. This website is one of my very
+          first steps — and I'm proud of it!
+        </p>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="cards">
+
+          <div class="card">
+            <h3>Calculator App</h3>
+            <p>A simple browser-based calculator built with HTML, CSS, and JavaScript. Supports basic arithmetic operations.</p>
+            <button class="btn" onclick="alert('Calculator App — coming soon!')">View Project</button>
+          </div>
+
+          <div class="card">
+            <h3>To-Do List</h3>
+            <p>An interactive to-do list that lets you add, complete, and delete tasks. Data is saved in localStorage.</p>
+            <button class="btn" onclick="alert('To-Do List — coming soon!')">View Project</button>
+          </div>
+
+          <div class="card">
+            <h3>Weather Widget</h3>
+            <p>A weather widget that fetches real-time data from a public API and displays the current conditions for any city.</p>
+            <button class="btn" onclick="alert('Weather Widget — coming soon!')">View Project</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section alt-bg">
+      <div class="container">
+        <h2>Contact</h2>
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here…" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send Message</button>
+          <p id="form-feedback" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Princehacky</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
