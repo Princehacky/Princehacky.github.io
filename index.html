@@ -1,104 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My First Website</title>
+  <!-- Page title shown in browser tab -->
+  <title>Prince U. Shah Portfolio</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <h1 class="site-title">Princehacky</h1>
-      <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
-      <nav id="main-nav">
+  <!-- ── HEADER (sticky navigation) ─────────────────────────────────────── -->
+  <header id="site-header">
+    <div class="container header-inner">
+
+      <!-- Logo: initials PUS in blue and green -->
+      <a href="#home" class="logo" aria-label="Home">
+        <span class="logo-p">P</span><span class="logo-u">U</span><span class="logo-s">S</span>
+      </a>
+
+      <!-- Mobile hamburger button -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+
+      <!-- Navigation links -->
+      <nav id="main-nav" aria-label="Main navigation">
         <ul>
-          <li><a href="#home" class="nav-link">Home</a></li>
-          <li><a href="#about" class="nav-link">About</a></li>
-          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#home"    class="nav-link">Home</a></li>
+          <li><a href="#about"   class="nav-link">About</a></li>
+          <li><a href="#skills"  class="nav-link">Skills</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
       </nav>
+
+      <!-- Dark / Light mode toggle button -->
+      <button id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">🌙</button>
+
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- ── MAIN CONTENT ────────────────────────────────────────────────────── -->
   <main>
 
-    <!-- Home Section -->
-    <section id="home" class="section">
-      <div class="container">
-        <h2>Welcome to My Website! 👋</h2>
-        <p class="intro">
-          Hi there! I'm <strong>Princehacky</strong>, and this is my little corner of the internet.
-          I'm passionate about coding, building cool projects, and learning something new every day.
-          Feel free to explore and say hello!
+    <!-- HOME SECTION -->
+    <section id="home" class="section fade-in">
+      <div class="container home-content">
+        <!-- Main welcome heading -->
+        <h1 class="welcome-title">Welcome to My Portfolio 🎉</h1>
+        <!-- Short introduction -->
+        <p class="intro-text">
+          Hello, I am <strong>Prince U. Shah</strong>. I am a <strong>Class 7</strong> student
+          learning coding, science, and AI research.
         </p>
+        <!-- Goal badge -->
+        <div class="goal-badge">🚀 Goal: Become a Scientist and AI Researcher</div>
+        <!-- Call to action button -->
+        <a href="#about" class="btn">Learn More About Me</a>
       </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section alt-bg">
-      <div class="container">
-        <h2>About Me</h2>
-        <p>
-          I'm on an exciting journey of learning to code and building websites from scratch.
-          Every line of HTML, CSS, and JavaScript I write brings me one step closer to turning
-          my ideas into real, working projects. I believe that with curiosity, persistence, and
-          a bit of creativity, anyone can become a developer. This website is one of my very
-          first steps — and I'm proud of it!
-        </p>
-      </div>
-    </section>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section alt-bg fade-in">
+      <div class="container about-grid">
 
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-      <div class="container">
-        <h2>Projects</h2>
-        <div class="cards">
-
-          <div class="card">
-            <h3>Calculator App</h3>
-            <p>A simple browser-based calculator built with HTML, CSS, and JavaScript. Supports basic arithmetic operations.</p>
-            <button class="btn" onclick="alert('Calculator App — coming soon!')">View Project</button>
-          </div>
-
-          <div class="card">
-            <h3>To-Do List</h3>
-            <p>An interactive to-do list that lets you add, complete, and delete tasks. Data is saved in localStorage.</p>
-            <button class="btn" onclick="alert('To-Do List — coming soon!')">View Project</button>
-          </div>
-
-          <div class="card">
-            <h3>Weather Widget</h3>
-            <p>A weather widget that fetches real-time data from a public API and displays the current conditions for any city.</p>
-            <button class="btn" onclick="alert('Weather Widget — coming soon!')">View Project</button>
-          </div>
-
+        <!-- Profile image -->
+        <div class="about-image">
+          <img src="prince shah.bmp" alt="Prince U. Shah profile photo" />
         </div>
+
+        <!-- Bio details -->
+        <div class="about-text">
+          <h2>About Me</h2>
+          <p>Hi! My name is <strong>Prince U. Shah</strong> and I am in <strong>Class 7</strong>.</p>
+          <p>I love learning new things every day. Here are some of my interests:</p>
+
+          <!-- Interests list -->
+          <ul class="interests-list">
+            <li>💻 Coding</li>
+            <li>🔬 Science</li>
+            <li>🤖 AI Researching</li>
+          </ul>
+
+          <!-- Goal statement -->
+          <div class="about-goal">
+            🌟 My goal is to <strong>Become a Scientist and AI Researcher</strong>.
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section alt-bg">
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="section fade-in">
       <div class="container">
-        <h2>Contact</h2>
+        <h2>My Skills</h2>
+        <p class="section-subtitle">Here is what I have been learning so far:</p>
+
+        <!-- Each skill bar -->
+        <div class="skills-list">
+
+          <!-- HTML skill -->
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">HTML</span>
+              <span class="skill-label">Learning</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar" data-width="35"></div>
+            </div>
+          </div>
+
+          <!-- CSS skill -->
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">CSS</span>
+              <span class="skill-label">Beginner</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar" data-width="20"></div>
+            </div>
+          </div>
+
+          <!-- JavaScript skill -->
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-label">No Experience Yet</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar" data-width="5"></div>
+            </div>
+          </div>
+
+          <!-- Scratch skill -->
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Scratch</span>
+              <span class="skill-label">Good</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar" data-width="65"></div>
+            </div>
+          </div>
+
+          <!-- Computer Knowledge skill -->
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Computer Knowledge</span>
+              <span class="skill-label">Great</span>
+            </div>
+            <div class="skill-bar-bg">
+              <div class="skill-bar" data-width="80"></div>
+            </div>
+          </div>
+
+        </div><!-- /.skills-list -->
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section alt-bg fade-in">
+      <div class="container">
+        <h2>Contact Me</h2>
+        <p class="section-subtitle">Have a question or just want to say hi? Send me a message!</p>
+
+        <!-- Contact form — no backend needed -->
         <form id="contact-form" novalidate>
+          <!-- Name field -->
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required />
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required />
           </div>
+          <!-- Message field -->
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="your@email.com" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
+            <label for="message">Your Message</label>
             <textarea id="message" name="message" rows="5" placeholder="Write your message here…" required></textarea>
           </div>
-          <button type="submit" class="btn">Send Message</button>
+          <!-- Submit button -->
+          <button type="submit" class="btn">Send Message ✉️</button>
+          <!-- Feedback text shown after submit -->
           <p id="form-feedback" aria-live="polite"></p>
         </form>
       </div>
@@ -106,9 +184,14 @@
 
   </main>
 
-  <!-- Footer -->
+  <!-- ── FOOTER ──────────────────────────────────────────────────────────── -->
   <footer>
-    <p>© 2026 Princehacky</p>
+    <!-- Visitor counter -->
+    <div class="visitor-counter">
+      👀 Visitors: <span id="visitor-count">0</span>
+    </div>
+    <!-- Copyright -->
+    <p>© 2026 Prince Shah</p>
   </footer>
 
   <script src="script.js"></script>

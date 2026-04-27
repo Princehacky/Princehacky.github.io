@@ -1,4 +1,41 @@
 /* ==============================
+   CSS Custom Properties (Theme Variables)
+   Dark mode is default — light mode overrides below
+   ============================== */
+:root {
+  /* Dark theme colors */
+  --bg-main:       #121212;
+  --bg-alt:        #1e1e1e;
+  --bg-card:       #252525;
+  --text-main:     #f0f0f0;
+  --text-muted:    #aaa;
+  --border-color:  #333;
+  --header-bg:     #161616;
+  --footer-bg:     #161616;
+
+  /* Brand colors (blue + green) */
+  --blue:          #3b9eff;
+  --green:         #2ecc71;
+  --blue-dark:     #1a7fd4;
+  --green-dark:    #27ae60;
+
+  /* Transitions */
+  --transition:    0.3s ease;
+}
+
+/* Light theme overrides — applied when data-theme="light" */
+[data-theme="light"] {
+  --bg-main:       #f4f6f9;
+  --bg-alt:        #e8f0fe;
+  --bg-card:       #ffffff;
+  --text-main:     #1a1a1a;
+  --text-muted:    #555;
+  --border-color:  #cdd5e0;
+  --header-bg:     #1a73e8;
+  --footer-bg:     #1a73e8;
+}
+
+/* ==============================
    Reset & Base
    ============================== */
 *, *::before, *::after {
@@ -14,9 +51,11 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f9;
-  color: #333;
+  background-color: var(--bg-main);
+  color: var(--text-main);
   line-height: 1.7;
+  /* Smooth color transition when toggling theme */
+  transition: background-color var(--transition), color var(--transition);
 }
 
 /* ==============================
@@ -29,19 +68,35 @@ body {
 }
 
 /* ==============================
-   Header & Navigation
+   Scroll Fade-in Animation
+   Sections start invisible and slide up into view
    ============================== */
-header {
-  background-color: #1a73e8;
-  color: #fff;
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-header .container {
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==============================
+   Header & Navigation (sticky)
+   ============================== */
+#site-header {
+  background-color: var(--header-bg);
+  padding: 0.85rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: background-color var(--transition);
+}
+
+/* Flex row: logo — nav — theme toggle */
+.header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,12 +104,21 @@ header .container {
   gap: 0.5rem;
 }
 
-.site-title {
+/* ── Logo (PUS) ── */
+.logo {
+  text-decoration: none;
   font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1;
 }
 
+/* P in blue, U in white/light, S in green */
+.logo-p { color: var(--blue); }
+.logo-u { color: var(--text-main); }
+.logo-s { color: var(--green); }
+
+/* ── Nav links ── */
 nav ul {
   list-style: none;
   display: flex;
@@ -62,139 +126,247 @@ nav ul {
 }
 
 nav ul li a {
-  color: #fff;
+  color: var(--text-main);
   text-decoration: none;
   font-weight: 500;
-  padding: 0.25rem 0;
+  padding: 0.3rem 0.1rem;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease;
+  /* Smooth underline animation on hover */
+  transition: border-color 0.25s ease, color 0.25s ease;
 }
 
 nav ul li a:hover,
 nav ul li a.active {
-  border-bottom-color: #fff;
+  color: var(--blue);
+  border-bottom-color: var(--blue);
 }
 
-/* Hamburger toggle (hidden on desktop) */
+/* ── Hamburger toggle (hidden on desktop) ── */
 .nav-toggle {
   display: none;
   background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.6rem;
+  border: 1.5px solid var(--text-main);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-size: 1.4rem;
   cursor: pointer;
+  padding: 0.15rem 0.5rem;
+  transition: border-color var(--transition);
+}
+
+/* ── Dark/light mode toggle button ── */
+#theme-toggle {
+  background: none;
+  border: 1.5px solid var(--text-main);
+  border-radius: 20px;
+  color: var(--text-main);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.7rem;
+  transition: background-color var(--transition), border-color var(--transition), transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: var(--blue);
+  border-color: var(--blue);
+  transform: scale(1.1);
 }
 
 /* ==============================
-   Sections
+   Sections — common styles
    ============================== */
 .section {
   padding: 5rem 0;
 }
 
+/* Alternate section background for visual separation */
 .section.alt-bg {
-  background-color: #eaf0fb;
+  background-color: var(--bg-alt);
+  transition: background-color var(--transition);
 }
 
 .section h2 {
   font-size: 2rem;
-  margin-bottom: 1.25rem;
-  color: #1a73e8;
+  margin-bottom: 0.5rem;
+  color: var(--blue);
   text-align: center;
 }
 
-.section p {
-  max-width: 700px;
-  margin: 0 auto;
+.section-subtitle {
   text-align: center;
-  font-size: 1.05rem;
-  color: #555;
-}
-
-/* Home specific */
-#home {
-  background: linear-gradient(135deg, #e8f0fe 0%, #f4f6f9 100%);
-  text-align: center;
-}
-
-.intro {
-  font-size: 1.1rem !important;
-  margin-top: 0.5rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
 }
 
 /* ==============================
-   Project Cards
+   HOME Section
    ============================== */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.75rem;
-  margin-top: 2rem;
+#home {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  /* Blue-to-green gradient background */
+  background: linear-gradient(135deg, #0d1b2a 0%, #0a2a1a 100%);
+  text-align: center;
 }
 
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+[data-theme="light"] #home {
+  background: linear-gradient(135deg, #e8f0fe 0%, #d4f5e3 100%);
+}
+
+.home-content {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  align-items: center;
+  gap: 1.25rem;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+/* Large welcome heading with gradient text */
+.welcome-title {
+  font-size: 2.6rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.card h3 {
-  font-size: 1.2rem;
-  color: #1a73e8;
+.intro-text {
+  font-size: 1.15rem;
+  max-width: 600px;
+  color: var(--text-muted);
 }
 
-.card p {
-  text-align: left;
-  margin: 0;
-  font-size: 0.95rem;
-  color: #555;
-  flex: 1;
-}
-
-/* ==============================
-   Buttons
-   ============================== */
-.btn {
+/* Goal badge pill */
+.goal-badge {
   display: inline-block;
-  background-color: #1a73e8;
+  background: linear-gradient(90deg, var(--blue-dark), var(--green-dark));
   color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  padding: 0.5rem 1.4rem;
   font-size: 0.95rem;
   font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  align-self: flex-start;
-}
-
-.btn:hover {
-  background-color: #1558b0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
-}
-
-.btn:active {
-  transform: translateY(0);
-  box-shadow: none;
 }
 
 /* ==============================
-   Contact Form
+   ABOUT Section
+   ============================== */
+/* Two-column grid: image on left, text on right */
+.about-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 14px;
+  border: 3px solid var(--blue);
+  box-shadow: 0 6px 20px rgba(59, 158, 255, 0.3);
+  object-fit: cover;
+}
+
+.about-text h2 {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* Interests bullet list with green dots */
+.interests-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.interests-list li {
+  font-size: 1rem;
+  color: var(--text-main);
+  padding-left: 0.5rem;
+}
+
+/* Goal box */
+.about-goal {
+  background-color: var(--bg-card);
+  border-left: 4px solid var(--green);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  color: var(--text-main);
+  font-size: 0.97rem;
+}
+
+/* ==============================
+   SKILLS Section
+   ============================== */
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.skill-item {
+  background-color: var(--bg-card);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-3px);
+}
+
+/* Row with skill name on left and level label on right */
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.skill-name {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.skill-label {
+  font-size: 0.85rem;
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Progress bar container (gray track) */
+.skill-bar-bg {
+  background-color: var(--border-color);
+  border-radius: 50px;
+  height: 12px;
+  overflow: hidden;
+}
+
+/* Animated progress bar fill — blue-to-green gradient */
+.skill-bar {
+  height: 100%;
+  width: 0;                       /* starts at 0 — JS animates to data-width% */
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  transition: width 1.2s ease;
+}
+
+/* ==============================
+   CONTACT Section
    ============================== */
 #contact-form {
-  max-width: 600px;
+  max-width: 580px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -209,63 +381,95 @@ nav ul li a.active {
 
 .form-group label {
   font-weight: 600;
-  color: #444;
+  color: var(--text-main);
   font-size: 0.95rem;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 0.65rem 0.9rem;
-  border: 1.5px solid #cdd5e0;
-  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
-  color: #333;
-  background-color: #fff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-main);
+  background-color: var(--bg-card);
   resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color var(--transition);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #1a73e8;
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 158, 255, 0.25);
 }
 
-#contact-form .btn {
-  align-self: flex-start;
-}
-
+/* Feedback message below the form */
 #form-feedback {
   font-size: 0.95rem;
   min-height: 1.4rem;
 }
 
-#form-feedback.success {
-  color: #2e7d32;
+#form-feedback.success { color: var(--green); }
+#form-feedback.error   { color: #e74c3c; }
+
+/* ==============================
+   Buttons — shared style
+   ============================== */
+.btn {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  /* Lift and glow on hover */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-#form-feedback.error {
-  color: #c62828;
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(59, 158, 255, 0.45);
+  opacity: 0.9;
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* ==============================
    Footer
    ============================== */
 footer {
-  background-color: #1a73e8;
-  color: #e8f0fe;
+  background-color: var(--footer-bg);
+  color: var(--text-muted);
   text-align: center;
-  padding: 1.25rem 0;
+  padding: 1.5rem 0;
   font-size: 0.9rem;
+  transition: background-color var(--transition);
+}
+
+/* Visitor counter row above copyright */
+.visitor-counter {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  color: var(--blue);
+  font-weight: 600;
 }
 
 /* ==============================
-   Responsive — Mobile
+   Responsive — Mobile (≤ 640px)
    ============================== */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
+
+  /* Show hamburger, hide nav by default */
   .nav-toggle {
     display: block;
   }
@@ -274,7 +478,7 @@ footer {
     width: 100%;
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.35s ease;
   }
 
   nav.open {
@@ -284,7 +488,11 @@ footer {
   nav ul {
     flex-direction: column;
     gap: 0.75rem;
-    padding: 0.75rem 0;
+    padding: 0.75rem 0 0.5rem;
+  }
+
+  .welcome-title {
+    font-size: 1.8rem;
   }
 
   .section {
@@ -293,5 +501,25 @@ footer {
 
   .section h2 {
     font-size: 1.6rem;
+  }
+
+  /* Stack about section vertically on mobile */
+  .about-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .about-image img {
+    width: 160px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .about-text h2 {
+    text-align: center;
+  }
+
+  .interests-list {
+    align-items: center;
   }
 }
