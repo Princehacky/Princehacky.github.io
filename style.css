@@ -1,0 +1,297 @@
+/* ==============================
+   Reset & Base
+   ============================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.7;
+}
+
+/* ==============================
+   Layout helpers
+   ============================== */
+.container {
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ==============================
+   Header & Navigation
+   ============================== */
+header {
+  background-color: #1a73e8;
+  color: #fff;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  border-bottom-color: #fff;
+}
+
+/* Hamburger toggle (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+/* ==============================
+   Sections
+   ============================== */
+.section {
+  padding: 5rem 0;
+}
+
+.section.alt-bg {
+  background-color: #eaf0fb;
+}
+
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  color: #1a73e8;
+  text-align: center;
+}
+
+.section p {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.05rem;
+  color: #555;
+}
+
+/* Home specific */
+#home {
+  background: linear-gradient(135deg, #e8f0fe 0%, #f4f6f9 100%);
+  text-align: center;
+}
+
+.intro {
+  font-size: 1.1rem !important;
+  margin-top: 0.5rem;
+}
+
+/* ==============================
+   Project Cards
+   ============================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  color: #1a73e8;
+}
+
+.card p {
+  text-align: left;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+  flex: 1;
+}
+
+/* ==============================
+   Buttons
+   ============================== */
+.btn {
+  display: inline-block;
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  align-self: flex-start;
+}
+
+.btn:hover {
+  background-color: #1558b0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ==============================
+   Contact Form
+   ============================== */
+#contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid #cdd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+#contact-form .btn {
+  align-self: flex-start;
+}
+
+#form-feedback {
+  font-size: 0.95rem;
+  min-height: 1.4rem;
+}
+
+#form-feedback.success {
+  color: #2e7d32;
+}
+
+#form-feedback.error {
+  color: #c62828;
+}
+
+/* ==============================
+   Footer
+   ============================== */
+footer {
+  background-color: #1a73e8;
+  color: #e8f0fe;
+  text-align: center;
+  padding: 1.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* ==============================
+   Responsive — Mobile
+   ============================== */
+@media (max-width: 600px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  nav {
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
+
+  nav.open {
+    max-height: 300px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section h2 {
+    font-size: 1.6rem;
+  }
+}
