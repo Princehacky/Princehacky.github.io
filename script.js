@@ -41,8 +41,8 @@ let visitCount = parseInt(localStorage.getItem('visitCount') || '0', 10);
 visitCount += 1;
 localStorage.setItem('visitCount', visitCount);
 
-// Display the count with a small count-up animation
-animateCount(counterEl, 0, visitCount, 800);
+// Display the count with a small count-up animation (guard against missing element)
+if (counterEl) animateCount(counterEl, 0, visitCount, 800);
 
 // Counts a number up from `from` to `to` over `duration` milliseconds
 function animateCount(el, from, to, duration) {
