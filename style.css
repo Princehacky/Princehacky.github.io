@@ -1,162 +1,394 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prince U. Shah Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body class="dark-mode">
+/* ==============================
+   style.css — Prince U. Shah Portfolio
+   ============================== */
 
-  <!-- ===== HEADER ===== -->
-  <header>
-    <div class="container">
-      <h1 class="site-title">PUS | Prince U. Shah</h1>
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <button id="theme-toggle" class="btn">Toggle Theme</button>
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
 
-      <nav id="main-nav">
-        <ul>
-          <li><a href="#home"    class="nav-link">Home</a></li>
-          <li><a href="#about"   class="nav-link">About</a></li>
-          <li><a href="#skills"  class="nav-link">Skills</a></li>
-          <li><a href="#projects" class="nav-link">Projects</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-  <!-- ===== MAIN ===== -->
-  <main>
+/* ── Layout ── */
+.container {
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+}
 
-    <!-- HOME -->
-    <section id="home" class="section">
-      <div class="container">
-        <h2>Welcome to My Portfolio</h2>
-        <p class="intro">
-          Hello, I am <strong>Prince U. Shah</strong>.<br>
-          I am a Class 7 student learning coding, science, and AI researching.<br>
-          This website shows my learning journey.
-        </p>
-      </div>
-    </section>
+/* ── Header & Navigation ── */
+header {
+  background-color: #1a73e8;
+  color: #fff;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
-    <!-- ABOUT -->
-    <section id="about" class="section alt-bg">
-      <div class="container">
-        <h2>About Me</h2>
-        <img
-          src="prince-shah.bmp"
-          class="profile-photo"
-          alt="Prince profile photo"
-        />
-        <p>
-          <strong>Name:</strong> Prince U. Shah<br>
-          <strong>Class:</strong> 7<br>
-          <strong>Interests:</strong> Coding, Science, AI Researching<br>
-          <strong>Goal:</strong> Become a Scientist and AI Researcher
-        </p>
-      </div>
-    </section>
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 
-    <!-- SKILLS -->
-    <section id="skills" class="section">
-      <div class="container">
-        <h2>Skills</h2>
+.site-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-        <div class="skill">
-          <p>HTML</p>
-          <div class="skill-bar"><div class="skill-fill html"></div></div>
-        </div>
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
 
-        <div class="skill">
-          <p>CSS</p>
-          <div class="skill-bar"><div class="skill-fill css"></div></div>
-        </div>
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
 
-        <div class="skill">
-          <p>Scratch</p>
-          <div class="skill-bar"><div class="skill-fill scratch"></div></div>
-        </div>
+nav ul li a:hover,
+nav ul li a.active {
+  border-bottom-color: #fff;
+}
 
-        <div class="skill">
-          <p>Computer Skills</p>
-          <div class="skill-bar"><div class="skill-fill computer"></div></div>
-        </div>
-      </div>
-    </section>
+/* Hamburger toggle — hidden on desktop */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
 
-    <!-- PROJECTS -->
-    <section id="projects" class="section alt-bg">
-      <div class="container">
-        <h2>Projects</h2>
-        <div class="cards">
+/* ── Sections ── */
+.section {
+  padding: 5rem 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
 
-          <div class="card">
-            <h3>Portfolio Website</h3>
-            <p>My personal portfolio built with HTML, CSS, and JavaScript to showcase my learning journey.</p>
-            <a href="#" class="btn">View</a>
-          </div>
+.section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-          <div class="card">
-            <h3>Scratch Game</h3>
-            <p>A fun interactive game created on Scratch — my first programming project.</p>
-            <a href="#" class="btn">View</a>
-          </div>
+.section.alt-bg {
+  background-color: #eaf0fb;
+}
 
-          <div class="card">
-            <h3>AI Research Notes</h3>
-            <p>A collection of notes and findings from my personal research into Artificial Intelligence.</p>
-            <a href="#" class="btn">View</a>
-          </div>
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  color: #1a73e8;
+  text-align: center;
+}
 
-        </div>
-      </div>
-    </section>
+.section p {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.05rem;
+  color: #555;
+}
 
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <div class="container">
-        <h2>Contact</h2>
+/* Home */
+#home {
+  background: linear-gradient(135deg, #e8f0fe 0%, #f4f6f9 100%);
+  text-align: center;
+}
 
-        <form id="contact-form">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" placeholder="Your name" required />
-          </div>
+.intro {
+  font-size: 1.1rem !important;
+  margin-top: 0.5rem;
+}
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Your email" />
-          </div>
+/* ── Profile Photo ── */
+.profile-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 1rem;
+  object-fit: cover;
+  border: 3px solid #1a73e8;
+}
 
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" rows="5" placeholder="Your message" required></textarea>
-          </div>
+/* ── Skills ── */
+.skill {
+  margin: 1rem 0;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-          <button type="submit" class="btn">Send Message</button>
-          <p id="form-feedback"></p>
-        </form>
-      </div>
-    </section>
+.skill p {
+  text-align: left;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
 
-    <!-- VISITOR COUNTER -->
-    <div class="visitor-counter">
-      👁️ Visitors: <span id="visitor-count">0</span>
-    </div>
+.skill-bar {
+  width: 100%;
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+}
 
-  </main>
+.skill-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(to right, #1a73e8, #34a853);
+}
 
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Prince U. Shah. All rights reserved.</p>
-    </div>
-  </footer>
+.skill-fill.html     { width: 60%; }
+.skill-fill.css      { width: 40%; }
+.skill-fill.scratch  { width: 80%; }
+.skill-fill.computer { width: 85%; }
 
-  <script src="script.js"></script>
-</body>
-</html>
+/* ── Project Cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  color: #1a73e8;
+}
+
+.card p {
+  text-align: left;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+  flex: 1;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-block;
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  align-self: flex-start;
+}
+
+.btn:hover {
+  background-color: #1558b0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ── Contact Form ── */
+#contact-form {
+  max-width: 600px;
+  margin: 2rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid #cdd5e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+#form-feedback {
+  font-size: 0.95rem;
+  min-height: 1.4rem;
+}
+
+#form-feedback.success { color: #2e7d32; }
+#form-feedback.error   { color: #c62828; }
+
+/* ── Visitor Counter ── */
+.visitor-counter {
+  text-align: center;
+  padding: 1rem;
+  font-weight: bold;
+  background: #eaf0fb;
+}
+
+/* ── Footer ── */
+footer {
+  background-color: #1a73e8;
+  color: #e8f0fe;
+  text-align: center;
+  padding: 1.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* ==============================
+   Dark Mode
+   ============================== */
+body.dark-mode {
+  background-color: #111;
+  color: #eee;
+}
+
+body.dark-mode header,
+body.dark-mode footer {
+  background-color: #000;
+}
+
+body.dark-mode .section.alt-bg {
+  background-color: #1a1a1a;
+}
+
+body.dark-mode #home {
+  background: linear-gradient(135deg, #1a1a2e 0%, #111 100%);
+}
+
+body.dark-mode .section h2 {
+  color: #5b9ef7;
+}
+
+body.dark-mode .section p,
+body.dark-mode .card p {
+  color: #bbb;
+}
+
+body.dark-mode .card {
+  background-color: #222;
+  color: #eee;
+}
+
+body.dark-mode .card h3 {
+  color: #5b9ef7;
+}
+
+body.dark-mode .form-group label {
+  color: #ccc;
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+  background-color: #222;
+  color: #eee;
+  border-color: #444;
+}
+
+body.dark-mode .skill-bar {
+  background-color: #333;
+}
+
+body.dark-mode .visitor-counter {
+  background: #1a1a1a;
+}
+
+/* ==============================
+   Responsive — Mobile
+   ============================== */
+@media (max-width: 600px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  nav {
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
+
+  nav.open {
+    max-height: 300px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .section h2 {
+    font-size: 1.6rem;
+  }
+}
