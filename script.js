@@ -1,81 +1,103 @@
-// Mobile Menu
-const navToggle =
-document.querySelector(".nav-toggle");
+/* ==============================
+   script.js — Prince U. Shah Portfolio
+   ============================== */
 
-const mainNav =
-document.getElementById("main-nav");
+/* ── 1. Mobile Nav Toggle ── */
+const navToggle = document.querySelector(".nav-toggle");
+const mainNav   = document.getElementById("main-nav");
 
 navToggle.addEventListener("click", () => {
-mainNav.classList.toggle("open");
+  mainNav.classList.toggle("open");
 });
 
-// Contact Form
-const form =
-document.getElementById("contact-form");
+/* ── 2. Close nav when a link is clicked (mobile UX) ── */
+document.querySelectorAll(".nav-link").forEach(link => {
+  link.addEventListener("click", () => {
+    mainNav.classList.remove("open");
+  });
+});
 
-const feedback =
-document.getElementById("form-feedback");
+/* ── 3. Theme Toggle ── */
+const themeToggleBtn = document.getElementById("theme-toggle");
+
+// Remember the user's preference across page loads
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.remove("dark-mode");
+}
+
+themeToggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+  localStorage.setItem("theme", currentTheme);
+});
+
+/* ── 4. Visitor Counter ── */
+let count = Number(localStorage.getItem("visitor-count")) || 0;
+count += 1;
+localStorage.setItem("visitor-count", count);
+document.getElementById("visitor-count").textContent = count;
+
+/* ── 5. Contact Form ── */
+const form     = document.getElementById("contact-form");
+const feedback = document.getElementById("form-feedback");
 
 form.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-e.preventDefault();
+  const name    = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
 
-const name =
-document.getElementById("name").value.trim();
+  if (!name || !message) {
+    feedback.textContent = "⚠️ Please fill in your name and message.";
+    feedback.className   = "error";
+    return;
+  }
 
-const message =
-document.getElementById("message").value.trim();
+  feedback.textContent = `✅ Message received. Thank you, ${name}!`;
+  feedback.className   = "success";
+  form.reset();
 
-if (!name || !message) {
-
-feedback.textContent =
-"Please fill all fields";
-
-feedback.style.color = "red";
-
-return;
-
-}
-
-feedback.textContent =
-"Message received. Thank you " + name;
-
-feedback.style.color = "lightgreen";
-
-form.reset();
-
+  // Clear feedback after 4 seconds
+  setTimeout(() => {
+    feedback.textContent = "";
+    feedback.className   = "";
+  }, 4000);
 });
 
-// Visitor Counter
-let count =
-localStorage.getItem("visitor-count");
+/* ── 6. Scroll-reveal animation ── */
+const sections = document.querySelectorAll(".section");
 
-if (!count) {
-
-count = 1;
-
-} else {
-
-count = Number(count) + 1;
-
-}
-
-localStorage.setItem(
-"visitor-count",
-count
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  },
+  { threshold: 0.15 }
 );
 
-const counter =
-document.getElementById("visitor-count");
+sections.forEach(sec => observer.observe(sec));
 
-counter.textContent = count;
+/* ── 7. Active nav-link highlight on scroll ── */
+const navLinks = document.querySelectorAll(".nav-link");
 
-// Theme Toggle
-const toggleBtn =
-document.getElementById("theme-toggle");
+window.addEventListener("scroll", () => {
+  let current = "";
 
-toggleBtn.addEventListener("click", () => {
+  sections.forEach(sec => {
+    const sectionTop = sec.offsetTop - 80;
+    if (window.scrollY >= sectionTop) {
+      current = sec.getAttribute("id");
+    }
+  });
 
-document.body.classList.toggle("dark-mode");
-
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+    }
+  });
 });
