@@ -1,76 +1,81 @@
-// ── Mobile navigation toggle ──────────────────────────────────────────────────
-const navToggle = document.querySelector('.nav-toggle');
-const mainNav   = document.getElementById('main-nav');
+// Mobile Menu
+const navToggle =
+document.querySelector(".nav-toggle");
 
-if (navToggle && mainNav) {
-  navToggle.addEventListener('click', () => {
-    mainNav.classList.toggle('open');
-  });
-}
+const mainNav =
+document.getElementById("main-nav");
 
-// ── Highlight active nav link on scroll ───────────────────────────────────────
-const sections  = document.querySelectorAll('section[id]');
-const navLinks  = document.querySelectorAll('nav .nav-link');
-
-function highlightNavOnScroll() {
-  const scrollY = window.scrollY;
-
-  sections.forEach(section => {
-    const sectionTop    = section.offsetTop - 90;   // header height offset
-    const sectionHeight = section.offsetHeight;
-    const sectionId     = section.getAttribute('id');
-
-    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-      navLinks.forEach(link => {
-        link.classList.toggle(
-          'active',
-          link.getAttribute('href') === `#${sectionId}`
-        );
-      });
-    }
-  });
-}
-
-window.addEventListener('scroll', highlightNavOnScroll, { passive: true });
-highlightNavOnScroll(); // run once on load
-
-// ── Close mobile nav when a link is clicked ────────────────────────────────────
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    if (mainNav) mainNav.classList.remove('open');
-  });
+navToggle.addEventListener("click", () => {
+mainNav.classList.toggle("open");
 });
 
-// ── Contact form validation & feedback ────────────────────────────────────────
-const contactForm = document.getElementById('contact-form');
-const feedback    = document.getElementById('form-feedback');
+// Contact Form
+const form =
+document.getElementById("contact-form");
 
-if (contactForm && feedback) {
-  contactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+const feedback =
+document.getElementById("form-feedback");
 
-    const name    = document.getElementById('name').value.trim();
-    const email   = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
+form.addEventListener("submit", (e) => {
 
-    // Basic validation
-    if (!name || !email || !message) {
-      feedback.textContent = '⚠️ Please fill in all fields before sending.';
-      feedback.className   = 'error';
-      return;
-    }
+e.preventDefault();
 
-    // Simple email format check
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      feedback.textContent = '⚠️ Please enter a valid email address.';
-      feedback.className   = 'error';
-      return;
-    }
+const name =
+document.getElementById("name").value.trim();
 
-    // Success (no backend — just UI feedback)
-    feedback.textContent = `✅ Thanks, ${name}! Your message has been received.`;
-    feedback.className   = 'success';
-    contactForm.reset();
-  });
+const message =
+document.getElementById("message").value.trim();
+
+if (!name || !message) {
+
+feedback.textContent =
+"Please fill all fields";
+
+feedback.style.color = "red";
+
+return;
+
 }
+
+feedback.textContent =
+"Message received. Thank you " + name;
+
+feedback.style.color = "lightgreen";
+
+form.reset();
+
+});
+
+// Visitor Counter
+let count =
+localStorage.getItem("visitor-count");
+
+if (!count) {
+
+count = 1;
+
+} else {
+
+count = Number(count) + 1;
+
+}
+
+localStorage.setItem(
+"visitor-count",
+count
+);
+
+const counter =
+document.getElementById("visitor-count");
+
+counter.textContent = count;
+
+// Theme Toggle
+const toggleBtn =
+document.getElementById("theme-toggle");
+
+toggleBtn.addEventListener("click", () => {
+
+document.body.classList.toggle("dark-mode");
+
+});
