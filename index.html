@@ -1,105 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Prince U. Shah Portfolio</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prince U. Shah Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body class="dark-mode">
 
-<!-- Header -->
-<header>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="container">
+      <h1 class="site-title">PUS | Prince U. Shah</h1>
 
-<div class="container">
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <button id="theme-toggle" class="btn">Toggle Theme</button>
 
-<h1 class="site-title">
-PUS | Prince U. Shah
-</h1>
+      <nav id="main-nav">
+        <ul>
+          <li><a href="#home"    class="nav-link">Home</a></li>
+          <li><a href="#about"   class="nav-link">About</a></li>
+          <li><a href="#skills"  class="nav-link">Skills</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-<button class="nav-toggle">
-☰
-</button>
+  <!-- ===== MAIN ===== -->
+  <main>
 
-<button id="theme-toggle" class="btn">
-Toggle Theme
-</button>
+    <!-- HOME -->
+    <section id="home" class="section">
+      <div class="container">
+        <h2>Welcome to My Portfolio</h2>
+        <p class="intro">
+          Hello, I am <strong>Prince U. Shah</strong>.<br>
+          I am a Class 7 student learning coding, science, and AI researching.<br>
+          This website shows my learning journey.
+        </p>
+      </div>
+    </section>
 
-<nav id="main-nav">
+    <!-- ABOUT -->
+    <section id="about" class="section alt-bg">
+      <div class="container">
+        <h2>About Me</h2>
+        <img
+          src="prince-shah.bmp"
+          class="profile-photo"
+          alt="Prince profile photo"
+        />
+        <p>
+          <strong>Name:</strong> Prince U. Shah<br>
+          <strong>Class:</strong> 7<br>
+          <strong>Interests:</strong> Coding, Science, AI Researching<br>
+          <strong>Goal:</strong> Become a Scientist and AI Researcher
+        </p>
+      </div>
+    </section>
 
-<ul>
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="container">
+        <h2>Skills</h2>
 
-<li><a href="#home" class="nav-link">Home</a></li>
+        <div class="skill">
+          <p>HTML</p>
+          <div class="skill-bar"><div class="skill-fill html"></div></div>
+        </div>
 
-<li><a href="#about" class="nav-link">About</a></li>
+        <div class="skill">
+          <p>CSS</p>
+          <div class="skill-bar"><div class="skill-fill css"></div></div>
+        </div>
 
-<li><a href="#skills" class="nav-link">Skills</a></li>
+        <div class="skill">
+          <p>Scratch</p>
+          <div class="skill-bar"><div class="skill-fill scratch"></div></div>
+        </div>
 
-<li><a href="#contact" class="nav-link">Contact</a></li>
+        <div class="skill">
+          <p>Computer Skills</p>
+          <div class="skill-bar"><div class="skill-fill computer"></div></div>
+        </div>
+      </div>
+    </section>
 
-</ul>
+    <!-- PROJECTS -->
+    <section id="projects" class="section alt-bg">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="cards">
 
-</nav>
+          <div class="card">
+            <h3>Portfolio Website</h3>
+            <p>My personal portfolio built with HTML, CSS, and JavaScript to showcase my learning journey.</p>
+            <a href="#" class="btn">View</a>
+          </div>
 
-</div>
+          <div class="card">
+            <h3>Scratch Game</h3>
+            <p>A fun interactive game created on Scratch — my first programming project.</p>
+            <a href="#" class="btn">View</a>
+          </div>
 
-</header>
+          <div class="card">
+            <h3>AI Research Notes</h3>
+            <p>A collection of notes and findings from my personal research into Artificial Intelligence.</p>
+            <a href="#" class="btn">View</a>
+          </div>
 
-<!-- Main -->
-<main>
+        </div>
+      </div>
+    </section>
 
-<!-- HOME -->
-<section id="home" class="section">
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
 
-<div class="container">
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
 
-<h2>
-Welcome to My Portfolio
-</h2>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Your email" />
+          </div>
 
-<p class="intro">
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" placeholder="Your message" required></textarea>
+          </div>
 
-Hello, I am <strong>Prince U. Shah</strong>.  
-I am a Class 7 student learning coding, science, and AI researching.  
-This website shows my learning journey.
+          <button type="submit" class="btn">Send Message</button>
+          <p id="form-feedback"></p>
+        </form>
+      </div>
+    </section>
 
-</p>
+    <!-- VISITOR COUNTER -->
+    <div class="visitor-counter">
+      👁️ Visitors: <span id="visitor-count">0</span>
+    </div>
 
-</div>
+  </main>
 
-</section>
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Prince U. Shah. All rights reserved.</p>
+    </div>
+  </footer>
 
-<!-- ABOUT -->
-<section id="about" class="section alt-bg">
-
-<div class="container">
-
-<h2>About Me</h2>
-
-<img
-src="prince-shah.bmp"
-class="profile-photo"
-alt="Prince profile photo"
->
-
-<p>
-
-Name: Prince U. Shah  
-<br>
-
-Class: 7  
-<br>
-
-Interests: Coding, Science, AI Researching  
-<br>
-
-Goal: Become a Scientist and AI Researcher  
-
-</p>
-
-</div>
-
-</section
+  <script src="script.js"></script>
+</body>
+</html>
