@@ -368,3 +368,29 @@ footer {
     font-size: 1.6rem;
   }
 }
+/* Dark Mode Full Support */
+
+body.dark-mode {
+  background-color: #111;
+  color: #eee;
+}
+
+body.dark-mode .section.alt-bg {
+  background-color: #1a1a1a;
+}
+
+body.dark-mode .card {
+  background-color: #222;
+  color: #eee;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+  background-color: #222;
+  color: #eee;
+  border-color: #444;
+}
+
+body.dark-mode .skill-bar {
+  background-color: #333;
+}
