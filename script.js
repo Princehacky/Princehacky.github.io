@@ -38,32 +38,30 @@ count += 1;
 localStorage.setItem("visitor-count", count);
 document.getElementById("visitor-count").textContent = count;
 
-/* ── 5. Contact Form ── */
-const form     = document.getElementById("contact-form");
-const feedback = document.getElementById("form-feedback");
+/* ── 5. Contact Form (Formspree Friendly) ── */
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+const form = document.getElementById("contact-form");
 
-  const name    = document.getElementById("name").value.trim();
-  const message = document.getElementById("message").value.trim();
+if (form) {
 
-  if (!name || !message) {
-    feedback.textContent = "⚠️ Please fill in your name and message.";
-    feedback.className   = "error";
-    return;
-  }
+form.addEventListener("submit", () => {
 
-  feedback.textContent = `✅ Message received. Thank you, ${name}!`;
-  feedback.className   = "success";
-  form.reset();
+const feedback =
+document.getElementById("form-feedback");
 
-  // Clear feedback after 4 seconds
-  setTimeout(() => {
-    feedback.textContent = "";
-    feedback.className   = "";
-  }, 4000);
+if (feedback) {
+
+feedback.textContent =
+"Sending message...";
+
+feedback.className =
+"success";
+
+}
+
 });
+
+}
 
 /* ── 6. Scroll-reveal animation ── */
 const sections = document.querySelectorAll(".section");
