@@ -399,3 +399,24 @@ body.dark-mode .visitor-counter {
   margin: 20px auto;
   border-radius: 10px;
 }
+/* Footer links */
+footer a {
+  color: #e8f0fe;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: #5b9ef7;
+  text-decoration: underline;
+}
+
+/* Dark mode footer link */
+body.dark-mode footer a {
+  color: #5b9ef7;
+}
+
+body.dark-mode footer a:hover {
+  color: #8bb8ff;
+}
