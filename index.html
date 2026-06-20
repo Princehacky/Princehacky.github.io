@@ -1,226 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="PrinceHacky personal portfolio by Prince U. Shah showcasing coding, Scratch, and AI learning projects." />
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="Prince U. Shah" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Prince U. Shah Portfolio</title>
-  <link rel="canonical" href="https://princehacky.github.io/" />
-  <link rel="icon" type="image/bmp" href="prince-shah.bmp" />
-  <link rel="stylesheet" href="style.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9097004831814811"
-     crossorigin="anonymous"></script>
+  <meta name="description" content="Prince U. Shah personal portfolio showcasing coding, Scratch, and AI learning projects.">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="Prince U. Shah">
+  <link rel="canonical" href="https://princehacky.github.io/">
+  <link rel="icon" href="prince-shah.webp" type="image/webp">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://api.visitorbadge.io" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9097004831814811" crossorigin="anonymous"></script>
 </head>
 <body class="dark-mode">
+  <a class="skip-link" href="#home">Skip to content</a>
 
-  <!-- ===== HEADER ===== -->
-  <header>
-    <div class="container">
+  <header class="site-header">
+    <div class="container header-inner">
       <h1 class="site-title">PUS | Prince U. Shah</h1>
-
-      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-      <button id="theme-toggle" class="btn">Toggle Theme</button>
-
-      <nav id="main-nav">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">☰</button>
+      <nav id="main-nav" class="site-nav" aria-label="Primary">
         <ul>
-          <li><a href="#home"    class="nav-link">Home</a></li>
-          <li><a href="#about"   class="nav-link">About</a></li>
-          <li><a href="#skills"  class="nav-link">Skills</a></li>
-          <li><a href="#projects" class="nav-link">Projects</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li><a class="nav-link" href="#home">Home</a></li>
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" href="#skills">Skills</a></li>
+          <li><a class="nav-link" href="#projects">Projects</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
       </nav>
+      <button id="theme-toggle" class="btn btn-small" type="button" aria-label="Toggle color theme">Toggle Theme</button>
     </div>
   </header>
 
-  <!-- ===== MAIN ===== -->
   <main>
-
-    <!-- HOME -->
-    <section id="home" class="section">
+    <section id="home" class="section home" aria-labelledby="home-title">
       <div class="container">
-        <h2>Welcome to My Portfolio</h2>
-        <p class="intro">
-          Hello, I am <strong>Prince U. Shah</strong>.<br>
-          I am a Class 7 student learning coding, science, and AI researching.<br>
-          This website shows my learning journey.
-        </p>
+        <h2 id="home-title">Welcome to My Portfolio</h2>
+        <p class="intro">Hello, I am <strong>Prince U. Shah</strong>.<br>I am a Class 7 student learning coding, science, and AI researching.<br>This website shows my learning journey.</p>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="section alt-bg">
-      <div class="container">
-        <h2>About Me</h2>
-        <img src="prince-shah.webp"
-     class="profile-photo"
-     alt="Prince profile photo"
-     loading="lazy">
-        <p>
-          <strong>Name:</strong> Prince U. Shah<br>
-          <strong>Class:</strong> 7<br>
-          <strong>Interests:</strong> Coding, Science, AI Researching<br>
-          <strong>Goal:</strong> Become a Scientist and AI Researcher
-        </p>
+    <section id="about" class="section section-alt" aria-labelledby="about-title">
+      <div class="container about-content">
+        <h2 id="about-title">About Me</h2>
+        <img
+          class="profile-photo"
+          src="prince-shah.webp"
+          alt="Prince profile photo"
+          width="160"
+          height="160"
+          loading="lazy"
+          decoding="async"
+        >
+        <p><strong>Name:</strong> Prince U. Shah<br><strong>Class:</strong> 7<br><strong>Interests:</strong> Coding, Science, AI Researching<br><strong>Goal:</strong> Become a Scientist and AI Researcher</p>
       </div>
     </section>
 
-    <!-- SKILLS -->
-    <section id="skills" class="section">
+    <section id="skills" class="section" aria-labelledby="skills-title">
       <div class="container">
-        <h2>Skills</h2>
+        <h2 id="skills-title">Skills</h2>
 
-        <div class="skill">
+        <div class="skill-item">
           <p>HTML</p>
-          <div class="skill-bar"><div class="skill-fill html"></div></div>
+          <div class="skill-bar" role="img" aria-label="HTML skill level 60 percent"><span class="skill-fill" style="--level:60%"></span></div>
         </div>
 
-        <div class="skill">
+        <div class="skill-item">
           <p>CSS</p>
-          <div class="skill-bar"><div class="skill-fill css"></div></div>
+          <div class="skill-bar" role="img" aria-label="CSS skill level 40 percent"><span class="skill-fill" style="--level:40%"></span></div>
         </div>
 
-        <div class="skill">
+        <div class="skill-item">
           <p>Scratch</p>
-          <div class="skill-bar"><div class="skill-fill scratch"></div></div>
+          <div class="skill-bar" role="img" aria-label="Scratch skill level 80 percent"><span class="skill-fill" style="--level:80%"></span></div>
         </div>
 
-        <div class="skill">
+        <div class="skill-item">
           <p>Computer Skills</p>
-          <div class="skill-bar"><div class="skill-fill computer"></div></div>
+          <div class="skill-bar" role="img" aria-label="Computer skills level 85 percent"><span class="skill-fill" style="--level:85%"></span></div>
         </div>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="section alt-bg">
+    <section id="projects" class="section section-alt" aria-labelledby="projects-title">
       <div class="container">
-        <h2>Projects</h2>
+        <h2 id="projects-title">Projects</h2>
         <div class="cards">
-
-          <div class="card">
+          <article class="card">
             <h3>Portfolio Website</h3>
             <p>My personal portfolio built with HTML, CSS, and JavaScript to showcase my learning journey.</p>
-            <a href="index.html#home" class="btn">View</a>
-          </div>
+            <a class="btn" href="index.html#home">View</a>
+          </article>
 
-          <div class="card">
+          <article class="card">
             <h3>Scratch Game</h3>
             <p>A fun interactive game created on Scratch — my first programming project.</p>
-           <a href="scratch.html" 
-class="btn" 
-target="_blank">
+            <a class="btn" href="scratch.html" target="_blank" rel="noopener">Play Game</a>
+          </article>
 
-Play Game
-
-</a>
-          </div>
-
-          <div class="card">
+          <article class="card">
             <h3>AI Research Notes</h3>
             <p>A collection of notes and findings from my personal research into Artificial Intelligence.</p>
-            <a href="research.html" class="btn">
-View Research
-</a>
-          </div>
-
+            <a class="btn" href="research.html">View Research</a>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section">
+    <section id="contact" class="section" aria-labelledby="contact-title">
       <div class="container">
-        <h2>Contact</h2>
+        <h2 id="contact-title">Contact</h2>
+        <form id="contact-form" action="https://formspree.io/f/mkokdyrj" method="POST">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+          </div>
 
-       <form action="https://formspree.io/f/mkokdyrj" method="POST">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="Your email">
+          </div>
 
-<div class="form-group">
-<label for="name">Name</label>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your message" required></textarea>
+          </div>
 
-<input
-type="text"
-id="name"
-name="name"
-placeholder="Your name"
-required
-/>
-
-</div>
-
-<div class="form-group">
-<label for="email">Email</label>
-
-<input
-type="email"
-id="email"
-name="email"
-placeholder="Your email"
-/>
-
-</div>
-
-<div class="form-group">
-<label for="message">Message</label>
-
-<textarea
-id="message"
-name="message"
-rows="5"
-placeholder="Your message"
-required
-></textarea>
-
-</div>
-
-<button type="submit" class="btn">
-Send Message
-</button>
-
-</form>
+          <button class="btn" type="submit">Send Message</button>
+          <p id="form-feedback" class="form-feedback" aria-live="polite"></p>
+        </form>
       </div>
     </section>
 
-    <!-- VISITOR COUNTER -->
+    <section class="visitor-counter" aria-label="Visitor counter">
+      <div class="container">
+        <p>🖥️ Local Visits (this device): <span id="visitor-count">0</span></p>
+        <p>
+          🌍 Global Visitors (all users):
+          <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fprincehacky.github.io%2F" rel="noopener noreferrer">
+            <img
+              src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fprincehacky.github.io%2F&labelColor=%2337d67a&countColor=%232ccce4&style=flat"
+              alt="Global visitor count badge"
+              width="220"
+              height="20"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+        </p>
+      </div>
+    </section>
+  </main>
 
-<div class="visitor-counter">
-
-<p>
-
-🖥️ Local Visits (this device):  
-<span id="visitor-count">0</span>
-
-</p>
-
-<p>
-
-🌍 Global Visitors (all users):  
-
-<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fprincehacky.github.io%2F">
-
-<img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fprincehacky.github.io%2F&labelColor=%2337d67a&countColor=%232ccce4&style=flat" />
-
-</a>
-
-</p>
-
-</div>
- <!-- ===== FOOTER ===== -->
-<footer>
-  <div class="container">
-    <p>
-      &copy; 2026 Prince U. Shah. All rights reserved.
-      |
-      <a href="privacy.html">Privacy Policy</a>
-      |
-      <a href="terms.html">Terms</a>
-      |
-      <a href="disclaimer.html">Disclaimer</a>
-    </p>
-  </div>
-</footer>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Prince U. Shah. All rights reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="disclaimer.html">Disclaimer</a></p>
+    </div>
+  </footer>
 
   <script src="script.js" defer></script>
 </body>
