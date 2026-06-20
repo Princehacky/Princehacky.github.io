@@ -1,101 +1,78 @@
-/* ==============================
-   script.js — Prince U. Shah Portfolio
-   ============================== */
+(() => {
+  const body = document.body;
+  const navToggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('main-nav');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const themeToggle = document.getElementById('theme-toggle');
+  const visitorCount = document.getElementById('visitor-count');
+  const form = document.getElementById('contact-form');
+  const formFeedback = document.getElementById('form-feedback');
 
-/* ── 1. Mobile Nav Toggle ── */
-const navToggle = document.querySelector(".nav-toggle");
-const mainNav   = document.getElementById("main-nav");
+  const setTheme = (theme) => {
+    const dark = theme !== 'light';
+    body.classList.toggle('dark-mode', dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  };
 
-navToggle.addEventListener("click", () => {
-  mainNav.classList.toggle("open");
-});
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    setTheme(savedTheme);
+  }
 
-/* ── 2. Close nav when a link is clicked (mobile UX) ── */
-document.querySelectorAll(".nav-link").forEach(link => {
-  link.addEventListener("click", () => {
-    mainNav.classList.remove("open");
-  });
-});
-
-/* ── 3. Theme Toggle ── */
-const themeToggleBtn = document.getElementById("theme-toggle");
-
-// Remember the user's preference across page loads
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme === "light") {
-  document.body.classList.remove("dark-mode");
-}
-
-themeToggleBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-  const currentTheme = document.body.classList.contains("dark-mode") ? "dark" : "light";
-  localStorage.setItem("theme", currentTheme);
-});
-
-/* ── 4. Visitor Counter ── */
-let count = Number(localStorage.getItem("visitor-count")) || 0;
-count += 1;
-localStorage.setItem("visitor-count", count);
-document.getElementById("visitor-count").textContent = count;
-
-/* ── 5. Contact Form (Formspree Friendly) ── */
-
-const form = document.getElementById("contact-form");
-
-if (form) {
-
-form.addEventListener("submit", () => {
-
-const feedback =
-document.getElementById("form-feedback");
-
-if (feedback) {
-
-feedback.textContent =
-"Sending message...";
-
-feedback.className =
-"success";
-
-}
-
-});
-
-}
-
-/* ── 6. Scroll-reveal animation ── */
-const sections = document.querySelectorAll(".section");
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-      }
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const next = body.classList.contains('dark-mode') ? 'light' : 'dark';
+      setTheme(next);
     });
-  },
-  { threshold: 0.15 }
-);
+  }
 
-sections.forEach(sec => observer.observe(sec));
+  if (navToggle && nav) {
+    navToggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
 
-/* ── 7. Active nav-link highlight on scroll ── */
-const navLinks = document.querySelectorAll(".nav-link");
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 
-window.addEventListener("scroll", () => {
-  let current = "";
+  if (visitorCount) {
+    const count = (Number(localStorage.getItem('visitor-count')) || 0) + 1;
+    localStorage.setItem('visitor-count', String(count));
+    visitorCount.textContent = String(count);
+  }
 
-  sections.forEach(sec => {
-    const sectionTop = sec.offsetTop - 80;
-    if (window.scrollY >= sectionTop) {
-      current = sec.getAttribute("id");
-    }
+  if (form && formFeedback) {
+    form.addEventListener('submit', () => {
+      formFeedback.textContent = 'Sending message...';
+    });
+  }
+
+  const sectionMap = new Map();
+  navLinks.forEach((link) => {
+    const id = link.getAttribute('href')?.replace('#', '');
+    if (!id) return;
+    const section = document.getElementById(id);
+    if (section) sectionMap.set(section, link);
   });
 
-  navLinks.forEach(link => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active");
-    }
-  });
-});
+  if (sectionMap.size > 0 && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((link) => link.classList.remove('active'));
+          const activeLink = sectionMap.get(entry.target);
+          if (activeLink) activeLink.classList.add('active');
+        });
+      },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0.05 }
+    );
+
+    sectionMap.forEach((_, section) => observer.observe(section));
+  }
+})();
