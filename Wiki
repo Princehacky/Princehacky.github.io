@@ -1,1 +1,1 @@
-html
+Wiki/empty.html
