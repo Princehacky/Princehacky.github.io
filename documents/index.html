@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prince PDF Library</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#0f172a;
+    color:#fff;
+}
+
+header{
+    background:#1e40af;
+    padding:30px 20px;
+    text-align:center;
+}
+
+header h1{
+    font-size:2rem;
+    margin-bottom:8px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#1e293b;
+    border-radius:12px;
+    padding:20px;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.card h2{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#cbd5e1;
+    margin-bottom:15px;
+}
+
+.btn{
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:8px;
+}
+
+.btn:hover{
+    background:#1d4ed8;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#94a3b8;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+<h1>📄 Prince PDF Library</h1>
+<p>Browse my PDF collection.</p>
+</header>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+<h2>List_of_Important_Inventions_and_Discovery</h2>
+<p>Computer book I read.</p>
+<a class="btn" href="List_of_Important_Inventions_and_Discovery.pdf" target="_blank">
+Open PDF
+</a>
+</div>
+
+<div class="card">
+<h2>Wipo_pub_925</h2>
+<p>Another book I read.</p>
+<a class="btn" href="wipo_pub_925.pdf" target="_blank">
+Open PDF
+</a>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+© Prince U. Shah 2026
+</footer>
+
+</body>
+</html>
