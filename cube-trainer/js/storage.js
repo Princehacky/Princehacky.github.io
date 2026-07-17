@@ -67,7 +67,9 @@ const StorageManager = {
                 Timer.format(time)
             );
 
-            console.log("🏆 New Best Time!");
+           if (typeof UI !== "undefined") {
+    UI.celebrateBestTime();
+}
 
         }
 
