@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cube Face Trainer | Princehacky</title>
+
+    <meta name="description" content="Train your cube recognition speed with random face patterns.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        <a href="../index.html">🏠 Princehacky</a>
+    </div>
+
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../about.html">About</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="hero">
+
+    <h1>Cube Face Trainer</h1>
+
+    <p>
+        Generate unlimited random cube face patterns.
+        Practice one-face solving.
+        Beat your best time.
+    </p>
+
+</section>
+
+<section class="trainer">
+
+    <div id="cubeFace" class="cube-face">
+
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <div class="cell"></div>
+        <div class="cell center"></div>
+        <div class="cell"></div>
+
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+    </div>
+
+</section>
+
+<section class="controls">
+
+    <button id="generateBtn">
+        🎲 Generate Pattern
+    </button>
+
+    <button id="startBtn">
+        ▶ Start
+    </button>
+
+    <button id="stopBtn">
+        ⏹ Stop
+    </button>
+
+    <button id="resetBtn">
+        🔄 Reset
+    </button>
+
+</section>
+
+<section class="stats">
+
+    <div class="card">
+        <h3>Time</h3>
+        <p id="timer">00:00.00</p>
+    </div>
+
+    <div class="card">
+        <h3>Best</h3>
+        <p id="bestTime">--</p>
+    </div>
+
+</section>
+
+<section class="info">
+
+    <h2>How to Play</h2>
+
+    <ol>
+        <li>Press <b>Generate Pattern</b>.</li>
+        <li>Match the colors on one face of your real cube.</li>
+        <li>Press Start before solving.</li>
+        <li>Press Stop when finished.</li>
+        <li>Try to beat your best time.</li>
+    </ol>
+
+</section>
+
+</main>
+
+<footer>
+
+    <p>
+        © 2026 Princehacky
+    </p>
+
+    <p>
+        Independent cube training website.
+    </p>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
