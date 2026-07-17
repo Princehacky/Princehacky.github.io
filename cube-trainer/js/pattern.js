@@ -140,5 +140,7 @@ const PatternGenerator = {
 window.addEventListener("DOMContentLoaded", () => {
 
     PatternGenerator.generate();
-
+if (typeof UI !== "undefined") {
+    UI.flashCube();
+}
 });
