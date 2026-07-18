@@ -3,10 +3,13 @@
   const navToggle = document.querySelector('.nav-toggle');
   const nav = document.getElementById('main-nav');
   const navLinks = document.querySelectorAll('.nav-link');
+  const pageLinks = document.querySelectorAll('a[href^="#"]');
   const themeToggle = document.getElementById('theme-toggle');
   const visitorCount = document.getElementById('visitor-count');
   const form = document.getElementById('contact-form');
   const formFeedback = document.getElementById('form-feedback');
+  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const setTheme = (theme) => {
     const dark = theme !== 'light';
@@ -40,6 +43,18 @@
     });
   }
 
+  pageLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const targetId = link.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+      const section = document.querySelector(targetId);
+      if (!section) return;
+      event.preventDefault();
+      section.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', targetId);
+    });
+  });
+
   if (visitorCount) {
     const count = (Number(localStorage.getItem('visitor-count')) || 0) + 1;
     localStorage.setItem('visitor-count', String(count));
@@ -65,14 +80,36 @@
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          navLinks.forEach((link) => link.classList.remove('active'));
+          navLinks.forEach((link) => {
+            link.classList.remove('active');
+            link.removeAttribute('aria-current');
+          });
           const activeLink = sectionMap.get(entry.target);
-          if (activeLink) activeLink.classList.add('active');
+          if (activeLink) {
+            activeLink.classList.add('active');
+            activeLink.setAttribute('aria-current', 'page');
+          }
         });
       },
       { rootMargin: '-35% 0px -55% 0px', threshold: 0.05 }
     );
 
     sectionMap.forEach((_, section) => observer.observe(section));
+  }
+
+  if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('revealed');
+          currentObserver.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.1 }
+    );
+    revealElements.forEach((el) => revealObserver.observe(el));
+  } else {
+    revealElements.forEach((el) => el.classList.add('revealed'));
   }
 })();
