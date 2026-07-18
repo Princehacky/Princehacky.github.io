@@ -3,45 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cube Face Trainer | Princehacky</title>
-
-    <meta name="description" content="Train your cube recognition speed with random face patterns.">
-
+    <title>Cube Face Trainer | Student Cube Practice Tool by Prince</title>
+    <meta name="description" content="Practice cube face recognition with Prince's Cube Face Trainer. Includes random pattern generation, timer-based practice, and student roadmap for quiz and leaderboard features.">
+    <meta name="robots" content="index,follow">
+    <meta name="author" content="Prince U. Shah">
+    <link rel="canonical" href="https://princehacky.github.io/cube-trainer/">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header class="topbar">
     <div class="logo">
         <a href="../index.html">🏠 Princehacky</a>
     </div>
 
-    <nav>
+    <nav aria-label="Cube trainer navigation">
         <a href="../index.html">Home</a>
         <a href="../projects.html">Projects</a>
         <a href="../about.html">About</a>
+        <a href="../pattern-generator.html">Pattern Notes</a>
     </nav>
 </header>
 
 <main>
-
-<section class="hero">
-
-    <h1>Cube Face Trainer</h1>
-
+<section class="hero" aria-labelledby="cube-title">
+    <h1 id="cube-title">Cube Face Trainer</h1>
     <p>
-        Generate unlimited random cube face patterns.
-        Practice one-face solving.
-        Beat your best time.
+        This is a student-built practice tool for one-face cube training.
+        It generates random face patterns, tracks your solve time,
+        and helps you practice recognition speed with a simple workflow.
     </p>
-
 </section>
 
-<section class="trainer">
-
+<section class="trainer" aria-label="Cube pattern board">
     <div id="cubeFace" class="cube-face">
-
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
@@ -53,71 +47,88 @@
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
-
     </div>
-
 </section>
 
-<section class="controls">
-
-    <button id="generateBtn">
-        🎲 Generate Pattern
-    </button>
-
-    <button id="startBtn">
-        ▶ Start
-    </button>
-
-    <button id="stopBtn">
-        ⏹ Stop
-    </button>
-
-    <button id="resetBtn">
-        🔄 Reset
-    </button>
-
+<section class="controls" aria-label="Cube trainer controls">
+    <button id="generateBtn">🎲 Generate Pattern</button>
+    <button id="startBtn">▶ Start</button>
+    <button id="stopBtn">⏹ Stop</button>
+    <button id="resetBtn">🔄 Reset</button>
 </section>
 
-<section class="stats">
-
+<section class="stats" aria-label="Cube training stats">
     <div class="card">
-        <h3>Time</h3>
+        <h2>Time</h2>
         <p id="timer">00:00.00</p>
     </div>
 
     <div class="card">
-        <h3>Best</h3>
+        <h2>Best</h2>
         <p id="bestTime">--</p>
     </div>
-
 </section>
 
-<section class="info">
-
-    <h2>How to Play</h2>
-
+<section class="info" aria-labelledby="how-title">
+    <h2 id="how-title">How to Practice</h2>
     <ol>
-        <li>Press <b>Generate Pattern</b>.</li>
+        <li>Press <strong>Generate Pattern</strong> to create a random face.</li>
         <li>Match the colors on one face of your real cube.</li>
-        <li>Press Start before solving.</li>
-        <li>Press Stop when finished.</li>
-        <li>Try to beat your best time.</li>
+        <li>Press <strong>Start</strong> before solving.</li>
+        <li>Press <strong>Stop</strong> when finished.</li>
+        <li>Use <strong>Reset</strong> and repeat to improve your speed.</li>
     </ol>
-
 </section>
 
+<section class="info" aria-labelledby="why-built-title">
+    <h2 id="why-built-title">Why I Built This Project</h2>
+    <p>I built Cube Face Trainer because I wanted a focused practice tool for one part of cube solving: recognizing and matching patterns quickly. Most complete cube apps include many advanced features, but I wanted something simple that I could build and understand myself as a student developer. This project gave me a way to combine my interest in coding and puzzle practice.</p>
+    <p>Another reason is that I learn best when I build tools I can use daily. Instead of only reading about coding, I made a project where each button has a purpose and every script affects real user behavior. The timer helps me measure progress, and the random generator keeps practice fresh. Even though the project is small, it teaches practical skills like state handling, event listeners, and local storage.</p>
+</section>
+
+<section class="info" aria-labelledby="problem-title">
+    <h2 id="problem-title">The Problem It Solves</h2>
+    <p>When I practiced cube patterns manually, I repeated the same few setups too often. That made practice less effective because I already remembered those patterns. I needed random variation so that each attempt felt new. Cube Face Trainer solves this by generating random color combinations while keeping the center sticker fixed.</p>
+    <p>The second problem was timing. Without a timer, it is hard to know whether your speed is actually improving. This tool includes start, stop, and reset controls with a best-time record, so progress is visible. It is not a full competition platform yet, but it is useful for personal training and consistency.</p>
+</section>
+
+<section class="info" aria-labelledby="features-title">
+    <h2 id="features-title">Current Features</h2>
+    <h3>1) Random Pattern Trainer</h3>
+    <p>The generator creates a new face pattern with one click. This helps train quick recognition and adaptation.</p>
+
+    <h3>2) Timer for Practice Sessions</h3>
+    <p>The timer tracks every run in minutes, seconds, and hundredths. I use it to compare attempts and push myself gradually.</p>
+
+    <h3>3) Best-Time Storage</h3>
+    <p>Your best solve time is saved in local storage, so you can return later and continue improvement on the same device.</p>
+
+    <h3>4) Fast Practice Mode</h3>
+    <p>The interface is intentionally simple: generate, start, stop, reset. This keeps the focus on repetition and speed training.</p>
+</section>
+
+<section class="info" aria-labelledby="planned-title">
+    <h2 id="planned-title">Planned Features</h2>
+    <h3>Daily Quiz (Planned)</h3>
+    <p>I want to add a daily quiz mode where users solve a small set of patterns and track daily consistency. The goal is to make practice more structured, especially for beginners who need routine.</p>
+
+    <h3>Global Leaderboard (Planned)</h3>
+    <p>I also plan to add a global leaderboard in a future version. This will allow users to compare times and stay motivated. Right now this feature is only planned and not implemented.</p>
+
+    <h3>More Training Modes (Planned)</h3>
+    <p>Future updates may include difficulty levels, session history, and custom center-color options with clearer stats.</p>
+</section>
+
+<section class="info" aria-labelledby="future-updates-title">
+    <h2 id="future-updates-title">Future Updates and Learning Goals</h2>
+    <p>For future versions, I want cleaner UI feedback, better mobile ergonomics, and optional guidance for first-time users. I also want to improve code structure so features are easier to maintain. This project is part of my bigger goal to learn practical JavaScript through tools that people can actually use.</p>
+    <p>If you want to see the project context and my overall progress, visit my <a href="../projects.html">Portfolio page</a>. You can also read the dedicated <a href="../pattern-generator.html">Pattern Generator notes</a> or my <a href="../about.html">About page</a> for more details about my learning journey.</p>
+</section>
 </main>
 
 <footer>
-
-    <p>
-        © 2026 Princehacky
-    </p>
-
-    <p>
-        Independent cube training website.
-    </p>
-
+    <p>© 2026 Princehacky</p>
+    <p>Independent student cube training project.</p>
 </footer>
 
 <script src="js/storage.js"></script>
