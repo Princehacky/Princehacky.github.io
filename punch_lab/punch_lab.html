@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Punch Lab - Arcade Stress Relief</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Bangers&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Configuration and Styling -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        comic: ['Bangers', 'cursive']
+                    },
+                    colors: {
+                        primary: '#3b82f6', // blue-500
+                        secondary: '#8b5cf6', // violet-500
+                        darkBg: '#0f172a', // slate-900
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --shake-intensity: 0px;
+        }
+
+        body {
+            background-color: theme('colors.darkBg');
+            color: white;
+            overflow: hidden;
+            touch-action: none; /* Prevent pull-to-refresh on mobile */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Animated Background Gradients */
+        .animated-bg {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #312e81);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism UI */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* View Management */
+        .view { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .view.active { display: flex; opacity: 1; }
+
+        /* Target Animations */
+        .target-container {
+            transition: transform 0.1s;
+            cursor: crosshair;
+        }
+        
+        .target-idle {
+            animation: idleFloat 4s ease-in-out infinite;
+        }
+
+        .anim-squash {
+            animation: squash 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .anim-break {
+            animation: shatter 0.5s forwards;
+        }
+
+        @keyframes idleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes squash {
+            0% { transform: scale(1, 1); }
+            40% { transform: scale(1.3, 0.7); }
+            70% { transform: scale(0.8, 1.2); }
+            100% { transform: scale(1, 1); }
+        }
+
+        @keyframes shatter {
+            0% { transform: scale(1) rotate(0); opacity: 1; filter: brightness(1); }
+            50% { transform: scale(1.5) rotate(15deg); filter: brightness(2); }
+            100% { transform: scale(0) rotate(45deg); opacity: 0; filter: brightness(0); }
+        }
+
+        /* Screen Shake */
+        .shake-screen {
+            animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* Screen Flash */
+        #flash-overlay {
+            position: fixed; inset: 0; background: white; opacity: 0;
+            pointer-events: none; z-index: 50; transition: opacity 0.1s;
+        }
+        .flash-active { opacity: 0.8 !important; transition: none !important; }
+
+        /* Floating Text Engine */
+        .floating-text {
+            position: absolute;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 40;
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+            animation: floatUp 0.8s forwards ease-out;
+        }
+        .text-damage { color: #fff; font-size: 1.5rem; font-family: 'Inter', sans-serif;}
+        .text-crit { color: #f59e0b; font-size: 2.5rem; font-family: 'Bangers', cursive; text-transform: uppercase; }
+        .text-comic { color: #ef4444; font-size: 3rem; font-family: 'Bangers', cursive; }
+        .text-coin { color: #fbbf24; font-size: 1.5rem; }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(0.5); }
+            20% { transform: translateY(-20px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-80px) scale(1); }
+        }
+
+        /* Progress Bars */
+        .progress-bar-container { background: rgba(0,0,0,0.5); border-radius: 999px; overflow: hidden; }
+        .progress-bar-fill { transition: width 0.1s linear, background-color 0.3s; }
+
+        /* Scrollbar hiding */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        
+        /* Custom Upload Image Preview */
+        .custom-target-img {
+            width: 100%; height: 100%; object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        }
+    </style>
+</head>
+<body class="animated-bg text-white h-screen w-screen flex flex-col antialiased">
+
+    <!-- Canvas for Particles (Always on top, pointer-events none) -->
+    <canvas id="particle-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-30"></canvas>
+    
+    <!-- Screen Flash Overlay -->
+    <div id="flash-overlay"></div>
+
+    <!-- Top Navigation / HUD (Hidden on Home) -->
+    <header id="hud" class="fixed top-0 left-0 right-0 p-4 z-40 hidden flex-row justify-between items-start pointer-events-none">
+        <div class="flex flex-col gap-2 pointer-events-auto">
+            <!-- Level & XP -->
+            <div class="glass-panel rounded-xl p-2 flex items-center gap-3">
+                <div class="bg-blue-500 rounded-full h-10 w-10 flex items-center justify-center font-bold text-lg" id="hud-level">1</div>
+                <div class="w-32">
+                    <div class="text-xs text-blue-200 mb-1 font-semibold tracking-wide">XP</div>
+                    <div class="progress-bar-container h-2 w-full">
+                        <div id="hud-xp-bar" class="progress-bar-fill h-full bg-blue-400" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Coins -->
+            <div class="glass-panel rounded-xl p-2 px-4 flex items-center gap-2 w-max">
+                <span class="text-xl">🪙</span>
+                <span id="hud-coins" class="font-bold text-yellow-400 text-lg">0</span>
+            </div>
+            
+            <!-- Combo Counter -->
+            <div id="hud-combo-container" class="opacity-0 transition-opacity duration-200">
+                <div class="font-comic text-2xl text-orange-400 italic">Combo x<span id="hud-combo">0</span>!</div>
+            </div>
+        </div>
+
+        <!-- Controls (Right side) -->
+        <div class="flex flex-col gap-2 pointer-events-auto">
+            <button onclick="nav('home')" class="glass-panel p-3 rounded-xl hover:bg-white/10 transition-colors focus:ring-2 focus:ring-blue-500" aria-label="Home">🏠</button>
+            <button onclick="nav('shop')" class="glass-panel p-3 rounded-xl hover:bg-white/10 transition-colors focus:ring-2 focus:ring-blue-500 relative" aria-label="Shop">
+                🛒<span id="shop-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">!</span>
+            </button>
+            <button onclick="nav('achievements')" class="glass-panel p-3 rounded-xl hover:bg-white/10 transition-colors focus:ring-2 focus:ring-blue-500" aria-label="Achievements">🏆</button>
+            <button onclick="nav('settings')" class="glass-panel p-3 rounded-xl hover:bg-white/10 transition-colors focus:ring-2 focus:ring-blue-500" aria-label="Settings">⚙️</button>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <div id="app" class="relative w-full h-full flex-1 flex items-center justify-center pt-16">
+        
+        <!-- VIEW: Home -->
+        <main id="view-home" class="view active flex-col items-center justify-center w-full max-w-md mx-auto p-6 z-20">
+            <div class="text-center mb-10">
+                <h1 class="text-7xl font-comic tracking-wider text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-purple-500 filter drop-shadow-lg transform -rotate-2">
+                    PUNCH LAB
+                </h1>
+                <p class="text-blue-200 mt-2 text-lg font-medium">Arcade Stress Relief</p>
+            </div>
+
+            <div class="flex flex-col gap-4 w-full">
+                <button onclick="startGame()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.5)] transform transition hover:scale-105 active:scale-95 text-xl flex justify-center items-center gap-2">
+                    ▶️ PLAY NOW
+                </button>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="nav('shop')" class="glass-panel py-3 px-4 rounded-xl hover:bg-white/10 transition font-semibold flex flex-col items-center gap-1">
+                        <span class="text-2xl">🛒</span> Shop
+                    </button>
+                    <button onclick="nav('achievements')" class="glass-panel py-3 px-4 rounded-xl hover:bg-white/10 transition font-semibold flex flex-col items-center gap-1">
+                        <span class="text-2xl">🏆</span> Awards
+                    </button>
+                </div>
+                <button onclick="nav('settings')" class="glass-panel py-3 px-4 rounded-xl hover:bg-white/10 transition font-semibold flex items-center justify-center gap-2 text-sm text-gray-300">
+                    ⚙️ Settings & Privacy
+                </button>
+            </div>
+            
+            <div class="mt-8 text-center text-xs text-gray-400 max-w-xs">
+                Punch Lab uses fictional targets. Uploads remain strictly in your browser. No backend. No tracking.
+            </div>
+        </main>
+
+        <!-- VIEW: Play -->
+        <main id="view-play" class="view flex-col items-center justify-center w-full h-full relative z-10">
+            
+            <!-- Floating interaction layer for UI specific to game -->
+            <div class="absolute top-20 text-center w-full pointer-events-none">
+                <h2 id="target-name" class="text-2xl font-bold text-gray-200 uppercase tracking-widest opacity-50">Target</h2>
+            </div>
+
+            <!-- Weapon Cursor Indicator (visual only) -->
+            <div id="weapon-indicator" class="absolute hidden pointer-events-none text-4xl opacity-50 z-20"></div>
+
+            <!-- Main Interactive Target -->
+            <div class="relative w-full max-w-sm aspect-square flex items-center justify-center">
+                <div id="target-element" class="target-container target-idle select-none w-64 h-64 flex items-center justify-center text-[180px] drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" 
+                     role="button" aria-label="Punch Target" tabindex="0">
+                    <!-- Emojis or images injected via JS -->
+                    🧍
+                </div>
+            </div>
+
+            <!-- Health/Durability Bar (Bottom Center) -->
+            <div class="absolute bottom-10 w-full max-w-md px-6 pointer-events-none">
+                <div class="flex justify-between text-sm font-semibold mb-2 px-1">
+                    <span class="text-gray-300">Durability</span>
+                    <span id="health-text" class="text-white">100 / 100</span>
+                </div>
+                <div class="progress-bar-container h-4 w-full shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                    <div id="health-bar" class="progress-bar-fill h-full bg-red-500 w-full rounded-r-none"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW: Shop -->
+        <main id="view-shop" class="view flex-col w-full max-w-2xl h-full p-6 pb-24 z-20 overflow-y-auto">
+            <h2 class="text-4xl font-comic text-center mb-6 text-blue-400">Armory & Targets</h2>
+            
+            <div class="flex border-b border-white/20 mb-6 sticky top-0 bg-darkBg/90 backdrop-blur z-10">
+                <button onclick="switchShopTab('weapons')" id="tab-weapons" class="flex-1 py-3 font-bold border-b-2 border-blue-500 text-blue-400 transition-colors">Weapons</button>
+                <button onclick="switchShopTab('targets')" id="tab-targets" class="flex-1 py-3 font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition-colors">Targets</button>
+            </div>
+
+            <!-- Weapons List -->
+            <div id="shop-weapons" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Targets List -->
+            <div id="shop-targets" class="hidden grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Injected via JS -->
+                
+                <!-- Custom Upload Card -->
+                <div class="glass-panel rounded-xl p-4 flex flex-col items-center justify-between border-2 border-dashed border-purple-500/50">
+                    <div class="text-center mb-2">
+                        <div class="text-4xl mb-2">🖼️</div>
+                        <h3 class="font-bold text-lg text-purple-300">Custom Target</h3>
+                        <p class="text-xs text-gray-400 mt-1 px-2">Upload fictional art, cartoons, or objects. No real people.</p>
+                    </div>
+                    <input type="file" id="custom-image-upload" accept="image/*" class="hidden">
+                    <button onclick="document.getElementById('custom-image-upload').click()" class="mt-2 w-full py-2 rounded-lg bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 font-semibold transition">
+                        Upload Image
+                    </button>
+                    <button id="btn-equip-custom" onclick="equipCustomTarget()" class="mt-2 w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition hidden">
+                        Equip Custom
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW: Achievements -->
+        <main id="view-achievements" class="view flex-col w-full max-w-2xl h-full p-6 pb-24 z-20 overflow-y-auto">
+            <h2 class="text-4xl font-comic text-center mb-2 text-yellow-400">Awards</h2>
+            <div class="text-center text-gray-400 mb-6">Complete milestones to earn XP!</div>
+            
+            <div class="bg-white/5 rounded-xl p-4 mb-6 flex justify-between items-center shadow-inner">
+                <span class="font-bold">Total Completion:</span>
+                <span id="achievements-progress" class="text-yellow-400 font-bold text-xl">0%</span>
+            </div>
+
+            <div id="achievements-list" class="grid gap-3">
+                <!-- Injected via JS -->
+            </div>
+        </main>
+
+        <!-- VIEW: Settings -->
+        <main id="view-settings" class="view flex-col w-full max-w-md mx-auto h-full p-6 z-20 overflow-y-auto">
+            <h2 class="text-4xl font-comic text-center mb-8 text-gray-200">Settings</h2>
+            
+            <div class="space-y-6">
+                <!-- Audio -->
+                <div class="glass-panel p-5 rounded-2xl">
+                    <h3 class="text-lg font-bold mb-4 text-blue-300 flex items-center gap-2"><span>🔊</span> Audio</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <label for="toggle-sfx">Sound Effects</label>
+                        <input type="checkbox" id="toggle-sfx" class="w-6 h-6 rounded text-blue-500 bg-gray-700 border-gray-600 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <!-- Visuals -->
+                <div class="glass-panel p-5 rounded-2xl">
+                    <h3 class="text-lg font-bold mb-4 text-blue-300 flex items-center gap-2"><span>✨</span> Visuals</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <label for="toggle-shake">Screen Shake</label>
+                        <input type="checkbox" id="toggle-shake" class="w-6 h-6 rounded text-blue-500 bg-gray-700 border-gray-600 focus:ring-blue-500">
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <label for="toggle-particles">Particles</label>
+                        <input type="checkbox" id="toggle-particles" class="w-6 h-6 rounded text-blue-500 bg-gray-700 border-gray-600 focus:ring-blue-500">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label for="toggle-floating">Floating Text</label>
+                        <input type="checkbox" id="toggle-floating" class="w-6 h-6 rounded text-blue-500 bg-gray-700 border-gray-600 focus:ring-blue-500">
+                    </div>
+                </div>
+                
+                <!-- Data Management -->
+                <div class="glass-panel p-5 rounded-2xl border border-red-500/30">
+                    <h3 class="text-lg font-bold mb-4 text-red-400 flex items-center gap-2"><span>⚠️</span> Danger Zone</h3>
+                    <button onclick="resetSaveData()" class="w-full py-3 rounded-xl bg-red-600/20 hover:bg-red-600/40 text-red-400 font-bold transition border border-red-500/50">
+                        Reset All Data
+                    </button>
+                    <p class="text-xs text-gray-400 mt-3 text-center">This will permanently delete your coins, levels, and unlocks.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-xs text-gray-500 pb-8">
+                Punch Lab v1.0 • No User Data Collected
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
+
+<script>
+    /* =========================================
+       DATA MODELS & STATE
+       ========================================= */
+    const GAME_DATA = {
+        weapons: [
+            { id: 'fist', name: 'Fist', icon: '👊', desc: 'Ol reliable.', baseDamage: 10, critChance: 0.05, cost: 0 },
+            { id: 'glove', name: 'Boxing Glove', icon: '🥊', desc: 'Protect those knuckles.', baseDamage: 25, critChance: 0.1, cost: 150 },
+            { id: 'wand', name: 'Magic Wand', icon: '🪄', desc: 'Mystical taps.', baseDamage: 40, critChance: 0.25, cost: 800 },
+            { id: 'hammer', name: 'Hammer', icon: '🔨', desc: 'Stop! Hammer time.', baseDamage: 85, critChance: 0.15, cost: 2500 },
+            { id: 'rocket', name: 'Rocket Punch', icon: '🚀', desc: 'To the moon!', baseDamage: 200, critChance: 0.2, cost: 10000 },
+            { id: 'chicken', name: 'Rubber Chicken', icon: '🐔', desc: 'Squawk!', baseDamage: 5, critChance: 0.5, cost: 50000 }
+        ],
+        targets: [
+            { id: 'dummy', name: 'Training Dummy', icon: '🧍', desc: 'Doesn\'t hit back.', baseHealth: 100, cost: 0, color: '#fcd34d' },
+            { id: 'crate', name: 'Wooden Crate', icon: '📦', desc: 'Splinters!', baseHealth: 300, cost: 50, color: '#b45309' },
+            { id: 'balloon', name: 'Red Balloon', icon: '🎈', desc: 'Pop it!', baseHealth: 50, cost: 150, color: '#ef4444' },
+            { id: 'pumpkin', name: 'Pumpkin', icon: '🎃', desc: 'Smashing.', baseHealth: 800, cost: 400, color: '#f97316' },
+            { id: 'slime', name: 'Slime', icon: '🟢', desc: 'Jiggly and tough.', baseHealth: 2500, cost: 1200, color: '#22c55e' },
+            { id: 'robot', name: 'Defective Robot', icon: '🤖', desc: 'Needs recalibration.', baseHealth: 8000, cost: 5000, color: '#94a3b8' },
+            { id: 'alien', name: 'Lost Alien', icon: '👽', desc: 'Out of this world.', baseHealth: 25000, cost: 20000, color: '#4ade80' }
+        ],
+        achievements: [
+            { id: 'first_blood', name: 'First Punch', desc: 'Land your first hit.', requirement: { stat: 'totalPunches', val: 1 }, xp: 50 },
+            { id: 'punch_100', name: 'Warming Up', desc: 'Throw 100 punches.', requirement: { stat: 'totalPunches', val: 100 }, xp: 200 },
+            { id: 'punch_1000', name: 'Sore Arms', desc: 'Throw 1,000 punches.', requirement: { stat: 'totalPunches', val: 1000 }, xp: 1000 },
+            { id: 'break_first', name: 'Destructor', desc: 'Break your first target.', requirement: { stat: 'targetsBroken', val: 1 }, xp: 100 },
+            { id: 'break_50', name: 'Wrecking Ball', desc: 'Break 50 targets.', requirement: { stat: 'targetsBroken', val: 50 }, xp: 500 },
+            { id: 'combo_10', name: 'Combo Novice', desc: 'Reach a 10x combo.', requirement: { stat: 'maxCombo', val: 10 }, xp: 150 },
+            { id: 'combo_50', name: 'Combo Master', desc: 'Reach a 50x combo.', requirement: { stat: 'maxCombo', val: 50 }, xp: 800 },
+            { id: 'crit_100', name: 'Lucky Strike', desc: 'Land 100 critical hits.', requirement: { stat: 'criticalHits', val: 100 }, xp: 500 },
+            { id: 'rich', name: 'Coin Collector', desc: 'Accumulate 10,000 coins.', requirement: { stat: 'totalCoins', val: 10000 }, xp: 1000 }
+        ]
+    };
+
+    const DEFAULT_STATE = {
+        coins: 0,
+        level: 1,
+        xp: 0,
+        equippedWeapon: 'fist',
+        equippedTarget: 'dummy',
+        unlockedWeapons: ['fist'],
+        unlockedTargets: ['dummy'],
+        achievements: [],
+        stats: {
+            totalPunches: 0,
+            targetsBroken: 0,
+            maxCombo: 0,
+            criticalHits: 0,
+            totalCoins: 0
+        },
+        settings: {
+            sfx: true,
+            shake: true,
+            particles: true,
+            floatingText: true
+        }
+    };
+
+    let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    let customTargetImage = null; // Session-only for custom images to prevent quota overflow
+    
+    // Live Combat Variables
+    let currentHealth = 100;
+    let maxHealth = 100;
+    let combo = 0;
+    let comboTimer = null;
+    let lastHitTime = 0;
+    let isInitialized = false;
+
+    /* =========================================
+       AUDIO SYSTEM (Procedural Synthesis)
+       ========================================= */
+    const AudioEngine = (() => {
+        let ctx = null;
+        
+        const init = () => {
+            if (!ctx) {
+                try {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    ctx = new AudioContext();
+                } catch (e) {
+                    console.warn("AudioContext not supported");
+                }
+            }
+            if (ctx && ctx.state === 'suspended') ctx.resume();
+        };
+
+        const playTone = (type, freq, duration, vol, glideTo = null) => {
+            if (!state.settings.sfx || !ctx) return;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            if (glideTo) {
+                osc.frequency.exponentialRampToValueAtTime(glideTo, ctx.currentTime + duration);
+            }
+            
+            gain.gain.setValueAtTime(vol, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+            
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            
+            osc.start();
+            osc.stop(ctx.currentTime + duration);
+        };
+
+        const playNoise = (duration, vol, highpass = 1000) => {
+            if (!state.settings.sfx || !ctx) return;
+            const bufferSize = ctx.sampleRate * duration;
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'highpass';
+            filter.frequency.value = highpass;
+            
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(vol, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+            
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            
+            noise.start();
+        };
+
+        return {
+            init,
+            punch: () => playNoise(0.1, 0.5, 500),
+            heavyPunch: () => playNoise(0.2, 0.8, 200),
+            crit: () => { playNoise(0.15, 0.6, 800); playTone('square', 800, 0.2, 0.2, 1200); },
+            break: () => { playNoise(0.4, 1.0, 100); playTone('sawtooth', 150, 0.4, 0.3, 50); },
+            coin: () => playTone('sine', 1200, 0.1, 0.1, 2000),
+            levelUp: () => {
+                playTone('square', 400, 0.2, 0.1);
+                setTimeout(() => playTone('square', 500, 0.2, 0.1), 150);
+                setTimeout(() => playTone('square', 600, 0.4, 0.1, 800), 300);
+            },
+            click: () => playTone('sine', 800, 0.05, 0.05)
+        };
+    })();
+
+    /* =========================================
+       PARTICLE SYSTEM (Canvas Based)
+       ========================================= */
+    const Particles = (() => {
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let width, height;
+        let isRunning = false;
+
+        const resize = () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        };
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, color, speedScale = 1) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = Math.random() * 8 + 4;
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = (Math.random() * 10 + 5) * speedScale;
+                this.vx = Math.cos(angle) * velocity;
+                this.vy = Math.sin(angle) * velocity;
+                this.gravity = 0.5;
+                this.friction = 0.96;
+                this.life = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 20;
+                this.shape = Math.random() > 0.5 ? 'circle' : 'square';
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+                this.life -= this.decay;
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.globalAlpha = Math.max(0, this.life);
+                ctx.fillStyle = this.color;
+
+                if (this.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                }
+                ctx.restore();
+            }
+        }
+
+        const loop = () => {
+            if (!state.settings.particles || (particles.length === 0 && !isRunning)) return;
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw(ctx);
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+            
+            if (particles.length > 0) {
+                requestAnimationFrame(loop);
+            } else {
+                isRunning = false; // Pause loop when empty
+            }
+        };
+
+        const emit = (x, y, count, color, speedScale = 1) => {
+            if (!state.settings.particles) return;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, color, speedScale));
+            }
+            if (!isRunning) {
+                isRunning = true;
+                requestAnimationFrame(loop);
+            }
+        };
+
+        return { emit };
+    })();
+
+    /* =========================================
+       CORE GAME LOGIC & STORAGE
+       ========================================= */
+    function saveGame() {
+        localStorage.setItem('punchLabSave', JSON.stringify(state));
+    }
+
+    function loadGame() {
+        const saved = localStorage.getItem('punchLabSave');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                // Merge to ensure new properties exist
+                state = { ...DEFAULT_STATE, ...parsed, stats: { ...DEFAULT_STATE.stats, ...parsed.stats }, settings: { ...DEFAULT_STATE.settings, ...parsed.settings } };
+            } catch (e) { console.error("Save file corrupted"); }
+        }
+        applySettingsToDOM();
+    }
+
+    function resetSaveData() {
+        if(confirm("Are you sure? This will wipe all progress!")) {
+            localStorage.removeItem('punchLabSave');
+            state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+            customTargetImage = null;
+            saveGame();
+            updateHUD();
+            renderShop();
+            renderAchievements();
+            nav('home');
+            showToast("Save data wiped.");
+        }
+    }
+
+    function addXP(amount) {
+        state.xp += amount;
+        const xpNeeded = getXPForLevel(state.level);
+        if (state.xp >= xpNeeded) {
+            state.xp -= xpNeeded;
+            state.level++;
+            AudioEngine.levelUp();
+            showToast(`LEVEL UP! You are now level ${state.level} 🌟`);
+            Particles.emit(window.innerWidth/2, window.innerHeight/2, 100, '#fbbf24', 2);
+        }
+        updateHUD();
+        saveGame();
+    }
+
+    function getXPForLevel(lvl) {
+        return Math.floor(100 * Math.pow(1.5, lvl - 1));
+    }
+
+    function addCoins(amount) {
+        state.coins += amount;
+        state.stats.totalCoins += amount;
+        updateHUD();
+        checkAchievements();
+    }
+
+    function checkAchievements() {
+        let earned = false;
+        GAME_DATA.achievements.forEach(ach => {
+            if (!state.achievements.includes(ach.id)) {
+                if (state.stats[ach.requirement.stat] >= ach.requirement.val) {
+                    state.achievements.push(ach.id);
+                    addXP(ach.xp);
+                    showToast(`🏆 Achievement Unlocked: ${ach.name}`);
+                    earned = true;
+                }
+            }
+        });
+        if (earned) saveGame();
+    }
+
+    /* =========================================
+       COMBAT MECHANICS
+       ========================================= */
+    function hitTarget(e) {
+        // Prevent ghost clicks / double firing
+        if (e && e.type === 'touchstart') e.preventDefault();
+
+        AudioEngine.init();
+        const now = Date.now();
+        
+        // Combo Logic
+        if (now - lastHitTime < 1500) {
+            combo++;
+        } else {
+            combo = 1;
+        }
+        lastHitTime = now;
+        if (combo > state.stats.maxCombo) state.stats.maxCombo = combo;
+        updateComboUI();
+
+        state.stats.totalPunches++;
+
+        // Get Weapon Data
+        const wpn = GAME_DATA.weapons.find(w => w.id === state.equippedWeapon) || GAME_DATA.weapons[0];
+        const tgt = GAME_DATA.targets.find(t => t.id === state.equippedTarget) || GAME_DATA.targets[0];
+        
+        // Calculate Damage
+        let dmg = wpn.baseDamage + (state.level * 2);
+        const isCrit = Math.random() < wpn.critChance;
+        if (isCrit) {
+            dmg = Math.floor(dmg * (2 + Math.random())); // 2x to 3x multiplier
+            state.stats.criticalHits++;
+            AudioEngine.crit();
+        } else {
+            // vary normal punch sound slightly based on weapon weight
+            wpn.baseDamage > 20 ? AudioEngine.heavyPunch() : AudioEngine.punch();
+        }
+
+        // Apply Damage
+        currentHealth -= dmg;
+        if (currentHealth < 0) currentHealth = 0;
+
+        // Visuals
+        const rect = document.getElementById('target-element').getBoundingClientRect();
+        
+        // determine interaction coordinates (center if triggered via keyboard)
+        let cx = rect.left + rect.width / 2;
+        let cy = rect.top + rect.height / 2;
+        if (e && (e.clientX || (e.touches && e.touches[0]))) {
+             cx = e.clientX || e.touches[0].clientX;
+             cy = e.clientY || e.touches[0].clientY;
+        }
+
+        playHitVisuals(cx, cy, dmg, isCrit, tgt.color);
+        updateHealthUI();
+
+        // Break Target
+        if (currentHealth <= 0) {
+            breakTarget(tgt, cx, cy);
+        }
+
+        checkAchievements();
+    }
+
+    function playHitVisuals(x, y, dmg, isCrit, particleColor) {
+        // Squash animation
+        const el = document.getElementById('target-element');
+        el.classList.remove('anim-squash');
+        void el.offsetWidth; // trigger reflow
+        el.classList.add('anim-squash');
+
+        // Screen Shake
+        if (state.settings.shake) {
+            const body = document.body;
+            body.classList.remove('shake-screen');
+            void body.offsetWidth;
+            body.classList.add('shake-screen');
+        }
+
+        // Particles
+        Particles.emit(x, y, isCrit ? 20 : 8, particleColor || '#ffffff', isCrit ? 1.5 : 1);
+
+        // Floating Text
+        if (state.settings.floatingText) {
+            createFloatingText(x, y, `-${dmg}`, isCrit ? 'text-crit' : 'text-damage');
+            if (isCrit) {
+                const words = ["POW!", "BAM!", "SMACK!", "CRACK!", "BOOM!"];
+                createFloatingText(x + (Math.random()*60-30), y - 40, words[Math.floor(Math.random()*words.length)], 'text-comic');
+                
+                // Flash on crit
+                const flash = document.getElementById('flash-overlay');
+                flash.classList.add('flash-active');
+                setTimeout(() => flash.classList.remove('flash-active'), 50);
+            }
+        }
+    }
+
+    function createFloatingText(x, y, text, cssClass) {
+        const el = document.createElement('div');
+        el.className = `floating-text ${cssClass}`;
+        el.innerText = text;
+        // Jitter origin
+        const jx = x + (Math.random() * 40 - 20);
+        const jy = y + (Math.random() * 20 - 10);
+        el.style.left = `${jx}px`;
+        el.style.top = `${jy}px`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 800);
+    }
+
+    function breakTarget(tgt, x, y) {
+        AudioEngine.break();
+        state.stats.targetsBroken++;
+        
+        // Rewards
+        const coinsGained = Math.floor(tgt.baseHealth / 10 * (1 + (combo/100)));
+        const xpGained = Math.floor(tgt.baseHealth / 5);
+        addCoins(coinsGained);
+        addXP(xpGained);
+        
+        // Heavy visuals
+        if (state.settings.shake) {
+            document.body.style.animation = 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both';
+            setTimeout(() => document.body.style.animation = '', 500);
+        }
+        Particles.emit(x, y, 50, tgt.color || '#fff', 2.5);
+        if (state.settings.floatingText) {
+            createFloatingText(x, y - 50, `+${coinsGained}🪙`, 'text-coin');
+            createFloatingText(x, y + 20, `+${xpGained} XP`, 'text-blue-300 font-bold text-lg');
+        }
+        
+        // Shatter anim
+        const el = document.getElementById('target-element');
+        el.classList.add('anim-break');
+        
+        // Reset immediately logic
+        setTimeout(() => {
+            el.classList.remove('anim-break');
+            spawnTarget();
+        }, 500); // Wait for shatter anim to finish
+    }
+
+    function spawnTarget() {
+        const tgtInfo = customTargetImage ? { baseHealth: 500, name: "Custom Target" } 
+                        : (GAME_DATA.targets.find(t => t.id === state.equippedTarget) || GAME_DATA.targets[0]);
+        
+        // Scaling health with level slightly
+        maxHealth = Math.floor(tgtInfo.baseHealth * (1 + (state.level - 1) * 0.1));
+        currentHealth = maxHealth;
+        updateHealthUI();
+    }
+
+    /* =========================================
+       UI & VIEW MANAGEMENT
+       ========================================= */
+    function nav(viewId) {
+        AudioEngine.click();
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.getElementById(`view-${viewId}`).classList.add('active');
+        
+        const hud = document.getElementById('hud');
+        if (viewId === 'home') {
+            hud.classList.add('hidden');
+        } else {
+            hud.classList.remove('hidden');
+            if (viewId === 'play') spawnTarget();
+            if (viewId === 'shop') renderShop();
+            if (viewId === 'achievements') renderAchievements();
+            if (viewId === 'settings') updateSettingsUI();
+        }
+    }
+
+    function startGame() {
+        AudioEngine.init(); // Must happen on click interaction
+        nav('play');
+        setupTargetDOM();
+    }
+
+    function setupTargetDOM() {
+        const el = document.getElementById('target-element');
+        const nameEl = document.getElementById('target-name');
+        
+        if (customTargetImage) {
+            el.innerHTML = `<img src="${customTargetImage}" class="custom-target-img rounded-3xl" alt="Custom Target" draggable="false">`;
+            nameEl.innerText = "Custom Target";
+        } else {
+            const tgt = GAME_DATA.targets.find(t => t.id === state.equippedTarget) || GAME_DATA.targets[0];
+            el.innerHTML = tgt.icon;
+            nameEl.innerText = tgt.name;
+        }
+
+        // Setup weapon cursor
+        const wpn = GAME_DATA.weapons.find(w => w.id === state.equippedWeapon);
+        if(wpn && state.equippedWeapon !== 'fist') {
+            document.body.style.cursor = 'none'; // hide default on canvas area
+            const indicator = document.getElementById('weapon-indicator');
+            indicator.innerText = wpn.icon;
+            indicator.classList.remove('hidden');
+        } else {
+            document.body.style.cursor = 'default';
+            document.getElementById('weapon-indicator').classList.add('hidden');
+        }
+    }
+
+    function updateHUD() {
+        document.getElementById('hud-level').innerText = state.level;
+        document.getElementById('hud-coins').innerText = state.coins.toLocaleString();
+        
+        const xpNeeded = getXPForLevel(state.level);
+        const xpPercent = Math.min(100, Math.max(0, (state.xp / xpNeeded) * 100));
+        document.getElementById('hud-xp-bar').style.width = `${xpPercent}%`;
+    }
+
+    function updateHealthUI() {
+        const pct = Math.max(0, (currentHealth / maxHealth) * 100);
+        const bar = document.getElementById('health-bar');
+        bar.style.width = `${pct}%`;
+        
+        // Color shifts based on health
+        if (pct > 50) bar.className = 'progress-bar-fill h-full w-full rounded-r-none bg-green-500';
+        else if (pct > 20) bar.className = 'progress-bar-fill h-full w-full rounded-r-none bg-yellow-500';
+        else bar.className = 'progress-bar-fill h-full w-full rounded-r-none bg-red-500';
+
+        document.getElementById('health-text').innerText = `${Math.ceil(currentHealth)} / ${maxHealth}`;
+    }
+
+    function updateComboUI() {
+        const container = document.getElementById('hud-combo-container');
+        const txt = document.getElementById('hud-combo');
+        if (combo > 1) {
+            txt.innerText = combo;
+            container.classList.remove('opacity-0');
+            // Pop anim
+            container.style.transform = 'scale(1.2)';
+            setTimeout(() => container.style.transform = 'scale(1)', 100);
+        } else {
+            container.classList.add('opacity-0');
+        }
+        
+        clearTimeout(comboTimer);
+        comboTimer = setTimeout(() => {
+            combo = 0;
+            container.classList.add('opacity-0');
+        }, 1500);
+    }
+
+    /* =========================================
+       SHOP & PROGRESSION UI
+       ========================================= */
+    function switchShopTab(tab) {
+        AudioEngine.click();
+        document.getElementById('shop-weapons').classList.add('hidden');
+        document.getElementById('shop-targets').classList.add('hidden');
+        document.getElementById('shop-' + tab).classList.remove('hidden');
+        document.getElementById('shop-' + tab).classList.add('grid');
+        
+        document.getElementById('tab-weapons').classList.replace('border-blue-500', 'border-transparent');
+        document.getElementById('tab-weapons').classList.replace('text-blue-400', 'text-gray-400');
+        document.getElementById('tab-targets').classList.replace('border-blue-500', 'border-transparent');
+        document.getElementById('tab-targets').classList.replace('text-blue-400', 'text-gray-400');
+
+        const activeBtn = document.getElementById('tab-' + tab);
+        activeBtn.classList.replace('border-transparent', 'border-blue-500');
+        activeBtn.classList.replace('text-gray-400', 'text-blue-400');
+    }
+
+    function renderShop() {
+        // Render Weapons
+        const wContainer = document.getElementById('shop-weapons');
+        wContainer.innerHTML = '';
+        GAME_DATA.weapons.forEach(w => {
+            const isUnlocked = state.unlockedWeapons.includes(w.id);
+            const isEquipped = state.equippedWeapon === w.id;
+            const canAfford = state.coins >= w.cost;
+            
+            let btnHTML = '';
+            if (isEquipped) {
+                btnHTML = `<button disabled class="w-full py-2 mt-3 rounded-lg bg-green-600/30 text-green-400 font-bold border border-green-500/50">Equipped</button>`;
+            } else if (isUnlocked) {
+                btnHTML = `<button onclick="equip('weapon', '${w.id}')" class="w-full py-2 mt-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition">Equip</button>`;
+            } else {
+                btnHTML = `<button onclick="buy('weapon', '${w.id}', ${w.cost})" class="w-full py-2 mt-3 rounded-lg ${canAfford ? 'bg-yellow-500 hover:bg-yellow-400 text-yellow-900' : 'bg-gray-700 text-gray-500 cursor-not-allowed'} font-bold transition flex items-center justify-center gap-1">
+                            ${w.cost} <span class="text-sm">🪙</span>
+                           </button>`;
+            }
+
+            wContainer.innerHTML += `
+                <div class="glass-panel rounded-xl p-4 flex flex-col justify-between ${isEquipped ? 'ring-2 ring-green-500' : ''}">
+                    <div class="flex items-start gap-4">
+                        <div class="text-5xl bg-black/20 w-16 h-16 rounded-xl flex items-center justify-center">${w.icon}</div>
+                        <div>
+                            <h3 class="font-bold text-lg ${isUnlocked ? 'text-white' : 'text-gray-400'}">${w.name}</h3>
+                            <p class="text-xs text-gray-300 mt-1">${w.desc}</p>
+                            <div class="text-xs text-blue-300 mt-2 font-mono">DMG: ${w.baseDamage} | CRIT: ${w.critChance*100}%</div>
+                        </div>
+                    </div>
+                    ${btnHTML}
+                </div>
+            `;
+        });
+
+        // Render Targets
+        const tContainer = document.getElementById('shop-targets');
+        // Keep the custom upload card, remove others
+        Array.from(tContainer.children).forEach(child => {
+            if (!child.querySelector('#custom-image-upload')) child.remove();
+        });
+
+        GAME_DATA.targets.forEach(t => {
+            const isUnlocked = state.unlockedTargets.includes(t.id);
+            const isEquipped = state.equippedTarget === t.id && !customTargetImage;
+            const canAfford = state.coins >= t.cost;
+            
+            let btnHTML = '';
+            if (isEquipped) {
+                btnHTML = `<button disabled class="w-full py-2 mt-3 rounded-lg bg-green-600/30 text-green-400 font-bold border border-green-500/50">Equipped</button>`;
+            } else if (isUnlocked) {
+                btnHTML = `<button onclick="equip('target', '${t.id}')" class="w-full py-2 mt-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition">Equip</button>`;
+            } else {
+                btnHTML = `<button onclick="buy('target', '${t.id}', ${t.cost})" class="w-full py-2 mt-3 rounded-lg ${canAfford ? 'bg-yellow-500 hover:bg-yellow-400 text-yellow-900' : 'bg-gray-700 text-gray-500 cursor-not-allowed'} font-bold transition flex items-center justify-center gap-1">
+                            ${t.cost} <span class="text-sm">🪙</span>
+                           </button>`;
+            }
+
+            const itemCard = document.createElement('div');
+            itemCard.className = `glass-panel rounded-xl p-4 flex flex-col justify-between ${isEquipped ? 'ring-2 ring-green-500' : ''}`;
+            itemCard.innerHTML = `
+                <div class="flex items-start gap-4">
+                    <div class="text-5xl bg-black/20 w-16 h-16 rounded-xl flex items-center justify-center">${t.icon}</div>
+                    <div>
+                        <h3 class="font-bold text-lg ${isUnlocked ? 'text-white' : 'text-gray-400'}">${t.name}</h3>
+                        <p class="text-xs text-gray-300 mt-1">${t.desc}</p>
+                        <div class="text-xs text-red-300 mt-2 font-mono">HP: ${t.baseHealth}</div>
+                    </div>
+                </div>
+                ${btnHTML}
+            `;
+            tContainer.insertBefore(itemCard, tContainer.firstChild); // Insert before custom upload
+        });
+
+        // Update Custom Equip Button state
+        const btnCustom = document.getElementById('btn-equip-custom');
+        if (customTargetImage) {
+            btnCustom.classList.remove('hidden');
+            if(document.getElementById('target-name').innerText === 'Custom Target') {
+                 btnCustom.innerText = "Equipped";
+                 btnCustom.className = "mt-2 w-full py-2 rounded-lg bg-green-600/30 text-green-400 font-bold border border-green-500/50";
+            } else {
+                 btnCustom.innerText = "Equip Custom";
+                 btnCustom.className = "mt-2 w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition";
+            }
+        } else {
+            btnCustom.classList.add('hidden');
+        }
+    }
+
+    function buy(type, id, cost) {
+        if (state.coins >= cost) {
+            AudioEngine.coin();
+            state.coins -= cost;
+            if (type === 'weapon') state.unlockedWeapons.push(id);
+            if (type === 'target') state.unlockedTargets.push(id);
+            saveGame();
+            updateHUD();
+            renderShop();
+            showToast(`Purchased successfully!`);
+        } else {
+            showToast("Not enough coins!", true);
+        }
+    }
+
+    function equip(type, id) {
+        AudioEngine.click();
+        if (type === 'weapon') state.equippedWeapon = id;
+        if (type === 'target') {
+            state.equippedTarget = id;
+            customTargetImage = null; // Clear custom when equipping normal
+        }
+        saveGame();
+        renderShop();
+        setupTargetDOM();
+    }
+
+    /* =========================================
+       CUSTOM IMAGE UPLOAD LOGIC
+       ========================================= */
+    document.getElementById('custom-image-upload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            showToast('Please upload an image file.', true);
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            // Note: Storing base64 strings in localStorage can break quota limits easily.
+            // Keeping it in runtime memory (session only).
+            customTargetImage = event.target.result;
+            showToast('Custom target loaded for this session!');
+            renderShop(); // Update shop UI
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function equipCustomTarget() {
+        AudioEngine.click();
+        if(customTargetImage) {
+            // Fake id to unequip standard ones
+            state.equippedTarget = 'custom';
+            renderShop();
+            setupTargetDOM();
+            showToast('Custom Target Equipped!');
+        }
+    }
+
+
+    /* =========================================
+       ACHIEVEMENTS UI
+       ========================================= */
+    function renderAchievements() {
+        const list = document.getElementById('achievements-list');
+        list.innerHTML = '';
+        
+        let completed = 0;
+        
+        GAME_DATA.achievements.forEach(ach => {
+            const isUnlocked = state.achievements.includes(ach.id);
+            if (isUnlocked) completed++;
+            
+            const currentVal = Math.min(state.stats[ach.requirement.stat] || 0, ach.requirement.val);
+            const pct = (currentVal / ach.requirement.val) * 100;
+
+            list.innerHTML += `
+                <div class="glass-panel p-4 rounded-xl flex flex-col gap-2 ${isUnlocked ? 'border border-yellow-500/30 bg-yellow-500/5' : 'opacity-70'}">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl ${isUnlocked ? 'grayscale-0' : 'grayscale'}">${isUnlocked ? '🏆' : '🔒'}</div>
+                            <div>
+                                <h4 class="font-bold ${isUnlocked ? 'text-yellow-400' : 'text-gray-300'}">${ach.name}</h4>
+                                <p class="text-xs text-gray-400">${ach.desc}</p>
+                            </div>
+                        </div>
+                        <div class="text-xs font-bold text-blue-300 bg-blue-900/50 px-2 py-1 rounded">
+                            +${ach.xp} XP
+                        </div>
+                    </div>
+                    
+                    ${!isUnlocked ? `
+                        <div class="w-full mt-2">
+                            <div class="flex justify-between text-[10px] text-gray-500 mb-1">
+                                <span>Progress</span>
+                                <span>${Math.floor(currentVal)} / ${ach.requirement.val}</span>
+                            </div>
+                            <div class="progress-bar-container h-1.5 w-full">
+                                <div class="progress-bar-fill h-full bg-blue-500" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+        
+        const totalPct = Math.floor((completed / GAME_DATA.achievements.length) * 100);
+        document.getElementById('achievements-progress').innerText = `${totalPct}%`;
+    }
+
+    /* =========================================
+       SETTINGS & UTILS
+       ========================================= */
+    function updateSettingsUI() {
+        document.getElementById('toggle-sfx').checked = state.settings.sfx;
+        document.getElementById('toggle-shake').checked = state.settings.shake;
+        document.getElementById('toggle-particles').checked = state.settings.particles;
+        document.getElementById('toggle-floating').checked = state.settings.floatingText;
+    }
+
+    ['sfx', 'shake', 'particles', 'floatingText'].forEach(key => {
+        const el = document.getElementById(`toggle-${key}`);
+        if(el) {
+            el.addEventListener('change', (e) => {
+                AudioEngine.click();
+                state.settings[key] = e.target.checked;
+                saveGame();
+            });
+        }
+    });
+
+    function applySettingsToDOM() {
+        // any DOM level settings sync
+    }
+
+    function showToast(msg, isError = false) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `p-3 rounded-lg shadow-lg text-sm font-bold text-center text-white transform transition-all duration-300 translate-y-10 opacity-0 ${isError ? 'bg-red-600' : 'bg-blue-600/90 backdrop-blur border border-blue-400/30'}`;
+        toast.innerText = msg;
+        
+        container.appendChild(toast);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            toast.classList.remove('translate-y-10', 'opacity-0');
+        });
+        
+        // Remove
+        setTimeout(() => {
+            toast.classList.add('opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 2500);
+    }
+
+    // Input Handling
+    const targetEl = document.getElementById('target-element');
+    
+    // Support mouse down and touch start
+    targetEl.addEventListener('pointerdown', hitTarget);
+    
+    // Keyboard support (Space or Enter to punch)
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('view-play').classList.contains('active')) {
+            if (e.code === 'Space' || e.code === 'Enter') {
+                e.preventDefault();
+                // visually click target
+                targetEl.focus();
+                hitTarget();
+            }
+        }
+    });
+
+    // Custom Cursor tracking for play view
+    document.addEventListener('mousemove', (e) => {
+        const playView = document.getElementById('view-play');
+        const indicator = document.getElementById('weapon-indicator');
+        
+        if (playView.classList.contains('active') && state.equippedWeapon !== 'fist') {
+            if (!indicator.classList.contains('hidden')) {
+                indicator.style.left = `${e.clientX + 10}px`;
+                indicator.style.top = `${e.clientY - 10}px`;
+            }
+        }
+    });
+
+    // INIT
+    window.onload = () => {
+        loadGame();
+        updateHUD();
+        // Hide initial cursor
+        document.getElementById('weapon-indicator').classList.add('hidden');
+    };
+
+</script>
+</body>
+</html>
