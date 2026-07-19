@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pattern Generator Notes | Cube Practice Logic by Prince</title>
+  <meta name="description" content="Understand Prince's cube pattern generator: what it does, why it was created, how it helps practice, and planned improvements.">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="Prince U. Shah">
+  <link rel="canonical" href="https://princehacky.github.io/pattern-generator.html">
+  <link rel="icon" href="prince-shah.webp" type="image/webp">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+  <a class="skip-link" href="#pattern-intro">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title">Pattern Generator</h1>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">☰</button>
+      <nav id="main-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="projects.html">Portfolio</a></li>
+          <li><a class="nav-link" href="cube-trainer/">Cube Trainer</a></li>
+          <li><a class="nav-link" href="wiki-guide.html">Wiki Guide</a></li>
+          <li><a class="nav-link" href="research.html">AI Notes</a></li>
+        </ul>
+      </nav>
+      <button id="theme-toggle" class="btn btn-small" type="button" aria-label="Toggle color theme">Toggle Theme</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="pattern-intro" class="section home" aria-labelledby="pattern-title">
+      <div class="container">
+        <h2 id="pattern-title">What the Pattern Generator Does</h2>
+        <p class="intro">The pattern generator is the core logic behind my Cube Face Trainer. It creates random cube face color patterns so practice sessions stay fresh. Every time you click generate, you get a new arrangement that helps train recognition speed.</p>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="why-created-title">
+      <div class="container">
+        <h2 id="why-created-title">Why I Created It</h2>
+        <p>I created this generator because repeating the same manual setups was slowing my practice progress. If the pattern is always similar, your brain starts memorizing only a few cases. I wanted a simple way to produce many different combinations quickly.</p>
+        <p>This was also a useful coding challenge for me. I needed to use JavaScript to select random colors, update UI cells, and keep behavior consistent. Building this feature taught me practical programming skills that I can reuse in other mini projects.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="help-practice-title">
+      <div class="container">
+        <h2 id="help-practice-title">How It Helps Cube Practice</h2>
+        <p>The biggest benefit is variety. Random patterns force me to look carefully and adapt each time. That improves focus and recognition speed more than repeating familiar setups. Since the center sticker stays fixed, practice remains realistic for one-face orientation.</p>
+        <p>It also works well with the timer in Cube Face Trainer. The generator gives the challenge, and the timer measures performance. Together, they create a simple practice loop: generate, solve, review, repeat. This cycle helps me improve gradually without needing complex tools.</p>
+        <p>Another advantage is accessibility for beginners. The interface is simple, so users can start quickly. Even students new to cube practice can use it without reading long instructions.</p>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="current-logic-title">
+      <div class="container">
+        <h2 id="current-logic-title">Current Logic Overview</h2>
+        <div class="cards">
+          <article class="card reveal-on-scroll">
+            <h3>Color Pool</h3>
+            <p>The generator uses six cube-like colors and chooses randomly for each non-center cell.</p>
+          </article>
+          <article class="card reveal-on-scroll">
+            <h3>Fixed Center</h3>
+            <p>The middle cell remains fixed to keep one-face practice orientation stable.</p>
+          </article>
+          <article class="card reveal-on-scroll">
+            <h3>Live UI Update</h3>
+            <p>Each generated pattern is immediately rendered on the 3×3 board for instant use.</p>
+          </article>
+          <article class="card reveal-on-scroll">
+            <h3>Pattern Data Storage</h3>
+            <p>The current pattern is stored in memory so it can be reused by related features.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="future-improvements-title">
+      <div class="container">
+        <h2 id="future-improvements-title">Future Improvements</h2>
+        <p>I plan to improve the generator with better control options. For example, users may choose practice difficulty, lock selected colors, or create challenge sets. I also want to add cleaner pattern validation so generated combinations feel more balanced for training goals.</p>
+        <p>Another future idea is a guided practice mode where the generator serves patterns in planned sequences, such as easy-to-hard progression. This can help beginners stay motivated while still building skill. I may also add shareable pattern links in later versions.</p>
+        <p>As a coding goal, I also want to refactor this feature into smaller reusable modules so future updates are easier to manage. Better structure will make it simpler to test new ideas like challenge packs, session presets, and analytics for training consistency.</p>
+        <p>If you want to use the tool directly, visit <a href="cube-trainer/">Cube Face Trainer</a>. For full project context, check my <a href="projects.html">Portfolio</a> and <a href="about.html">About page</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-thanks">This page documents one feature from my student coding journey.</p>
+      <nav class="footer-links" aria-label="Footer quick links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Portfolio</a>
+        <a href="cube-trainer/">Cube Trainer</a>
+        <a href="wiki-guide.html">Wiki Guide</a>
+        <a href="documents/">Documents</a>
+      </nav>
+      <p>&copy; 2026 Prince U. Shah</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
