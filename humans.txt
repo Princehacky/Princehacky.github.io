@@ -1,0 +1,20 @@
+/* TEAM */
+
+Name: Prince U. Shah
+Nickname: Princehacky
+Role: Student Developer
+Website: https://princehacky.github.io/
+GitHub: https://github.com/Princehacky
+Location: India
+
+/* SITE */
+
+Site Name: Princehacky Portfolio
+Description: Personal portfolio and learning website featuring coding projects, games, AI learning notes, and educational resources.
+Language: English
+Built With: HTML, CSS, JavaScript
+Hosted On: GitHub Pages
+
+/* THANKS */
+
+Thanks to everyone who visits my website and supports my learning journey.
