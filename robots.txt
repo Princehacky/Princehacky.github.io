@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://princehacky.github.io/sitemap.xml
+
+Host: princehacky.github.io
