@@ -1,0 +1,1 @@
+console.log('Reviews starter loaded');
