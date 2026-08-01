@@ -1,0 +1,1 @@
+const slug=new URLSearchParams(location.search).get('game');const g=REVIEW_DATA.games.find(x=>x.slug===slug);document.getElementById('game').innerHTML=g?`<div class='card'><h1>${g.name}</h1><p>⭐ ${g.rating}</p><form><input placeholder='Nickname' required><br><textarea placeholder='Review'></textarea><br><button>Submit (Demo)</button></form></div>`:'Not found';

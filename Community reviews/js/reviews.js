@@ -1,0 +1,1 @@
+const app=document.getElementById('app');app.innerHTML=REVIEW_DATA.games.map(g=>`<div class='card'><h2>${g.name}</h2><p>⭐ ${g.rating} (${g.reviews} reviews)</p><a href='game.html?game=${g.slug}'>Open</a></div>`).join('');

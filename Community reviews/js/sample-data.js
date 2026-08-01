@@ -1,0 +1,1 @@
+window.REVIEW_DATA={games:[{slug:'cube-face-trainer',name:'Cube Face Trainer',rating:4.8,reviews:12},{slug:'punch-lab',name:'Punch Lab',rating:4.6,reviews:8},{slug:'games',name:'Games',rating:4.4,reviews:5}]};

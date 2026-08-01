@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PrinceHacky Community Reviews</title>
+
+    <link rel="stylesheet" href="css/reviews.css">
+</head>
+
+<body>
+
+    <header class="page-header">
+        <h1>🌟 PrinceHacky Community Reviews</h1>
+        <p>Browse games, read reviews, and share your feedback.</p>
+    </header>
+
+    <main>
+
+        <section id="statistics">
+            <!-- Community statistics loaded by JavaScript -->
+        </section>
+
+        <section id="featured-games">
+            <!-- Highest Rated / Most Reviewed -->
+        </section>
+
+        <section id="latest-reviews">
+            <!-- Latest approved reviews -->
+        </section>
+
+        <section>
+
+            <h2>Browse Games</h2>
+
+            <div id="app" class="games-grid">
+                <p>Loading games...</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Configuration -->
+    <script defer src="js/config.js"></script>
+
+    <!-- Supabase Client -->
+    <script defer src="js/supabase.js"></script>
+
+    <!-- API -->
+    <script defer src="js/api.js"></script>
+
+    <!-- Homepage -->
+    <script defer src="js/reviews.js"></script>
+
+</body>
+
+</html>

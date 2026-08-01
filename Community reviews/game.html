@@ -1,0 +1,112 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Game Reviews</title><link rel='stylesheet' href='css/reviews.css'></head><body><div id='game'></div><script defer src='<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Game Reviews | PrinceHacky</title>
+
+    <link rel="stylesheet" href="css/reviews.css">
+</head>
+
+<body>
+
+    <header class="page-header">
+        <a href="index.html" class="back-link">← Back to Reviews</a>
+
+        <h1 id="game-title">Loading Game...</h1>
+
+        <p id="game-description">
+            Please wait while we load the game information.
+        </p>
+    </header>
+
+    <main>
+
+        <!-- Game Statistics -->
+        <section id="game-stats">
+            <!-- Loaded by JavaScript -->
+        </section>
+
+        <!-- Rating Summary -->
+        <section id="rating-summary">
+            <!-- Loaded by JavaScript -->
+        </section>
+
+        <!-- Review Form -->
+        <section id="write-review">
+
+            <h2>Write a Review</h2>
+
+            <form id="review-form">
+
+                <label for="nickname">Nickname</label>
+                <input
+                    type="text"
+                    id="nickname"
+                    required
+                    maxlength="30">
+
+                <label for="rating">Rating</label>
+                <select id="rating" required>
+                    <option value="">Select Rating</option>
+                    <option value="5">★★★★★ (5)</option>
+                    <option value="4">★★★★☆ (4)</option>
+                    <option value="3">★★★☆☆ (3)</option>
+                    <option value="2">★★☆☆☆ (2)</option>
+                    <option value="1">★☆☆☆☆ (1)</option>
+                </select>
+
+                <label for="title">Review Title (Optional)</label>
+                <input
+                    type="text"
+                    id="title"
+                    maxlength="100">
+
+                <label for="review">Review</label>
+                <textarea
+                    id="review"
+                    rows="6"
+                    required
+                    maxlength="1000"></textarea>
+
+                <button type="submit">
+                    Submit Review
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- Reviews -->
+        <section>
+
+            <h2>Community Reviews</h2>
+
+            <div id="reviews-list">
+                <p>Loading reviews...</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Configuration -->
+    <script defer src="js/config.js"></script>
+
+    <!-- Supabase Client -->
+    <script defer src="js/supabase.js"></script>
+
+    <!-- API -->
+    <script defer src="js/api.js"></script>
+
+    <!-- Game Page -->
+    <script defer src="js/game.js"></script>
+
+</body>
+
+</html>js/sample-data.js'></script><script defer src='js/game.js'></script></body></html>
