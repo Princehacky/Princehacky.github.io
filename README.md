@@ -1,6 +1,6 @@
 <div align="center">
 
-# 👋 Welcome to Princehacky.github.io
+# 👋 [Welcome to Princehacky.github.io](https://princehacky.github.io/)
 
 <p>
   <img src="https://readme-typing-svg.demolab.com?font=Poppins&weight=600&size=24&pause=1000&color=00C8FF&center=true&vCenter=true&width=500&lines=Student+Developer;Building+Cool+Projects;Learning+Web+Development;Welcome+to+my+Website!" alt="Typing SVG">
