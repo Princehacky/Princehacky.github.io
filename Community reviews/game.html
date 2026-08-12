@@ -1,112 +1,403 @@
-<!doctype html><html><head><meta charset='utf-8'><title>Game Reviews</title><link rel='stylesheet' href='css/reviews.css'></head><body><div id='game'></div><script defer src='<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Community reviews and ratings for PrinceHacky games."
+    >
 
     <title>Game Reviews | PrinceHacky</title>
 
-    <link rel="stylesheet" href="css/reviews.css">
+    <link
+        rel="stylesheet"
+        href="css/reviews.css"
+    >
 </head>
 
 <body>
 
     <header class="page-header">
-        <a href="index.html" class="back-link">← Back to Reviews</a>
 
-        <h1 id="game-title">Loading Game...</h1>
+        <a
+            href="index.html"
+            class="back-link"
+        >
+            ← Back to Reviews
+        </a>
+
+        <h1 id="game-title">
+            Loading Game...
+        </h1>
 
         <p id="game-description">
             Please wait while we load the game information.
         </p>
+
     </header>
+
 
     <main>
 
-        <!-- Game Statistics -->
-        <section id="game-stats">
-            <!-- Loaded by JavaScript -->
+        <!-- =========================
+             GAME STATISTICS
+        ========================== -->
+
+        <section
+            id="game-stats"
+            aria-label="Game statistics"
+        >
+            <div class="card">
+                Loading statistics...
+            </div>
         </section>
 
-        <!-- Rating Summary -->
-        <section id="rating-summary">
-            <!-- Loaded by JavaScript -->
+
+        <!-- =========================
+             RATING SUMMARY
+        ========================== -->
+
+        <section
+            id="rating-summary"
+            aria-label="Community rating"
+        >
+            <div class="card">
+                Loading rating...
+            </div>
         </section>
 
-        <!-- Review Form -->
+
+        <!-- =========================
+             WRITE REVIEW
+        ========================== -->
+
         <section id="write-review">
 
-            <h2>Write a Review</h2>
+            <h2>
+                Write a Review
+            </h2>
 
-            <form id="review-form">
+            <p>
+                Share your experience with this game.
+                Your review will appear after approval.
+            </p>
 
-                <label for="nickname">Nickname</label>
-                <input
-                    type="text"
-                    id="nickname"
-                    required
-                    maxlength="30">
 
-                <label for="rating">Rating</label>
-                <select id="rating" required>
-                    <option value="">Select Rating</option>
-                    <option value="5">★★★★★ (5)</option>
-                    <option value="4">★★★★☆ (4)</option>
-                    <option value="3">★★★☆☆ (3)</option>
-                    <option value="2">★★☆☆☆ (2)</option>
-                    <option value="1">★☆☆☆☆ (1)</option>
-                </select>
+            <form
+                id="review-form"
+                novalidate
+            >
 
-                <label for="title">Review Title (Optional)</label>
-                <input
-                    type="text"
-                    id="title"
-                    maxlength="100">
+                <!-- Nickname -->
 
-                <label for="review">Review</label>
-                <textarea
-                    id="review"
-                    rows="6"
-                    required
-                    maxlength="1000"></textarea>
+                <div class="form-field">
 
-                <button type="submit">
+                    <label for="nickname">
+                        Nickname
+                        <span aria-hidden="true">
+                            *
+                        </span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nickname"
+                        maxlength="30"
+                        autocomplete="nickname"
+                        required
+                        aria-required="true"
+                        placeholder="Enter your nickname"
+                    >
+
+                    <small
+                        id="nickname-count"
+                        class="character-count"
+                    >
+                        0/30
+                    </small>
+
+                </div>
+
+
+                <!-- Rating -->
+
+                <div class="form-field">
+
+                    <label for="rating">
+                        Rating
+                        <span aria-hidden="true">
+                            *
+                        </span>
+                    </label>
+
+                    <select
+                        id="rating"
+                        required
+                        aria-required="true"
+                    >
+
+                        <option value="">
+                            Select Rating
+                        </option>
+
+                        <option value="5">
+                            ★★★★★ (5)
+                        </option>
+
+                        <option value="4">
+                            ★★★★☆ (4)
+                        </option>
+
+                        <option value="3">
+                            ★★★☆☆ (3)
+                        </option>
+
+                        <option value="2">
+                            ★★☆☆☆ (2)
+                        </option>
+
+                        <option value="1">
+                            ★☆☆☆☆ (1)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Review title -->
+
+                <div class="form-field">
+
+                    <label for="title">
+                        Review Title
+                        <span>
+                            (Optional)
+                        </span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        maxlength="100"
+                        placeholder="Give your review a title"
+                    >
+
+                    <small
+                        id="title-count"
+                        class="character-count"
+                    >
+                        0/100
+                    </small>
+
+                </div>
+
+
+                <!-- Review -->
+
+                <div class="form-field">
+
+                    <label for="review">
+                        Review
+                        <span aria-hidden="true">
+                            *
+                        </span>
+                    </label>
+
+                    <textarea
+                        id="review"
+                        rows="6"
+                        maxlength="1000"
+                        required
+                        aria-required="true"
+                        placeholder="Write your review here..."
+                    ></textarea>
+
+                    <small
+                        id="review-count"
+                        class="character-count"
+                    >
+                        0/1000
+                    </small>
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    type="submit"
+                >
                     Submit Review
                 </button>
+
+
+                <!-- Form message -->
+
+                <p
+                    id="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
 
             </form>
 
         </section>
 
-        <!-- Reviews -->
-        <section>
 
-            <h2>Community Reviews</h2>
+        <!-- =========================
+             COMMUNITY REVIEWS
+        ========================== -->
+
+        <section
+            aria-labelledby="community-reviews-title"
+        >
+
+            <h2 id="community-reviews-title">
+                Community Reviews
+            </h2>
+
 
             <div id="reviews-list">
-                <p>Loading reviews...</p>
+
+                <p>
+                    Loading approved reviews...
+                </p>
+
             </div>
 
         </section>
 
     </main>
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Configuration -->
-    <script defer src="js/config.js"></script>
+    <!-- =========================
+         SCRIPTS
+    ========================== -->
 
-    <!-- Supabase Client -->
-    <script defer src="js/supabase.js"></script>
+    <!-- Supabase library -->
 
-    <!-- API -->
-    <script defer src="js/api.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
-    <!-- Game Page -->
-    <script defer src="js/game.js"></script>
+
+    <!-- Supabase configuration -->
+
+    <script
+        src="js/config.js"
+        defer
+    ></script>
+
+
+    <!-- Supabase client -->
+
+    <script
+        src="js/supabase.js"
+        defer
+    ></script>
+
+
+    <!-- Review API -->
+
+    <script
+        src="js/api.js"
+        defer
+    ></script>
+
+
+    <!-- Game page logic -->
+
+    <script
+        src="js/game.js"
+        defer
+    ></script>
+
+
+    <!-- Character counters -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const fields = [
+                    {
+                        input: "nickname",
+                        counter: "nickname-count",
+                        max: 30
+                    },
+                    {
+                        input: "title",
+                        counter: "title-count",
+                        max: 100
+                    },
+                    {
+                        input: "review",
+                        counter: "review-count",
+                        max: 1000
+                    }
+                ];
+
+
+                fields.forEach(
+                    function (field) {
+
+                        const input =
+                            document.getElementById(
+                                field.input
+                            );
+
+                        const counter =
+                            document.getElementById(
+                                field.counter
+                            );
+
+
+                        if (
+                            !input ||
+                            !counter
+                        ) {
+                            return;
+                        }
+
+
+                        function updateCounter() {
+
+                            const length =
+                                input.value.length;
+
+
+                            counter.textContent =
+                                length +
+                                "/" +
+                                field.max;
+                        }
+
+
+                        input.addEventListener(
+                            "input",
+                            updateCounter
+                        );
+
+
+                        updateCounter();
+                    }
+                );
+
+            }
+        );
+
+    </script>
 
 </body>
 
-</html>js/sample-data.js'></script><script defer src='js/game.js'></script></body></html>
+</html>

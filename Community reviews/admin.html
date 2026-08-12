@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Review Administration | PrinceHacky</title>
+
+    <link
+        rel="stylesheet"
+        href="css/reviews.css"
+    >
+</head>
+
+<body>
+
+    <main class="reviews-container">
+
+        <a href="index.html">
+            ← Back to Reviews
+        </a>
+
+        <header class="page-header">
+            <h1>Review Administration</h1>
+            <p>Manage community reviews.</p>
+        </header>
+
+
+        <!-- =========================
+             ADMIN LOGIN
+        ========================== -->
+
+        <section id="login-section">
+
+            <h2>Admin Login</h2>
+
+            <form id="login-form">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    required
+                    autocomplete="email"
+                >
+
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    required
+                    autocomplete="current-password"
+                >
+
+
+                <button type="submit">
+                    Sign In
+                </button>
+
+
+                <p id="login-message"></p>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             ADMIN DASHBOARD
+        ========================== -->
+
+        <section
+            id="admin-section"
+            hidden
+        >
+
+            <!-- Dashboard Header -->
+
+            <header class="admin-header">
+
+                <div>
+                    <h2>Dashboard</h2>
+
+                    <p>
+                        Manage community reviews.
+                    </p>
+                </div>
+
+                <button
+                    id="logout-button"
+                    type="button"
+                >
+                    Sign Out
+                </button>
+
+            </header>
+
+
+            <!-- Statistics -->
+
+            <section>
+
+                <h2>Statistics</h2>
+
+                <div
+                    id="statistics"
+                    class="admin-statistics"
+                >
+                    <p>
+                        Loading statistics...
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- Review Tabs -->
+
+            <nav
+                class="admin-tabs"
+                aria-label="Review status"
+            >
+
+                <button
+                    type="button"
+                    class="admin-tab active"
+                    data-tab="pending"
+                >
+                    Pending
+                </button>
+
+                <button
+                    type="button"
+                    class="admin-tab"
+                    data-tab="approved"
+                >
+                    Approved
+                </button>
+
+                <button
+                    type="button"
+                    class="admin-tab"
+                    data-tab="rejected"
+                >
+                    Rejected
+                </button>
+
+            </nav>
+
+
+            <!-- Pending Reviews -->
+
+            <section
+                class="review-panel"
+                data-panel="pending"
+            >
+
+                <h2>
+                    Pending Reviews
+                </h2>
+
+                <div id="pending-reviews">
+                    Loading...
+                </div>
+
+            </section>
+
+
+            <!-- Approved Reviews -->
+
+            <section
+                class="review-panel"
+                data-panel="approved"
+                hidden
+            >
+
+                <h2>
+                    Approved Reviews
+                </h2>
+
+                <div id="approved-reviews">
+                    Loading...
+                </div>
+
+            </section>
+
+
+            <!-- Rejected Reviews -->
+
+            <section
+                class="review-panel"
+                data-panel="rejected"
+                hidden
+            >
+
+                <h2>
+                    Rejected Reviews
+                </h2>
+
+                <div id="rejected-reviews">
+                    Loading...
+                </div>
+
+            </section>
+
+
+            <!-- Refresh -->
+
+            <div class="admin-refresh">
+
+                <button
+                    id="refresh-dashboard"
+                    type="button"
+                    class="refresh-button"
+                >
+                    Refresh Reviews
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         SUPABASE
+    ========================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- Configuration -->
+
+    <script src="js/config.js"></script>
+
+
+    <!-- Supabase Client -->
+
+    <script src="js/supabase.js"></script>
+
+
+    <!-- API -->
+
+    <script src="js/api.js"></script>
+
+
+    <!-- Admin Dashboard -->
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
