@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://princehacky.github.io/sitemap.xml
-
+Sitemap: https://princehacky.github.io/princehacky.xml
 Host: princehacky.github.io
