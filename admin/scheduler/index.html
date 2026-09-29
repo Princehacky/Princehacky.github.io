@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update Scheduler | PrinceHacky</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../css/update-scheduler.css">
+</head>
+<body class="dark-mode scheduler-page">
+  <a class="skip-link" href="#scheduler-main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title">PUS | Prince U. Shah</h1>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">☰</button>
+      <nav id="main-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a class="nav-link" href="../../index.html">Home</a></li>
+          <li><a class="nav-link" href="../../Community reviews/index.html">Community Reviews</a></li>
+          <li><a class="nav-link" href="../../Community reviews/admin.html">Review Admin</a></li>
+        </ul>
+      </nav>
+      <button id="theme-toggle" class="btn btn-small" type="button" aria-label="Toggle color theme">Toggle Theme</button>
+    </div>
+  </header>
+
+  <main id="scheduler-main" class="scheduler-main">
+    <header class="scheduler-header">
+      <h1>Update Scheduler</h1>
+      <p>Schedule, publish, and manage website updates.</p>
+    </header>
+
+    <section id="login-section" class="scheduler-card" aria-labelledby="login-title">
+      <h2 id="login-title">Admin Login</h2>
+      <form id="login-form" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" required autocomplete="current-password">
+          </div>
+        </div>
+        <button class="btn" type="submit">Sign In</button>
+        <p id="login-message" class="message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="admin-section" hidden>
+      <div class="scheduler-layout">
+        <article class="scheduler-card" aria-labelledby="new-update-title">
+          <header>
+            <h2 id="new-update-title">New Update</h2>
+            <p>Create or edit scheduled updates.</p>
+            <button id="new-update-button" class="btn btn-small" type="button">New Update</button>
+          </header>
+
+          <form id="scheduler-form" novalidate>
+            <div class="form-grid">
+              <div class="form-group form-group-full">
+                <label for="update-title">Update title</label>
+                <input id="update-title" type="text" maxlength="120" required>
+                <span class="field-error" data-error-for="title" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group form-group-full">
+                <label for="short-description">Short description</label>
+                <textarea id="short-description" rows="3" required></textarea>
+                <span class="field-error" data-error-for="description" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group form-group-full">
+                <label for="full-content">Full update content</label>
+                <textarea id="full-content" rows="6" required></textarea>
+                <span class="field-error" data-error-for="content" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="update-type">Update type</label>
+                <select id="update-type" required>
+                  <option value="">Select type</option>
+                </select>
+                <span class="field-error" data-error-for="type" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="image-url">Optional image URL</label>
+                <input id="image-url" type="url" placeholder="https://">
+              </div>
+
+              <div class="form-group">
+                <label for="project-link">Optional project link</label>
+                <input id="project-link" type="url" placeholder="https://">
+              </div>
+
+              <div class="form-group">
+                <label for="button-text">Optional button text</label>
+                <input id="button-text" type="text" maxlength="40">
+                <span class="field-error" data-error-for="button-text" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="button-url">Optional button URL</label>
+                <input id="button-url" type="url" placeholder="https://">
+                <span class="field-error" data-error-for="button-url" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="scheduled-date">Scheduled date</label>
+                <input id="scheduled-date" type="date" required>
+                <span class="field-error" data-error-for="scheduled-date" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="scheduled-time">Scheduled time</label>
+                <input id="scheduled-time" type="time" required>
+                <span class="field-error" data-error-for="scheduled-time" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="timezone">Time zone</label>
+                <select id="timezone" required></select>
+              </div>
+
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" required>
+                  <option value="draft">draft</option>
+                  <option value="scheduled">scheduled</option>
+                  <option value="published">published</option>
+                  <option value="cancelled">cancelled</option>
+                  <option value="failed">failed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="expiration-date">Optional expiration date</label>
+                <input id="expiration-date" type="date">
+                <span class="field-error" data-error-for="expires-date" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="expiration-time">Optional expiration time</label>
+                <input id="expiration-time" type="time" value="00:00">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input id="publish-automatically" type="checkbox">
+                Publish automatically
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button class="btn" type="submit">Create Update</button>
+              <button id="reset-form" class="btn btn-small btn-secondary" type="button">Reset</button>
+              <button id="logout-button" class="btn btn-small btn-secondary" type="button">Sign Out</button>
+            </div>
+            <p id="form-message" class="message" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="scheduler-card" aria-labelledby="scheduled-updates-title">
+          <header class="scheduler-toolbar">
+            <div>
+              <h2 id="scheduled-updates-title">Manage Updates</h2>
+              <p id="scheduler-status-message" class="message" aria-live="polite"></p>
+            </div>
+            <div class="view-toggle" role="group" aria-label="Toggle scheduler view">
+              <button type="button" data-view="list" class="active" aria-pressed="true">List view</button>
+              <button type="button" data-view="calendar" aria-pressed="false">Calendar view</button>
+            </div>
+          </header>
+
+          <div class="filter-controls" aria-label="Search and filter updates">
+            <label for="search-updates" class="sr-only">Search updates</label>
+            <input id="search-updates" type="search" placeholder="Search updates...">
+
+            <label for="status-filter" class="sr-only">Filter by status</label>
+            <select id="status-filter">
+              <option value="all">All statuses</option>
+              <option value="scheduled">Upcoming updates</option>
+              <option value="draft">Draft updates</option>
+              <option value="published">Published updates</option>
+              <option value="cancelled">Cancelled updates</option>
+              <option value="failed">Failed updates</option>
+            </select>
+
+            <label for="type-filter" class="sr-only">Filter by update type</label>
+            <select id="type-filter">
+              <option value="all">All types</option>
+            </select>
+
+            <button id="refresh-updates" class="btn btn-small" type="button">Refresh</button>
+          </div>
+
+          <div id="status-counts" class="status-counts" aria-live="polite"></div>
+
+          <p id="updates-loading">Loading updates...</p>
+          <p id="updates-error" hidden></p>
+          <p id="updates-empty" hidden>No updates found.</p>
+
+          <div id="list-view">
+            <div id="updates-list"></div>
+          </div>
+
+          <div id="calendar-view" hidden></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../../Community%20reviews/js/config.js"></script>
+  <script src="../../Community%20reviews/js/supabase.js"></script>
+  <script src="../../script.js" defer></script>
+  <script src="../../js/update-scheduler-core.js" defer></script>
+  <script src="../../js/update-scheduler-supabase-adapter.js" defer></script>
+  <script src="../../js/update-scheduler-admin.js" defer></script>
+</body>
+</html>
