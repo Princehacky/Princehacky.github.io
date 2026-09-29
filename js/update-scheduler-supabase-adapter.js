@@ -21,17 +21,26 @@
       return Array.isArray(result.data) ? result.data : [];
     }
 
-    async createUpdate(payload) {
-      const result = await window.supabaseClient
-        .from(TABLE_NAME)
-        .insert(payload)
-        .select('*')
-        .single();
+   async createUpdate(payload) {
+  const {
+    id,
+    created_by,
+    created_at,
+    updated_at,
+    published_at,
+    cancelled_at,
+    ...insertPayload
+  } = payload;
 
-      if (result.error) throw result.error;
-      return result.data;
-    }
+  const result = await window.supabaseClient
+    .from(TABLE_NAME)
+    .insert(insertPayload)
+    .select('*')
+    .single();
 
+  if (result.error) throw result.error;
+  return result.data;
+}
     async editUpdate(id, payload) {
       const result = await window.supabaseClient
         .from(TABLE_NAME)
