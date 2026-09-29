@@ -42,16 +42,29 @@
   return result.data;
 }
     async editUpdate(id, payload) {
-      const result = await window.supabaseClient
-        .from(TABLE_NAME)
-        .update({ ...payload, updated_at: new Date().toISOString() })
-        .eq('id', id)
-        .select('*')
-        .single();
+  const {
+    id: payloadId,
+    created_by,
+    created_at,
+    updated_at,
+    published_at,
+    cancelled_at,
+    ...updatePayload
+  } = payload;
 
-      if (result.error) throw result.error;
-      return result.data;
-    }
+  const result = await window.supabaseClient
+    .from(TABLE_NAME)
+    .update({
+      ...updatePayload,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', id)
+    .select('*')
+    .single();
+
+  if (result.error) throw result.error;
+  return result.data;
+}
 
     async deleteUpdate(id) {
       const result = await window.supabaseClient
