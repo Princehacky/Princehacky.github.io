@@ -1,0 +1,43 @@
+name: Birthday Cleanup
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run birthday cleanup script
+        run: node scripts/birthday-cleanup.mjs
+
+      - name: Commit cleanup changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- birthday/config.json; then
+            echo "No cleanup changes to commit."
+            exit 0
+          fi
+          git add birthday/config.json
+          git commit -m "chore: switch birthday event to archive mode"
+
+      - name: Push cleanup commit
+        run: |
+          if git diff --cached --quiet; then
+            echo "No commit to push."
+            exit 0
+          fi
+          git push || echo "Push not permitted in this context; skipping."
