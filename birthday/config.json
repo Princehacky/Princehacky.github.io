@@ -1,0 +1,118 @@
+{
+  "birthdayConfiguration": {
+    "BIRTHDAY_DATE": "2026-10-09",
+    "BIRTHDAY_TIME": "00:00",
+    "EXPIRY_DATE": "2026-10-10",
+    "EXPIRY_TIME": "23:59",
+    "TIMEZONE": "Asia/Kolkata",
+    "AGE": 13
+  },
+  "profile": {
+    "name": "Prince U. Shah",
+    "birthdayTitle": "PrinceHacky Birthday 2026"
+  },
+  "event": {
+    "archiveBehavior": "show-archive",
+    "homepagePromoEnabledDuringEvent": true,
+    "forcePhase": "auto"
+  },
+  "content": {
+    "heroGreeting": "A special birthday celebration from my student developer journey.",
+    "personalGreeting": "Thank you for visiting my birthday page. I am now 13, still learning step by step, and still building with consistency. Your support gives me confidence to keep creating better projects.",
+    "yearInReview": [
+      {
+        "title": "Portfolio Expanded",
+        "description": "I improved my homepage and project pages to better explain what I build and what I learn.",
+        "link": "/projects.html",
+        "linkLabel": "See project portfolio"
+      },
+      {
+        "title": "Punch Lab Published",
+        "description": "I built and published Punch Lab, a reaction game made with HTML, CSS, and JavaScript.",
+        "link": "/punch-lab/",
+        "linkLabel": "Play Punch Lab"
+      },
+      {
+        "title": "Games Collection Maintained",
+        "description": "My games hub includes many browser games and keeps growing with practice projects.",
+        "link": "/games/",
+        "linkLabel": "Open Games"
+      },
+      {
+        "title": "AI Learning Notes Continued",
+        "description": "I continued documenting AI experiments and learning notes with clear student disclaimers.",
+        "link": "/research.html",
+        "linkLabel": "Read AI notes"
+      },
+      {
+        "title": "Scratch & Learning Focus",
+        "description": "Scratch remains one of my strong practice areas and supports my game-logic thinking.",
+        "link": "/projects.html",
+        "linkLabel": "View learning milestones"
+      },
+      {
+        "title": "Science & Study Resources",
+        "description": "I maintain educational pages and document resources to support science and study habits.",
+        "link": "/documents/",
+        "linkLabel": "Browse documents"
+      },
+      {
+        "title": "Minecraft Category",
+        "description": "[Editable] Add Minecraft-specific development or gameplay achievement if applicable.",
+        "link": "/projects.html",
+        "linkLabel": "Edit this item"
+      }
+    ],
+    "featuredProjects": [
+      {
+        "name": "Portfolio Projects",
+        "summary": "My main portfolio page with milestones and learning journey.",
+        "href": "/projects.html"
+      },
+      {
+        "name": "Cube Face Trainer",
+        "summary": "Pattern practice and timer-based cube training.",
+        "href": "/cube-trainer/"
+      },
+      {
+        "name": "Punch Lab",
+        "summary": "Reaction speed game built with lightweight web tech.",
+        "href": "/punch-lab/"
+      },
+      {
+        "name": "Games Hub",
+        "summary": "Collection of browser games made with HTML, CSS, and JavaScript.",
+        "href": "/games/"
+      }
+    ],
+    "whatILearned": [
+      "[Editable] Improved semantic HTML and page structure.",
+      "[Editable] Practiced responsive CSS and reusable card components.",
+      "[Editable] Improved beginner JavaScript for interactivity.",
+      "[Editable] Continued Scratch practice for logic and creativity.",
+      "[Editable] Learned to document projects clearly for visitors."
+    ],
+    "nextYearGoals": [
+      "[Editable] Build one polished mini project each month.",
+      "[Editable] Strengthen JavaScript fundamentals with cleaner functions.",
+      "[Editable] Improve accessibility checks before releases.",
+      "[Editable] Share clearer student-friendly coding notes."
+    ],
+    "approvedWishes": [
+      {
+        "name": "Visitor",
+        "message": "Happy Birthday PrinceHacky! Keep learning and building.",
+        "source": "Public"
+      },
+      {
+        "name": "Student Developer Friend",
+        "message": "Your consistency is inspiring. Keep shipping projects.",
+        "source": "Public"
+      }
+    ]
+  },
+  "cleanup": {
+    "cleanupCompleted": false,
+    "cleanupCompletedAt": null
+  }
+}

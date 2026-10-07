@@ -264,6 +264,26 @@ body:not(.dark-mode) .card h3 {
   color: #1459b6;
 }
 
+.birthday-promo-card {
+  border-color: rgba(55, 214, 122, 0.35);
+  background: linear-gradient(145deg, rgba(47, 125, 225, 0.15), rgba(55, 214, 122, 0.08));
+}
+
+.birthday-promo-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  color: #96c2ff;
+}
+
+body:not(.dark-mode) .birthday-promo-card h2 {
+  color: #1a58ad;
+}
+
+.birthday-promo-meta {
+  margin: 0.25rem 0 0.95rem;
+  color: var(--muted);
+}
+
 .card p {
   margin: 0 0 1rem;
 }

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PrinceHacky Birthday 2026 | Special Event</title>
+  <meta name="description" content="PrinceHacky Birthday 2026 event page with lifecycle-aware countdown, student developer highlights, birthday wishes, and archive mode.">
+  <meta name="robots" content="index,follow">
+  <meta name="author" content="Prince U. Shah">
+  <link rel="canonical" href="https://princehacky.github.io/birthday/">
+
+  <meta property="og:title" content="PrinceHacky Birthday 2026">
+  <meta property="og:description" content="A special birthday event experience on PrinceHacky website with countdown, highlights, wishes, and archive mode.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://princehacky.github.io/birthday/">
+  <meta property="og:image" content="https://princehacky.github.io/og-image.webp">
+  <meta property="og:site_name" content="Princehacky">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PrinceHacky Birthday 2026">
+  <meta name="twitter:description" content="Special birthday event page from PrinceHacky student developer journey.">
+  <meta name="twitter:image" content="https://princehacky.github.io/og-image.webp">
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/birthday/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "PrinceHacky Birthday 2026",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "startDate": "2026-10-09T00:00:00+05:30",
+    "endDate": "2026-10-10T23:59:00+05:30",
+    "location": {
+      "@type": "VirtualLocation",
+      "url": "https://princehacky.github.io/birthday/"
+    },
+    "organizer": {
+      "@type": "Person",
+      "name": "Prince U. Shah",
+      "url": "https://princehacky.github.io/"
+    },
+    "description": "Birthday event page with lifecycle states and archive mode.",
+    "url": "https://princehacky.github.io/birthday/"
+  }
+  </script>
+</head>
+<body class="dark-mode">
+  <a class="skip-link" href="#birthday-main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title">PrinceHacky Birthday</h1>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">☰</button>
+      <nav id="main-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a class="nav-link" href="/">Home</a></li>
+          <li><a class="nav-link" href="/projects.html">Projects</a></li>
+          <li><a class="nav-link" href="/about.html">About</a></li>
+          <li><a class="nav-link active" href="/birthday/" aria-current="page">Birthday 2026</a></li>
+          <li><a class="nav-link" href="/Community%20reviews/">Community Reviews</a></li>
+        </ul>
+      </nav>
+      <button id="theme-toggle" class="btn btn-small" type="button" aria-label="Toggle color theme">Toggle Theme</button>
+    </div>
+  </header>
+
+  <main id="birthday-main">
+    <section class="section birthday-home" aria-labelledby="birthday-hero-title">
+      <div class="container">
+        <p class="status-pill" id="birthday-status">Loading status...</p>
+        <h2 id="birthday-hero-title"><span id="birthday-page-title">PrinceHacky Birthday 2026</span></h2>
+        <p class="intro" id="birthday-greeting">Loading greeting...</p>
+
+        <div class="birthday-grid" aria-label="Birthday event details">
+          <p class="birthday-stat"><strong>Turning:</strong> <span id="birthday-age">Loading...</span></p>
+          <p class="birthday-stat"><strong>Birthday date:</strong> <span id="birthday-date">Loading...</span></p>
+          <p class="birthday-stat"><strong>Launch:</strong> <span id="launch-time-display">Loading...</span></p>
+          <p class="birthday-stat"><strong>Expiry:</strong> <span id="expiry-time-display">Loading...</span></p>
+          <p class="birthday-stat"><strong id="birthday-countdown-label">Countdown</strong><br><span id="birthday-countdown-value">Loading...</span></p>
+        </div>
+
+        <div class="hero-cta" data-live-only>
+          <a class="btn btn-primary" href="#birthday-greeting-section">Enter Birthday Experience</a>
+        </div>
+        <div class="hero-cta" data-coming-only hidden>
+          <a class="btn btn-primary" href="#birthday-setup-note">See Coming-Soon Details</a>
+        </div>
+
+        <p class="birthday-note" id="birthday-time-source" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="birthday-setup-note" data-coming-only hidden aria-labelledby="coming-soon-title">
+      <div class="container">
+        <h2 id="coming-soon-title">Coming Soon</h2>
+        <p class="section-intro">Birthday Mode is not live yet. The full celebration sections will unlock automatically at launch time.</p>
+      </div>
+    </section>
+
+    <section class="section" id="birthday-greeting-section" data-live-only hidden aria-labelledby="personal-greeting-title">
+      <div class="container">
+        <h2 id="personal-greeting-title">Birthday Greeting</h2>
+        <p id="birthday-personal-greeting">Loading message...</p>
+      </div>
+    </section>
+
+    <section class="section section-alt" data-live-only hidden aria-labelledby="year-review-title">
+      <div class="container">
+        <h2 id="year-review-title">Year in Review</h2>
+        <div class="cards" id="year-review-cards"></div>
+      </div>
+    </section>
+
+    <section class="section" data-live-only hidden aria-labelledby="birthday-projects-title">
+      <div class="container">
+        <h2 id="birthday-projects-title">Projects</h2>
+        <div class="cards" id="birthday-project-cards"></div>
+      </div>
+    </section>
+
+    <section class="section section-alt" data-live-only hidden aria-labelledby="what-learned-title">
+      <div class="container">
+        <h2 id="what-learned-title">What I Learned</h2>
+        <ul id="what-i-learned-list" class="list-card"></ul>
+      </div>
+    </section>
+
+    <section class="section" data-live-only hidden aria-labelledby="next-goals-title">
+      <div class="container">
+        <h2 id="next-goals-title">Next-Year Goals</h2>
+        <ul id="next-year-goals-list" class="list-card"></ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" data-live-only hidden aria-labelledby="surprise-title">
+      <div class="container surprise-wrap">
+        <h2 id="surprise-title">Birthday Surprise</h2>
+        <button id="birthday-surprise-btn" class="btn" type="button" aria-expanded="false" aria-controls="birthday-surprise-message">Reveal Surprise</button>
+        <p id="birthday-surprise-message" class="surprise-message" hidden>Thank you for supporting my student journey. Every message and visit gives me confidence to keep learning.</p>
+        <div id="confetti-layer" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="section" data-live-only hidden aria-labelledby="wishes-title">
+      <div class="container">
+        <h2 id="wishes-title">Birthday Wishes</h2>
+        <p class="section-intro">Leave a message. Your submission is validated and stored only on your device here unless later approved for public posting.</p>
+
+        <form id="birthday-wish-form" novalidate>
+          <div class="form-group">
+            <label for="wish-name">Name</label>
+            <input id="wish-name" name="wish-name" type="text" maxlength="50" autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label for="wish-message">Birthday wish</label>
+            <textarea id="wish-message" name="wish-message" maxlength="280" rows="5" required></textarea>
+          </div>
+          <button class="btn" type="submit">Submit Wish</button>
+          <p id="birthday-wish-feedback" class="form-feedback" aria-live="polite"></p>
+        </form>
+
+        <div class="cards wishes-grid" id="birthday-wishes-list" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section section-alt" data-archive-only hidden aria-labelledby="archive-title">
+      <div class="container">
+        <h2 id="archive-title">PrinceHacky Birthday 2026 Archive</h2>
+        <div class="archive-banner">
+          <p>The live birthday event has ended. This page is now preserved as the Birthday 2026 archive so the history stays accessible.</p>
+          <p>The temporary homepage promotion is automatically disabled after expiry.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-thanks">Thanks for celebrating this learning milestone.</p>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="/">Home</a>
+        <a href="/projects.html">Projects</a>
+        <a href="/about.html">About</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+      <p>&copy; 2026 Prince U. Shah. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/birthday-lifecycle.js" defer></script>
+  <script src="/js/birthday-page.js" defer></script>
+  <script src="/script.js" defer></script>
+</body>
+</html>
