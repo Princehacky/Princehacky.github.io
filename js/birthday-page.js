@@ -38,19 +38,7 @@
     return article;
   };
 
-  const loadLocalWishes = () => {
-    try {
-      const raw = localStorage.getItem('princehacky-birthday-wishes-2026-local');
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const saveLocalWishes = (items) => {
-    localStorage.setItem('princehacky-birthday-wishes-2026-local', JSON.stringify(items));
-  };
+  const localWishes = [];
 
   const renderWishes = (approved, local) => {
     const wrap = byId('birthday-wishes-list');
@@ -177,11 +165,11 @@
 
       const localWishes = loadLocalWishes();
       localWishes.unshift({ name, message, source: 'Local' });
-      saveLocalWishes(localWishes.slice(0, 25));
+      localWishes.splice(25);
 
-      renderWishes(approvedWishes, loadLocalWishes());
+      renderWishes(approvedWishes, localWishes);
       form.reset();
-      updateFeedback('Saved on your device. Public publishing requires manual approval and secure backend handling.');
+      updateFeedback('Wish added for this session. Public publishing requires manual approval and secure backend handling.');
     });
   };
 
@@ -234,7 +222,7 @@
       renderListSection('next-year-goals-list', Array.isArray(content.nextYearGoals) ? content.nextYearGoals : []);
 
       const approvedWishes = Array.isArray(content.approvedWishes) ? content.approvedWishes : [];
-      renderWishes(approvedWishes, loadLocalWishes());
+      renderWishes(approvedWishes, localWishes);
       wireWishesForm(approvedWishes);
 
       applyPhase(context);
