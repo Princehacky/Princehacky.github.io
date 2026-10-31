@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Punch Lab - Arcade Stress Relief</title>
     
     <!-- Fonts -->
@@ -162,6 +162,22 @@
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
         }
 
+        /* Upgrade: reduced motion, responsive challenge HUD and focus states */
+        .challenge-card{background:linear-gradient(135deg,rgba(30,64,175,.45),rgba(109,40,217,.35));border:1px solid rgba(147,197,253,.35)}
+        .challenge-hud{display:none;position:fixed;top:1rem;left:50%;transform:translateX(-50%);z-index:45;width:min(18rem,calc(100vw - 12rem));text-align:center;pointer-events:none}
+        .challenge-hud.active{display:block}
+        .challenge-time{font-variant-numeric:tabular-nums;font-size:clamp(1.5rem,4vw,2.25rem);font-weight:900;line-height:1}
+        .challenge-time.urgent{color:#fb7185;animation:timerPulse .5s ease-in-out infinite alternate}
+        @keyframes timerPulse{to{transform:scale(1.08)}}
+        .challenge-score{font-variant-numeric:tabular-nums;font-weight:900}
+        .challenge-result{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:1rem;background:rgba(2,6,23,.82);backdrop-filter:blur(10px)}
+        .challenge-result.active{display:flex}
+        .challenge-result-card{width:min(26rem,100%);padding:2rem;border:1px solid rgba(147,197,253,.35);border-radius:1.5rem;background:linear-gradient(145deg,#172554,#312e81);text-align:center;box-shadow:0 25px 80px rgba(0,0,0,.5)}
+        #target-element{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+        button,[role="button"]{-webkit-tap-highlight-color:transparent}
+        button:focus-visible,[role="button"]:focus-visible{outline:3px solid #93c5fd;outline-offset:4px}
+        @media(max-width:640px){.challenge-hud{top:auto;bottom:5.5rem;width:auto;min-width:8rem;padding:.5rem .85rem;border-radius:1rem;background:rgba(15,23,42,.9);border:1px solid rgba(255,255,255,.14)}#app{padding-top:4.5rem}#view-play{min-height:100dvh}#view-play .absolute.bottom-10{bottom:1.25rem}#target-element{width:min(58vw,16rem);height:min(58vw,16rem);font-size:clamp(6rem,25vw,10rem)}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.shake-screen{animation:none!important}}
         /* HUD layout refinements */
         #hud {
             gap: 1rem;
@@ -303,8 +319,10 @@
             </div>
 
             <div class="flex flex-col gap-4 w-full">
-                <button onclick="startGame()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.5)] transform transition hover:scale-105 active:scale-95 text-xl flex justify-center items-center gap-2">
-                    ▶️ PLAY NOW
+                <button onclick="startGame()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.5)] transform transition hover:scale-105 active:scale-95 text-xl flex justify-center items-center gap-2">▶️ PLAY NOW</button>
+                <button onclick="startChallenge()" class="challenge-card w-full py-4 px-5 rounded-2xl text-left transition hover:brightness-125 active:scale-[.98]">
+                    <span class="flex items-center justify-between gap-3"><span><strong class="block text-lg text-white">⏱️ 60-SECOND CHALLENGE</strong><span class="block text-xs text-blue-100 mt-1">Score as many points as possible before time runs out.</span></span><span class="text-3xl" aria-hidden="true">🏅</span></span>
+                    <span class="mt-3 flex justify-between text-xs text-blue-100"><span>Personal best</span><strong id="home-challenge-best">0 points</strong></span>
                 </button>
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="nav('shop')" class="glass-panel py-3 px-4 rounded-xl hover:bg-white/10 transition font-semibold flex flex-col items-center gap-1">
@@ -327,6 +345,7 @@
         <!-- VIEW: Play -->
         <main id="view-play" class="view flex-col items-center justify-center w-full h-full relative z-10">
             
+            <div id="challenge-hud" class="challenge-hud glass-panel rounded-2xl px-5 py-3" aria-live="polite" aria-atomic="true"><div class="text-[10px] uppercase tracking-[.25em] text-blue-200">60-second run</div><div id="challenge-time" class="challenge-time">60.0</div><div class="text-sm text-blue-100 mt-1">Score <span id="challenge-score" class="challenge-score text-white">0</span></div></div>
             <!-- Floating interaction layer for UI specific to game -->
             <div class="absolute top-20 text-center w-full pointer-events-none">
                 <h2 id="target-name" class="text-2xl font-bold text-gray-200 uppercase tracking-widest opacity-50">Target</h2>
@@ -454,6 +473,9 @@
         </main>
     </div>
 
+    <section id="challenge-result" class="challenge-result" role="dialog" aria-modal="true" aria-labelledby="challenge-result-title">
+        <div class="challenge-result-card"><div class="text-5xl mb-3" aria-hidden="true">🏆</div><h2 id="challenge-result-title" class="text-4xl font-comic text-yellow-300">TIME!</h2><p class="text-blue-100 mt-2">Your 60-second run is complete.</p><div class="my-6"><div class="text-xs uppercase tracking-widest text-blue-200">Final score</div><div id="challenge-final-score" class="text-5xl font-black text-white tabular-nums">0</div><div id="challenge-best-result" class="text-sm text-yellow-300 mt-2">Personal best: 0</div><div id="challenge-record-note" class="text-xs text-green-300 mt-1"></div></div><div class="flex gap-3"><button onclick="startChallenge()" class="flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold">Play again</button><button onclick="closeChallengeResult()" class="flex-1 py-3 rounded-xl glass-panel font-bold">Home</button></div></div>
+    </section>
     <!-- Toast Notifications Container -->
     <div id="toast-container" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4"></div>
 
@@ -494,6 +516,8 @@
 
     const DEFAULT_STATE = {
         coins: 0,
+        challengeBest: 0,
+        challengeRuns: [],
         level: 1,
         xp: 0,
         equippedWeapon: 'fist',
@@ -526,6 +550,8 @@
     let comboTimer = null;
     let lastHitTime = 0;
     let isInitialized = false;
+    let challenge = {active:false,endsAt:0,score:0,timer:null};
+    const CHALLENGE_DURATION = 60000;
 
     /* =========================================
        AUDIO SYSTEM (Procedural Synthesis)
@@ -783,6 +809,8 @@
        COMBAT MECHANICS
        ========================================= */
     function hitTarget(e) {
+        if(challenge.active && Date.now()>=challenge.endsAt){finishChallenge();return;}
+        if(e && e.type==="pointerdown"){if(e.pointerType==="mouse" && e.button!==0)return;if(e.cancelable)e.preventDefault();}
         // Prevent ghost clicks / double firing
         if (e && e.type === 'touchstart') e.preventDefault();
 
@@ -800,6 +828,7 @@
         updateComboUI();
 
         state.stats.totalPunches++;
+        if(challenge.active){challenge.score+=10+Math.min(combo,25);updateChallengeHUD();}
 
         // Get Weapon Data
         const wpn = GAME_DATA.weapons.find(w => w.id === state.equippedWeapon) || GAME_DATA.weapons[0];
@@ -839,6 +868,7 @@
         if (currentHealth <= 0) {
             breakTarget(tgt, cx, cy);
         }
+        if(challenge.active){challenge.score+=dmg+(isCrit?50:0);updateChallengeHUD();}
 
         checkAchievements();
     }
@@ -894,6 +924,7 @@
         state.stats.targetsBroken++;
         
         // Rewards
+        if(challenge.active){challenge.score+=250;updateChallengeHUD();}
         const coinsGained = Math.floor(tgt.baseHealth / 10 * (1 + (combo/100)));
         const xpGained = Math.floor(tgt.baseHealth / 5);
         addCoins(coinsGained);
@@ -952,6 +983,8 @@
     }
 
     function startGame() {
+        stopChallenge(false);
+        document.getElementById('challenge-result').classList.remove('active');
         AudioEngine.init(); // Must happen on click interaction
         nav('play');
         setupTargetDOM();
@@ -985,6 +1018,8 @@
 
     function updateHUD() {
         document.getElementById('hud-level').innerText = state.level;
+        const bestEl=document.getElementById('home-challenge-best');
+        if(bestEl)bestEl.textContent=`${(state.challengeBest||0).toLocaleString()} points`;
         document.getElementById('hud-coins').innerText = state.coins.toLocaleString();
         
         const xpNeeded = getXPForLevel(state.level);
@@ -1292,11 +1327,39 @@
         }, 2500);
     }
 
+    /* 60-SECOND ARCADE CHALLENGE */
+    function startChallenge(){
+        AudioEngine.init();stopChallenge(false);
+        document.getElementById('challenge-result').classList.remove('active');
+        challenge.active=true;challenge.score=0;challenge.endsAt=Date.now()+CHALLENGE_DURATION;
+        combo=0;clearTimeout(comboTimer);nav('play');setupTargetDOM();
+        document.getElementById('challenge-hud').classList.add('active');updateChallengeHUD();
+        challenge.timer=setInterval(()=>{if(!challenge.active)return;const left=Math.max(0,challenge.endsAt-Date.now());const timer=document.getElementById('challenge-time');timer.textContent=(left/1000).toFixed(1);timer.classList.toggle('urgent',left<=10000);if(left<=0)finishChallenge();},50);
+        showToast('60 seconds. Go for your high score!');
+    }
+    function updateChallengeHUD(){const el=document.getElementById('challenge-score');if(el)el.textContent=challenge.score.toLocaleString();}
+    function stopChallenge(hideHUD=true){if(challenge.timer)clearInterval(challenge.timer);challenge.timer=null;challenge.active=false;if(hideHUD)document.getElementById('challenge-hud').classList.remove('active');}
+    function finishChallenge(){
+        if(!challenge.active)return;const score=challenge.score;stopChallenge(false);
+        const record=score>(state.challengeBest||0);if(record)state.challengeBest=score;
+        state.challengeRuns=Array.isArray(state.challengeRuns)?state.challengeRuns:[];
+        state.challengeRuns.unshift({score,date:new Date().toISOString()});state.challengeRuns=state.challengeRuns.slice(0,10);
+        saveGame();document.getElementById('challenge-hud').classList.remove('active');
+        document.getElementById('challenge-final-score').textContent=score.toLocaleString();
+        document.getElementById('challenge-best-result').textContent=`Personal best: ${state.challengeBest.toLocaleString()}`;
+        document.getElementById('challenge-record-note').textContent=record?'NEW PERSONAL BEST!':'Keep going. Your best is waiting.';
+        document.getElementById('challenge-result').classList.add('active');updateHUD();AudioEngine.levelUp();
+        if(record && state.settings.particles)Particles.emit(innerWidth/2,innerHeight/2,70,'#fbbf24',1.5);
+    }
+    function closeChallengeResult(){document.getElementById('challenge-result').classList.remove('active');stopChallenge(true);nav('home');}
+    document.addEventListener('visibilitychange',()=>{if(document.hidden&&challenge.active&&Date.now()>=challenge.endsAt)finishChallenge();});
+
     // Input Handling
     const targetEl = document.getElementById('target-element');
     
     // Support mouse down and touch start
     targetEl.addEventListener('pointerdown', hitTarget);
+    targetEl.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.repeat){e.preventDefault();hitTarget();}});
     
     // Keyboard support (Space or Enter to punch)
     document.addEventListener('keydown', (e) => {
@@ -1326,6 +1389,8 @@
     // INIT
     window.onload = () => {
         loadGame();
+        state.challengeBest=Number.isFinite(Number(state.challengeBest))?Number(state.challengeBest):0;
+        state.challengeRuns=Array.isArray(state.challengeRuns)?state.challengeRuns:[];
         updateHUD();
         // Hide initial cursor
         document.getElementById('weapon-indicator').classList.add('hidden');
