@@ -36,12 +36,13 @@
         :root {
             --shake-intensity: 0px;
         }
-        body { overscroll-behavior: none; }
+        body { overscroll-behavior: none; touch-action: pan-y; }
+        #view-home { max-height: 100%; overflow-y: auto; padding-bottom: 1rem; }
         #target-element { touch-action: manipulation; -webkit-tap-highlight-color: transparent; will-change: transform; }
         #particle-canvas { contain: strict; }
         .challenge-hud-card { background: rgba(15,23,42,.9); border: 1px solid rgba(147,197,253,.28); box-shadow: 0 12px 36px rgba(0,0,0,.32); backdrop-filter: blur(14px); }
         #challenge-result { background: rgba(2,6,23,.84); backdrop-filter: blur(12px); }
-        #view-play.challenge-mode #target-name { top: 5.25rem; }
+        #view-play.challenge-mode #target-name { top: 8rem; }
         .record-number { font-variant-numeric: tabular-nums; }
         @media (prefers-reduced-motion: reduce) {
             .animated-bg, .target-idle, .anim-squash, .anim-break, .shake-screen { animation: none !important; }
@@ -52,7 +53,7 @@
             background-color: theme('colors.darkBg');
             color: white;
             overflow: hidden;
-            touch-action: none; /* Prevent pull-to-refresh on mobile */
+            touch-action: pan-y; /* Keep page controls scrollable on touch screens */
             user-select: none;
             -webkit-user-select: none;
         }
@@ -1325,14 +1326,10 @@
     const targetEl = document.getElementById('target-element');
     
     // Support mouse down and touch start
-    targetEl.addEventListener('pointerdown',(e)=>{
-        if(e.isPrimary===false||(e.pointerType==='mouse'&&e.button!==0))return;
-        hitTarget(e);
-    },{passive:false});
+    targetEl.addEventListener('pointerdown', hitTarget, { passive: false });
     
     // Keyboard support (Space or Enter to punch)
     document.addEventListener('keydown', (e) => {
-        if(e.repeat)return;
         if (document.getElementById('view-play').classList.contains('active')) {
             if (e.code === 'Space' || e.code === 'Enter') {
                 e.preventDefault();
