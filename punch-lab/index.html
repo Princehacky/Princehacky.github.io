@@ -36,12 +36,27 @@
         :root {
             --shake-intensity: 0px;
         }
+        body { overscroll-behavior: none; touch-action: pan-y; }
+        #view-home { max-height: 100%; overflow-y: auto; padding-bottom: 1rem; }
+        #target-element { touch-action: manipulation; -webkit-tap-highlight-color: transparent; will-change: transform; }
+        /* Keep the real mouse pointer visible and make the equipped weapon cursor easy to track. */
+        #weapon-indicator { position: fixed; z-index: 999; width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(96,165,250,.95); border-radius: 50%; background: rgba(15,23,42,.9); box-shadow: 0 0 0 3px rgba(59,130,246,.3), 0 8px 22px rgba(0,0,0,.55); opacity: 1; font-size: 2.5rem; line-height: 1; filter: drop-shadow(0 2px 2px #000); }
+        @media (pointer: coarse) { #weapon-indicator { display: none !important; } }
+        #particle-canvas { contain: strict; }
+        .challenge-hud-card { background: rgba(15,23,42,.9); border: 1px solid rgba(147,197,253,.28); box-shadow: 0 12px 36px rgba(0,0,0,.32); backdrop-filter: blur(14px); }
+        #challenge-result { background: rgba(2,6,23,.84); backdrop-filter: blur(12px); }
+        #view-play.challenge-mode #target-name { top: 8rem; }
+        .record-number { font-variant-numeric: tabular-nums; }
+        @media (prefers-reduced-motion: reduce) {
+            .animated-bg, .target-idle, .anim-squash, .anim-break, .shake-screen { animation: none !important; }
+            .view, .progress-bar-fill, * { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
 
         body {
             background-color: theme('colors.darkBg');
             color: white;
             overflow: hidden;
-            touch-action: none; /* Prevent pull-to-refresh on mobile */
+            touch-action: pan-y; /* Keep page controls scrollable on touch screens */
             user-select: none;
             -webkit-user-select: none;
         }
@@ -319,11 +334,17 @@
             </div>
 
             <div class="flex flex-col gap-4 w-full">
-                <button onclick="startGame()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.5)] transform transition hover:scale-105 active:scale-95 text-xl flex justify-center items-center gap-2">▶️ PLAY NOW</button>
-                <button onclick="startChallenge()" class="challenge-card w-full py-4 px-5 rounded-2xl text-left transition hover:brightness-125 active:scale-[.98]">
-                    <span class="flex items-center justify-between gap-3"><span><strong class="block text-lg text-white">⏱️ 60-SECOND CHALLENGE</strong><span class="block text-xs text-blue-100 mt-1">Score as many points as possible before time runs out.</span></span><span class="text-3xl" aria-hidden="true">🏅</span></span>
-                    <span class="mt-3 flex justify-between text-xs text-blue-100"><span>Personal best</span><strong id="home-challenge-best">0 points</strong></span>
+                <button onclick="startGame()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-8 rounded-2xl shadow-[0_0_20px_rgba(59,130,246,0.5)] transform transition hover:scale-105 active:scale-95 text-xl flex justify-center items-center gap-2">
+                    ▶️ PLAY NOW
                 </button>
+                <button onclick="startChallenge()" class="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-bold py-4 px-8 rounded-2xl shadow-[0_0_22px_rgba(168,85,247,0.38)] transform transition hover:scale-105 active:scale-95 text-lg flex justify-center items-center gap-2">
+                    ⏱️ 60-SECOND CHALLENGE
+                </button>
+                <div class="glass-panel rounded-xl p-3 grid grid-cols-3 gap-2 text-center text-xs">
+                    <div><div class="text-gray-400">PERSONAL BEST</div><strong id="home-best-score" class="record-number text-yellow-300 text-lg">0</strong></div>
+                    <div><div class="text-gray-400">CHALLENGES</div><strong id="home-challenge-runs" class="record-number text-blue-300 text-lg">0</strong></div>
+                    <div><div class="text-gray-400">TOTAL PUNCHES</div><strong id="home-total-punches" class="record-number text-green-300 text-lg">0</strong></div>
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="nav('shop')" class="glass-panel py-3 px-4 rounded-xl hover:bg-white/10 transition font-semibold flex flex-col items-center gap-1">
                         <span class="text-2xl">🛒</span> Shop
@@ -344,6 +365,23 @@
 
         <!-- VIEW: Play -->
         <main id="view-play" class="view flex-col items-center justify-center w-full h-full relative z-10">
+            <div id="challenge-hud" class="hidden absolute top-20 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-4 py-2 rounded-2xl challenge-hud-card pointer-events-none" aria-live="polite">
+                <div class="text-center"><div class="text-[10px] tracking-widest text-gray-400">TIME</div><strong id="challenge-time" class="record-number text-2xl text-white">60s</strong></div><div class="h-9 w-px bg-white/20"></div>
+                <div class="text-center"><div class="text-[10px] tracking-widest text-gray-400">SCORE</div><strong id="challenge-score" class="record-number text-xl text-yellow-300">0</strong></div><div class="h-9 w-px bg-white/20"></div>
+                <div class="text-center"><div class="text-[10px] tracking-widest text-gray-400">BEST</div><strong id="challenge-best" class="record-number text-xl text-blue-300">0</strong></div>
+            </div>
+            <div id="challenge-result" class="hidden absolute inset-0 z-40 flex items-center justify-center p-5">
+                <section class="glass-panel w-full max-w-sm rounded-3xl p-6 text-center shadow-2xl">
+                    <div class="text-5xl mb-2">🏁</div><h2 class="text-3xl font-bold text-white">TIME'S UP!</h2>
+                    <p id="challenge-record-label" class="text-yellow-300 font-bold text-sm mt-2">CHALLENGE COMPLETE</p>
+                    <div class="my-5 rounded-2xl bg-black/30 p-4"><div class="text-xs tracking-widest text-gray-400">YOUR SCORE</div><div id="challenge-final-score" class="record-number text-5xl font-extrabold text-yellow-300">0</div><div class="text-xs text-gray-400 mt-1">Personal best: <strong id="challenge-final-best" class="text-white">0</strong></div></div>
+                    <div class="grid grid-cols-2 gap-3 text-sm mb-5">
+                        <div class="rounded-xl bg-white/5 p-3"><div class="text-gray-400 text-xs">TARGETS BROKEN</div><strong id="challenge-final-targets" class="text-xl text-white">0</strong></div>
+                        <div class="rounded-xl bg-white/5 p-3"><div class="text-gray-400 text-xs">BEST COMBO</div><strong id="challenge-final-combo" class="text-xl text-white">0x</strong></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3"><button onclick="startChallenge()" class="rounded-xl bg-purple-600 hover:bg-purple-500 px-4 py-3 font-bold text-white">PLAY AGAIN</button><button onclick="nav('home')" class="rounded-xl bg-white/10 hover:bg-white/20 px-4 py-3 font-bold text-white">HOME</button></div>
+                </section>
+            </div>
             
             <div id="challenge-hud" class="challenge-hud glass-panel rounded-2xl px-5 py-3" aria-live="polite" aria-atomic="true"><div class="text-[10px] uppercase tracking-[.25em] text-blue-200">60-second run</div><div id="challenge-time" class="challenge-time">60.0</div><div class="text-sm text-blue-100 mt-1">Score <span id="challenge-score" class="challenge-score text-white">0</span></div></div>
             <!-- Floating interaction layer for UI specific to game -->
@@ -468,7 +506,7 @@
             </div>
             
             <div class="mt-8 text-center text-xs text-gray-500 pb-8">
-                Punch Lab v1.0 • No User Data Collected
+                Punch Lab v2.0 • Local Progress Only
             </div>
         </main>
     </div>
@@ -530,7 +568,13 @@
             targetsBroken: 0,
             maxCombo: 0,
             criticalHits: 0,
-            totalCoins: 0
+            totalCoins: 0,
+            totalScore: 0,
+            bestChallengeScore: 0,
+            totalChallengeRuns: 0,
+            totalChallengeTargets: 0,
+            bestChallengeCombo: 0,
+            bestChallengeTargets: 0
         },
         settings: {
             sfx: true,
@@ -552,6 +596,9 @@
     let isInitialized = false;
     let challenge = {active:false,endsAt:0,score:0,timer:null};
     const CHALLENGE_DURATION = 60000;
+    let gameMode = "classic", challengeActive = false, challengeTimerId = null;
+    let challengeEndsAt = 0, challengeScore = 0, challengeTargets = 0, challengeMaxCombo = 0;
+    let gameSession = 0;
 
     /* =========================================
        AUDIO SYSTEM (Procedural Synthesis)
@@ -592,12 +639,12 @@
             osc.stop(ctx.currentTime + duration);
         };
 
-        const playNoise = (duration, vol, highpass = 1000) => {
-            if (!state.settings.sfx || !ctx) return;
-            const bufferSize = ctx.sampleRate * duration;
-            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        const noiseBuffers=new Map();
+        const playNoise=(duration,vol,highpass=1000)=>{
+            if(!state.settings.sfx||!ctx)return;
+            const key=Math.round(duration*1000)+":"+highpass;
+            let buffer=noiseBuffers.get(key);
+            if(!buffer){const size=Math.ceil(ctx.sampleRate*duration);buffer=ctx.createBuffer(1,size,ctx.sampleRate);const data=buffer.getChannelData(0);for(let i=0;i<size;i++)data[i]=Math.random()*2-1;noiseBuffers.set(key,buffer);}
             
             const noise = ctx.createBufferSource();
             noise.buffer = buffer;
@@ -634,109 +681,43 @@
     })();
 
     /* =========================================
-       PARTICLE SYSTEM (Canvas Based)
+       PARTICLE SYSTEM (Pooled Canvas Renderer)
        ========================================= */
     const Particles = (() => {
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let width, height;
-        let isRunning = false;
-
-        const resize = () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
+        const canvas=document.getElementById('particle-canvas'),ctx=canvas.getContext('2d',{alpha:true,desynchronized:true});
+        const particles=[],pool=[];let width=0,height=0,dpr=1,rafId=0,lastFrame=0;
+        const resize=()=>{width=innerWidth;height=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);};
+        addEventListener('resize',resize,{passive:true});resize();
+        const recycle=(i)=>{const last=particles.length-1;pool.push(particles[i]);if(i!==last)particles[i]=particles[last];particles.pop();};
+        const loop=(now)=>{
+            rafId=0;
+            if(!state.settings.particles){ctx.clearRect(0,0,width,height);while(particles.length)pool.push(particles.pop());return;}
+            const dt=lastFrame?Math.min((now-lastFrame)/16.667,2.5):1;lastFrame=now;ctx.clearRect(0,0,width,height);
+            for(let i=particles.length-1;i>=0;i--){
+                const p=particles[i];p.vx*=Math.pow(p.friction,dt);p.vy=p.vy*Math.pow(p.friction,dt)+p.gravity*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=p.decay*dt;
+                if(p.life<=0){recycle(i);continue;}
+                ctx.globalAlpha=p.life;ctx.fillStyle=p.color;
+                if(p.shape===0){ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}else ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+            }
+            ctx.globalAlpha=1;if(particles.length)rafId=requestAnimationFrame(loop);else lastFrame=0;
         };
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor(x, y, color, speedScale = 1) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-                this.size = Math.random() * 8 + 4;
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = (Math.random() * 10 + 5) * speedScale;
-                this.vx = Math.cos(angle) * velocity;
-                this.vy = Math.sin(angle) * velocity;
-                this.gravity = 0.5;
-                this.friction = 0.96;
-                this.life = 1;
-                this.decay = Math.random() * 0.02 + 0.01;
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 20;
-                this.shape = Math.random() > 0.5 ? 'circle' : 'square';
-            }
-
-            update() {
-                this.vx *= this.friction;
-                this.vy *= this.friction;
-                this.vy += this.gravity;
-                this.x += this.vx;
-                this.y += this.vy;
-                this.rotation += this.rotationSpeed;
-                this.life -= this.decay;
-            }
-
-            draw(ctx) {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation * Math.PI / 180);
-                ctx.globalAlpha = Math.max(0, this.life);
-                ctx.fillStyle = this.color;
-
-                if (this.shape === 'circle') {
-                    ctx.beginPath();
-                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                } else {
-                    ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
-                }
-                ctx.restore();
-            }
-        }
-
-        const loop = () => {
-            if (!state.settings.particles || (particles.length === 0 && !isRunning)) return;
-            ctx.clearRect(0, 0, width, height);
-            
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.update();
-                p.draw(ctx);
-                if (p.life <= 0) particles.splice(i, 1);
-            }
-            
-            if (particles.length > 0) {
-                requestAnimationFrame(loop);
-            } else {
-                isRunning = false; // Pause loop when empty
-            }
+        const emit=(x,y,count,color,speedScale=1)=>{
+            if(!state.settings.particles||!Number.isFinite(x)||!Number.isFinite(y))return;
+            for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,v=(Math.random()*10+5)*speedScale,p=pool.pop()||{};
+                p.x=x;p.y=y;p.color=color||'#fff';p.size=Math.random()*8+4;p.vx=Math.cos(a)*v;p.vy=Math.sin(a)*v;
+                p.gravity=.5;p.friction=.96;p.life=1;p.decay=Math.random()*.02+.01;p.shape=Math.random()>.5?0:1;particles.push(p);}
+            if(!rafId)rafId=requestAnimationFrame(loop);
         };
-
-        const emit = (x, y, count, color, speedScale = 1) => {
-            if (!state.settings.particles) return;
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle(x, y, color, speedScale));
-            }
-            if (!isRunning) {
-                isRunning = true;
-                requestAnimationFrame(loop);
-            }
-        };
-
-        return { emit };
+        const clear=()=>{while(particles.length)pool.push(particles.pop());ctx.clearRect(0,0,width,height);if(rafId)cancelAnimationFrame(rafId);rafId=0;lastFrame=0;};
+        return {emit,clear};
     })();
 
     /* =========================================
        CORE GAME LOGIC & STORAGE
        ========================================= */
     function saveGame() {
-        localStorage.setItem('punchLabSave', JSON.stringify(state));
+        try { localStorage.setItem('punchLabSave', JSON.stringify(state)); }
+        catch (error) { console.warn("Punch Lab could not save progress.",error); showToast("Save storage is full or unavailable.",true); }
     }
 
     function loadGame() {
@@ -767,14 +748,9 @@
 
     function addXP(amount) {
         state.xp += amount;
-        const xpNeeded = getXPForLevel(state.level);
-        if (state.xp >= xpNeeded) {
-            state.xp -= xpNeeded;
-            state.level++;
-            AudioEngine.levelUp();
-            showToast(`LEVEL UP! You are now level ${state.level} 🌟`);
-            Particles.emit(window.innerWidth/2, window.innerHeight/2, 100, '#fbbf24', 2);
-        }
+        let xpNeeded = getXPForLevel(state.level), leveledUp = false;
+        while (state.xp >= xpNeeded) { state.xp -= xpNeeded; state.level++; leveledUp = true; xpNeeded = getXPForLevel(state.level); }
+        if (leveledUp) { AudioEngine.levelUp(); showToast("LEVEL UP! You are now level " + state.level + " 🌟"); Particles.emit(window.innerWidth/2, window.innerHeight/2, 100, '#fbbf24', 2); }
         updateHUD();
         saveGame();
     }
@@ -810,10 +786,14 @@
        ========================================= */
     function hitTarget(e) {
         if(challenge.active && Date.now()>=challenge.endsAt){finishChallenge();return;}
-        if(e && e.type==="pointerdown"){if(e.pointerType==="mouse" && e.button!==0)return;if(e.cancelable)e.preventDefault();}
-        // Prevent ghost clicks / double firing
-        if (e && e.type === 'touchstart') e.preventDefault();
-
+        if (gameMode === "challenge" && !challengeActive && !challenge.active) return;
+        if(challenge.active && Date.now()>=challenge.endsAt){finishChallenge();return;}
+        if (!document.getElementById('view-play').classList.contains('active')) return;
+        if(e && e.type==="pointerdown"){
+            if(e.pointerType==="mouse" && e.button!==0)return;
+            if(e.cancelable)e.preventDefault();
+        }
+        if (e && e.type === 'touchstart' && e.cancelable) e.preventDefault();
         AudioEngine.init();
         const now = Date.now();
         
@@ -862,6 +842,9 @@
         }
 
         playHitVisuals(cx, cy, dmg, isCrit, tgt.color);
+        const hitScore=Math.max(1,Math.round(dmg*(1+Math.min(combo,50)*.04))+(isCrit?30:0));
+        state.stats.totalScore=(state.stats.totalScore||0)+hitScore;
+        if(gameMode==="challenge"&&challengeActive){challengeScore+=hitScore;challengeMaxCombo=Math.max(challengeMaxCombo,combo);updateChallengeHUD();}
         updateHealthUI();
 
         // Break Target
@@ -874,18 +857,16 @@
     }
 
     function playHitVisuals(x, y, dmg, isCrit, particleColor) {
-        // Squash animation
-        const el = document.getElementById('target-element');
-        el.classList.remove('anim-squash');
-        void el.offsetWidth; // trigger reflow
-        el.classList.add('anim-squash');
+        const el=document.getElementById('target-element');
+        if(el.animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+            el.animate([{transform:'scale(1)'},{transform:'scale(1.22,.82)'},{transform:'scale(.94,1.08)'},{transform:'scale(1)'}],{duration:190,easing:'cubic-bezier(.2,.8,.2,1)'});
+        }else{el.classList.remove('anim-squash');el.classList.add('anim-squash');}
 
         // Screen Shake
         if (state.settings.shake) {
-            const body = document.body;
-            body.classList.remove('shake-screen');
-            void body.offsetWidth;
-            body.classList.add('shake-screen');
+            const app=document.getElementById('app');
+            if(app.animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches)
+                app.animate([{transform:'translate3d(0,0,0)'},{transform:'translate3d(-3px,1px,0)'},{transform:'translate3d(3px,-1px,0)'},{transform:'translate3d(0,0,0)'}],{duration:120});
         }
 
         // Particles
@@ -922,6 +903,7 @@
     function breakTarget(tgt, x, y) {
         AudioEngine.break();
         state.stats.targetsBroken++;
+        if(gameMode==="challenge"&&challengeActive){const breakScore=100+Math.round(tgt.baseHealth/2)+combo*10;challengeScore+=breakScore;challengeTargets++;state.stats.totalScore=(state.stats.totalScore||0)+breakScore;challengeMaxCombo=Math.max(challengeMaxCombo,combo);updateChallengeHUD();}
         
         // Rewards
         if(challenge.active){challenge.score+=250;updateChallengeHUD();}
@@ -945,11 +927,11 @@
         const el = document.getElementById('target-element');
         el.classList.add('anim-break');
         
-        // Reset immediately logic
+        const sessionAtBreak=gameSession;
         setTimeout(() => {
-            el.classList.remove('anim-break');
-            spawnTarget();
-        }, 500); // Wait for shatter anim to finish
+            if(sessionAtBreak!==gameSession||!document.getElementById('view-play').classList.contains('active')||(gameMode==="challenge"&&!challengeActive))return;
+            el.classList.remove('anim-break');spawnTarget();setupTargetDOM();
+        },500);
     }
 
     function spawnTarget() {
@@ -967,12 +949,15 @@
        ========================================= */
     function nav(viewId) {
         AudioEngine.click();
+        if(viewId!=='play'&&challengeActive)finishChallenge();
+        if(viewId!=='play')gameSession++;
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById(`view-${viewId}`).classList.add('active');
         
         const hud = document.getElementById('hud');
         if (viewId === 'home') {
             hud.classList.add('hidden');
+            updateHomeStats();
         } else {
             hud.classList.remove('hidden');
             if (viewId === 'play') spawnTarget();
@@ -1006,7 +991,7 @@
         // Setup weapon cursor
         const wpn = GAME_DATA.weapons.find(w => w.id === state.equippedWeapon);
         if(wpn && state.equippedWeapon !== 'fist') {
-            document.body.style.cursor = 'none'; // hide default on canvas area
+            document.body.style.cursor = 'crosshair'; // Keep a visible mouse pointer while playing
             const indicator = document.getElementById('weapon-indicator');
             indicator.innerText = wpn.icon;
             indicator.classList.remove('hidden');
@@ -1016,6 +1001,55 @@
         }
     }
 
+    function updateHomeStats(){
+        const a=document.getElementById('home-best-score'),b=document.getElementById('home-challenge-runs'),c=document.getElementById('home-total-punches');
+        if(a)a.innerText=(state.stats.bestChallengeScore||0).toLocaleString();
+        if(b)b.innerText=(state.stats.totalChallengeRuns||0).toLocaleString();
+        if(c)c.innerText=(state.stats.totalPunches||0).toLocaleString();
+    }
+    function updateChallengeHUD(){
+        const left=Math.max(0,Math.ceil((challengeEndsAt-Date.now())/1000)),t=document.getElementById('challenge-time');
+        if(t){t.innerText=left+"s";t.classList.toggle('text-red-400',left<=10);t.classList.toggle('text-white',left>10);}
+        document.getElementById('challenge-score').innerText=challengeScore.toLocaleString();
+        document.getElementById('challenge-best').innerText=(state.stats.bestChallengeScore||0).toLocaleString();
+        if(challengeActive&&left<=0)finishChallenge();
+    }
+    function stopChallengeClock(){if(challengeTimerId)clearInterval(challengeTimerId);challengeTimerId=null;}
+    function finishChallenge(){
+        if(!challengeActive)return;
+        challengeActive=false;stopChallengeClock();
+        const old=state.stats.bestChallengeScore||0,newRecord=challengeScore>old;
+        state.stats.totalChallengeRuns=(state.stats.totalChallengeRuns||0)+1;
+        state.stats.totalChallengeTargets=(state.stats.totalChallengeTargets||0)+challengeTargets;
+        state.stats.bestChallengeScore=Math.max(old,challengeScore);
+        state.stats.bestChallengeCombo=Math.max(state.stats.bestChallengeCombo||0,challengeMaxCombo);
+        state.stats.bestChallengeTargets=Math.max(state.stats.bestChallengeTargets||0,challengeTargets);
+        document.getElementById('challenge-time').innerText="0s";
+        document.getElementById('challenge-final-score').innerText=challengeScore.toLocaleString();
+        document.getElementById('challenge-final-best').innerText=state.stats.bestChallengeScore.toLocaleString();
+        document.getElementById('challenge-final-targets').innerText=challengeTargets.toLocaleString();
+        document.getElementById('challenge-final-combo').innerText=challengeMaxCombo+"x";
+        document.getElementById('challenge-record-label').innerText=newRecord?"🏆 NEW PERSONAL BEST!":"CHALLENGE COMPLETE";
+        document.getElementById('challenge-result').classList.remove('hidden');
+        document.getElementById('target-element').classList.remove('target-idle');
+        if(newRecord)AudioEngine.levelUp();saveGame();updateHomeStats();
+    }
+    function startChallenge(){
+        AudioEngine.init();stopChallengeClock();gameSession++;
+        gameMode="challenge";challengeActive=true;challengeScore=0;challengeTargets=0;challengeMaxCombo=0;combo=0;lastHitTime=0;
+        challengeEndsAt=Date.now()+60000;
+        document.getElementById('challenge-result').classList.add('hidden');
+        document.getElementById('challenge-hud').classList.remove('hidden');
+        document.getElementById('view-play').classList.add('challenge-mode');
+        nav('play');setupTargetDOM();updateChallengeHUD();challengeTimerId=setInterval(updateChallengeHUD,100);
+    }
+    function startGame(){
+        AudioEngine.init();stopChallengeClock();gameSession++;gameMode="classic";challengeActive=false;
+        document.getElementById('challenge-hud').classList.add('hidden');
+        document.getElementById('challenge-result').classList.add('hidden');
+        document.getElementById('view-play').classList.remove('challenge-mode');
+        nav('play');setupTargetDOM();
+    }
     function updateHUD() {
         document.getElementById('hud-level').innerText = state.level;
         const bestEl=document.getElementById('home-challenge-best');
@@ -1298,6 +1332,7 @@
             el.addEventListener('change', (e) => {
                 AudioEngine.click();
                 state.settings[key] = e.target.checked;
+                if(key==='particles'&&!state.settings.particles)Particles.clear();
                 saveGame();
             });
         }
@@ -1358,7 +1393,7 @@
     const targetEl = document.getElementById('target-element');
     
     // Support mouse down and touch start
-    targetEl.addEventListener('pointerdown', hitTarget);
+    targetEl.addEventListener('pointerdown', hitTarget, { passive: false });
     targetEl.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.repeat){e.preventDefault();hitTarget();}});
     
     // Keyboard support (Space or Enter to punch)
@@ -1392,6 +1427,7 @@
         state.challengeBest=Number.isFinite(Number(state.challengeBest))?Number(state.challengeBest):0;
         state.challengeRuns=Array.isArray(state.challengeRuns)?state.challengeRuns:[];
         updateHUD();
+        updateHomeStats();
         // Hide initial cursor
         document.getElementById('weapon-indicator').classList.add('hidden');
     };
