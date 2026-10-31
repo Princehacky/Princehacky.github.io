@@ -39,6 +39,9 @@
         body { overscroll-behavior: none; touch-action: pan-y; }
         #view-home { max-height: 100%; overflow-y: auto; padding-bottom: 1rem; }
         #target-element { touch-action: manipulation; -webkit-tap-highlight-color: transparent; will-change: transform; }
+        /* Keep the real mouse pointer visible and make the equipped weapon cursor easy to track. */
+        #weapon-indicator { position: fixed; z-index: 999; width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(96,165,250,.95); border-radius: 50%; background: rgba(15,23,42,.9); box-shadow: 0 0 0 3px rgba(59,130,246,.3), 0 8px 22px rgba(0,0,0,.55); opacity: 1; font-size: 2.5rem; line-height: 1; filter: drop-shadow(0 2px 2px #000); }
+        @media (pointer: coarse) { #weapon-indicator { display: none !important; } }
         #particle-canvas { contain: strict; }
         .challenge-hud-card { background: rgba(15,23,42,.9); border: 1px solid rgba(147,197,253,.28); box-shadow: 0 12px 36px rgba(0,0,0,.32); backdrop-filter: blur(14px); }
         #challenge-result { background: rgba(2,6,23,.84); backdrop-filter: blur(12px); }
@@ -953,7 +956,7 @@
         // Setup weapon cursor
         const wpn = GAME_DATA.weapons.find(w => w.id === state.equippedWeapon);
         if(wpn && state.equippedWeapon !== 'fist') {
-            document.body.style.cursor = 'none'; // hide default on canvas area
+            document.body.style.cursor = 'crosshair'; // Keep a visible mouse pointer while playing
             const indicator = document.getElementById('weapon-indicator');
             indicator.innerText = wpn.icon;
             indicator.classList.remove('hidden');
