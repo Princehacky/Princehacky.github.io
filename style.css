@@ -264,26 +264,6 @@ body:not(.dark-mode) .card h3 {
   color: #1459b6;
 }
 
-.birthday-promo-card {
-  border-color: rgba(55, 214, 122, 0.35);
-  background: linear-gradient(145deg, rgba(47, 125, 225, 0.15), rgba(55, 214, 122, 0.08));
-}
-
-.birthday-promo-card h2 {
-  margin-top: 0;
-  margin-bottom: 0.6rem;
-  color: #96c2ff;
-}
-
-body:not(.dark-mode) .birthday-promo-card h2 {
-  color: #1a58ad;
-}
-
-.birthday-promo-meta {
-  margin: 0.25rem 0 0.95rem;
-  color: var(--muted);
-}
-
 .card p {
   margin: 0 0 1rem;
 }
@@ -549,4 +529,66 @@ body:not(.dark-mode) .site-footer a {
     opacity: 1;
     transform: none;
   }
+}
+
+
+/* Small developer terminal */
+#prince-terminal { margin-top: 1.5rem; }
+.terminal { max-width: 760px; margin: 0 auto; background: #0b0f14; border: 1px solid var(--border); border-radius: .7rem; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,.18); }
+.terminal-bar { padding: .55rem .8rem; border-bottom: 1px solid #27303b; color: #9aa8b8; font-size: .82rem; }
+.terminal-output { min-height: 120px; max-height: 250px; overflow: auto; padding: .9rem; font: 500 .9rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; color: #d7e4ef; }
+.terminal-line { margin: 0 0 .35rem; white-space: pre-wrap; }
+.terminal-command { color: #8bd36f; }
+.terminal-input-row { display: flex; gap: .5rem; padding: .75rem .9rem; border-top: 1px solid #27303b; }
+.terminal-prompt { color: #8bd36f; font: 500 .9rem ui-monospace, SFMono-Regular, Consolas, monospace; padding-top: .65rem; }
+#terminal-input { flex: 1; min-width: 0; margin: 0; border: 0; border-radius: .35rem; background: #121922; color: #f2f7fb; font: 500 .9rem ui-monospace, SFMono-Regular, Consolas, monospace; }
+#terminal-input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.terminal-help { color: #9aa8b8; }
+.project-controls { max-width: 760px; margin: 0 auto 1.25rem; }
+.project-controls label { display: block; font-weight: 600; margin-bottom: .35rem; }
+#project-search { margin-bottom: .7rem; }
+.project-filters { display: flex; flex-wrap: wrap; gap: .45rem; }
+.active-filter { box-shadow: 0 0 0 2px var(--focus); }
+.project-card-hidden { display: none !important; }
+@media (max-width: 600px) { .terminal-output { font-size: .82rem; } .terminal-prompt { display: none; } .project-filters .btn { flex: 1 1 8rem; } }
+@media (prefers-reduced-motion: reduce) { .terminal { box-shadow: none; } }
+
+
+/* Project learning notes */
+.project-type {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  padding: 0.18rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.learning-note {
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--border);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.learning-note strong {
+  color: var(--text);
+}
+.project-type-summary .card,
+.build-steps .card {
+  position: relative;
+}
+.step-number {
+  display: inline-flex;
+  width: 1.7rem;
+  height: 1.7rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--primary);
+  font-weight: 700;
 }

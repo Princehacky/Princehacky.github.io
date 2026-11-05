@@ -11,7 +11,7 @@
     content="Official portfolio of Prince U. Shah, a student developer from India building websites, games, AI projects, coding tools, and educational resources."
   >
 
-  <meta name="robots" content="index,follow">
+  <meta name="robots" content="index,follow, max-image-preview:large">
   <meta name="author" content="Prince U. Shah">
 
   <!-- Open Graph -->
@@ -40,7 +40,7 @@
   >
   <meta
     name="twitter:image"
-    content="https://princehacky.github.io/og-image.png"
+    content="https://princehacky.github.io/og-image.webp"
   >
 
   <!-- Canonical -->
@@ -113,26 +113,13 @@
     <section id="home" class="section home" aria-labelledby="home-title">
       <div class="container">
         <h2 id="home-title">Welcome to My Student Developer Portfolio</h2>
-        <p class="intro">Hi, I am Prince from India. I am 12 years old and in Class 7. This website is my learning space where I share what I build and what I want to improve next. I am not a company and not an expert yet. I am a student practicing coding.</p>
+        <p class="intro">Hi, I am Prince from India. I am a Class 7 student. This website is my learning space where I share what I build and what I want to improve next. I am not a company and not an expert yet. I am a student practicing coding.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#projects">Explore My Work</a>
         </div>
       </div>
     </section>
 
-    <section id="birthday-home-promo" class="section section-alt" aria-labelledby="birthday-promo-title" hidden>
-      <div class="container">
-        <article class="card birthday-promo-card reveal-on-scroll">
-          <p class="eyebrow">🎉 Limited Event</p>
-          <h2 id="birthday-promo-title">PrinceHacky Birthday 2026</h2>
-          <p>Birthday Mode is live for a short time. Visit the event page for greeting, highlights, surprise, and birthday wishes.</p>
-          <p class="birthday-promo-meta">Status: <strong id="birthday-home-status">Birthday Mode Live</strong> · Ends in: <span id="birthday-home-countdown">Loading...</span></p>
-          <div class="card-actions">
-            <a class="btn btn-small" href="/birthday/">Open Birthday Experience</a>
-          </div>
-        </article>
-      </div>
-    </section>
 
     <section class="section section-alt" aria-labelledby="journey-title">
       <div class="container">
@@ -205,48 +192,61 @@
         <p class="section-intro">This website includes coding tools, educational resources, and project notes. Each section is built to be useful for students, beginners, and anyone curious about how I am learning.</p>
 
         <div class="cards">
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-project">
+            <span class="project-type">Project</span>
             <h3>🌐 Portfolio Hub</h3>
             <p>My full portfolio story: why I built it, milestones, and what I am planning to learn next.</p>
             <p class="tech-stack">Focus: Growth timeline · Skills · Technologies</p>
+            <p class="learning-note"><strong>What I learned:</strong> I learned how to organize a growing website and explain what I build instead of only showing the result.</p>
             <div class="card-actions"><a class="btn btn-small" href="projects.html">Open Portfolio Page</a></div>
           </article>
 
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-project">
+            <span class="project-type">Project</span>
             <h3>🧩 Cube Face Trainer</h3>
             <p>A practice tool for generating random cube face patterns and timing solves.</p>
             <p class="tech-stack">Focus: Timer · Pattern training · Practice mode roadmap</p>
+            <p class="learning-note"><strong>What I learned:</strong> I learned about random patterns, timers, user input, and turning a small practice idea into a usable tool.</p>
             <div class="card-actions"><a class="btn btn-small" href="cube-trainer/">Use Tool</a></div>
           </article>
 
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-experiment">
+            <span class="project-type">Experiment</span>
             <h3>🧠 Pattern Generator Notes</h3>
             <p>Explanation of how my pattern generator works and why it helps cube practice.</p>
             <p class="tech-stack">Focus: Logic idea · Training value · Future upgrades</p>
+            <p class="learning-note"><strong>What I learned:</strong> Small changes in logic change the output, so testing different ideas is part of building the tool.</p>
             <div class="card-actions"><a class="btn btn-small" href="pattern-generator.html">Read Notes</a></div>
           </article>
 
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-project">
+            <span class="project-type">Project</span>
             <h3>📚 Personal Wiki Guide</h3>
             <p>An overview of my personal knowledge base and how I organize notes by topic.</p>
             <p class="tech-stack">Focus: Knowledge management · Documentation</p>
+            <p class="learning-note"><strong>What I learned:</strong> I learned how useful good structure becomes when you have lots of notes and need to find them later.</p>
             <div class="card-actions"><a class="btn btn-small" href="wiki-guide.html">Read Guide</a></div>
           </article>
 
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-project">
+            <span class="project-type">Project</span>
             <h3>📄 Documents Library</h3>
             <p>Shared educational PDFs and why reading books still matters for strong learning.</p>
             <p class="tech-stack">Focus: Study resources · Reading habits</p>
+            <p class="learning-note"><strong>What I learned:</strong> I learned that organizing information is part of making a useful website, not only adding more content.</p>
             <div class="card-actions"><a class="btn btn-small" href="documents/">Visit Library</a></div>
           </article>
 
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-experiment">
+            <span class="project-type">Experiment</span>
             <h3>🤖 AI Learning Notes</h3>
             <p>Personal notes and experiments about AI, with clear disclaimers about verification.</p>
             <p class="tech-stack">Focus: Learning journal · Ideas in progress</p>
+            <p class="learning-note"><strong>What I learned:</strong> I learned to treat AI experiments as learning notes, check important information, and improve ideas over time.</p>
             <div class="card-actions"><a class="btn btn-small" href="research.html">View Notes</a></div>
           </article>
-          <article class="card reveal-on-scroll">
+          <article class="card reveal-on-scroll project-card project-type-game">
+  <span class="project-type">Game</span>
   <h3>🥊 Punch Lab</h3>
   <p>A fun reaction game where you test your speed, improve your timing, and try to beat your highest score.</p>
 
@@ -254,27 +254,44 @@
     Focus: Reaction Time · High Scores · Future Challenges
   </p>
 
+  <p class="learning-note"><strong>What I learned:</strong> I learned more about clicks, timing, animation, score handling, and keeping a browser game responsive.</p>
+
   <div class="card-actions">
     <a class="btn btn-small" href="punch-lab/">Play Punch Lab</a>
   </div>
 </article>
-          <article class="card">
+          <article class="card project-card project-type-game">
+    <span class="project-type">Game collection</span>
     <h3>🎮 Games</h3>
     <p>Play browser games created with HTML, CSS and JavaScript. More games are added over time.</p>
     <a class="btn" href="games/">Play Games</a>
 </article>
-          <article class="card">
+          <article class="card project-card project-type-experiment">
+  <span class="project-type">Experiment</span>
   <h3>⭐ Community Reviews</h3>
   <p>Rate games, read community reviews, and share your experience with games from PrinceHacky.</p>
 
   <p class="tech-stack">
     Focus: Ratings · Reviews · Community
   </p>
+  <p class="learning-note"><strong>What I learned:</strong> I learned how interactive feedback features need clear structure so visitors know what they are doing.</p>
 
   <div class="card-actions">
     <a class="btn btn-small" href="Community reviews/index.html">View Reviews</a>
   </div>
 </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="build-style-title">
+      <div class="container">
+        <h2 id="build-style-title">How I Build</h2>
+        <p class="section-intro">I usually start with a small idea, build a rough version, test it, find problems, then improve it. Some projects here are still experiments. I keep them because they show how my coding is changing.</p>
+        <div class="cards build-steps">
+          <article class="card"><span class="step-number">1</span><h3>Start Small</h3><p>I turn an idea into a simple first version instead of planning everything at once.</p></article>
+          <article class="card"><span class="step-number">2</span><h3>Test It</h3><p>I use the project, find bugs, and notice what feels confusing or slow.</p></article>
+          <article class="card"><span class="step-number">3</span><h3>Improve It</h3><p>I fix problems, add useful features, and keep notes about what I learned.</p></article>
         </div>
       </div>
     </section>
@@ -369,7 +386,7 @@
         <h2 id="faq-title">Frequently Asked Questions</h2>
         <div class="cards">
           <article class="card reveal-on-scroll"><h3>1) Who created this website?</h3><p>I created it. My name is Prince U. Shah.</p></article>
-          <article class="card reveal-on-scroll"><h3>2) How old are you?</h3><p>I am 12 years old.</p></article>
+          <article class="card reveal-on-scroll"><h3>2) What class are you in?</h3><p>I am in Class 7.</p></article>
           <article class="card reveal-on-scroll"><h3>3) Where are you from?</h3><p>I am from India.</p></article>
           <article class="card reveal-on-scroll"><h3>4) Which class are you in?</h3><p>I am in Class 7.</p></article>
           <article class="card reveal-on-scroll"><h3>5) Why did you start coding?</h3><p>I enjoy solving problems and building useful things with computers.</p></article>
@@ -474,8 +491,6 @@
     </div>
   </footer>
 
-  <script src="/js/birthday-lifecycle.js" defer></script>
-  <script src="/js/birthday-homepage.js" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>

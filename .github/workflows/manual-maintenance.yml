@@ -1,0 +1,14 @@
+name: Manual Maintenance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: No-op
+        run: echo "Manual maintenance workflow placeholder"
