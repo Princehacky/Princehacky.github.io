@@ -87,7 +87,7 @@
         const activeLink = sectionMap.get(entry.target);
         if (activeLink) {
           activeLink.classList.add('active');
-          activeLink.setAttribute('aria-current', 'page');
+          activeLink.setAttribute('aria-current', 'location');
         }
       });
     }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.05 });
@@ -95,7 +95,7 @@
     sectionMap.forEach((_, section) => observer.observe(section));
   }
 
-  if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+  if (!prefersReducedMotion && revealElements.length > 0 && 'IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries, currentObserver) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -113,23 +113,6 @@
   const addTerminal = () => {
     if (!document.getElementById('home') || document.getElementById('prince-terminal')) return;
 
-    const style = document.createElement('style');
-    style.textContent = `
-      #prince-terminal { margin-top: 1.5rem; }
-      .terminal { max-width: 760px; margin: 0 auto; background: #0b0f14; border: 1px solid var(--border); border-radius: .7rem; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,.18); }
-      .terminal-bar { padding: .55rem .8rem; border-bottom: 1px solid #27303b; color: #9aa8b8; font-size: .82rem; }
-      .terminal-output { min-height: 120px; max-height: 250px; overflow: auto; padding: .9rem; font: 500 .9rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; color: #d7e4ef; }
-      .terminal-line { margin: 0 0 .35rem; white-space: pre-wrap; }
-      .terminal-command { color: #8bd36f; }
-      .terminal-input-row { display: flex; gap: .5rem; padding: .75rem .9rem; border-top: 1px solid #27303b; }
-      .terminal-prompt { color: #8bd36f; font: 500 .9rem ui-monospace, SFMono-Regular, Consolas, monospace; padding-top: .65rem; }
-      #terminal-input { flex: 1; min-width: 0; margin: 0; border: 0; border-radius: .35rem; background: #121922; color: #f2f7fb; font: 500 .9rem ui-monospace, SFMono-Regular, Consolas, monospace; }
-      #terminal-input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
-      .terminal-help { color: #9aa8b8; }
-      @media (max-width: 600px) { .terminal-output { font-size: .82rem; } .terminal-prompt { display: none; } }
-      @media (prefers-reduced-motion: reduce) { .terminal { box-shadow: none; } }
-    `;
-    document.head.appendChild(style);
 
     const section = document.createElement('section');
     section.id = 'prince-terminal';
@@ -221,17 +204,6 @@
       <p id="project-results" class="section-intro" aria-live="polite"></p>
     `;
 
-    const style = document.createElement('style');
-    style.textContent = `
-      .project-controls { max-width: 760px; margin: 0 auto 1.25rem; }
-      .project-controls label { display: block; font-weight: 600; margin-bottom: .35rem; }
-      #project-search { margin-bottom: .7rem; }
-      .project-filters { display: flex; flex-wrap: wrap; gap: .45rem; }
-      .active-filter { box-shadow: 0 0 0 2px var(--focus); }
-      .project-card-hidden { display: none !important; }
-      @media (max-width: 600px) { .project-filters .btn { flex: 1 1 8rem; } }
-    `;
-    document.head.appendChild(style);
 
     projectSection.parentElement.insertBefore(controls, projectSection.parentElement.querySelector('.cards'));
 
