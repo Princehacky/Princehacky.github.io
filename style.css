@@ -572,3 +572,43 @@ body:not(.dark-mode) .site-footer a {
 .project-card-hidden { display: none !important; }
 @media (max-width: 600px) { .terminal-output { font-size: .82rem; } .terminal-prompt { display: none; } .project-filters .btn { flex: 1 1 8rem; } }
 @media (prefers-reduced-motion: reduce) { .terminal { box-shadow: none; } }
+
+
+/* Project learning notes */
+.project-type {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  padding: 0.18rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.learning-note {
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--border);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.learning-note strong {
+  color: var(--text);
+}
+.project-type-summary .card,
+.build-steps .card {
+  position: relative;
+}
+.step-number {
+  display: inline-flex;
+  width: 1.7rem;
+  height: 1.7rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--primary);
+  font-weight: 700;
+}
