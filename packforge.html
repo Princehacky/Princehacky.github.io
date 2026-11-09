@@ -638,7 +638,7 @@ self.onmessage = function (event) {
   renderHeading();
   renderContent();
   renderCookieBanner();
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function () {});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/packforge-sw.js').catch(function () {});
   window.addEventListener('beforeunload', function () { if (resultUrl) URL.revokeObjectURL(resultUrl); });
 })();
 </script>
