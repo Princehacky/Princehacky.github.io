@@ -241,7 +241,7 @@ self.onmessage = function (event) {
         var f = p.files[path];
         return f.length === first.length && f.every(function (b, i) { return b === first[i]; });
       });
-      var combinable = path.indexOf('.lang') === path.length - 5 && canCombineLang(ps.map(function (p) { return p.files[path]; }));
+      var combinable = path.endsWith('.lang') && canCombineLang(ps.map(function (p) { return p.files[path]; }));
       return { path: path, packs: ps, identical: identical, combinable: combinable };
     });
   }
