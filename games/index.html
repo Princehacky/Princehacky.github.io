@@ -1,16 +1,338 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
-<title>Prince Arcade</title>
-<style>
-body{margin:0;font-family:Arial;background:#0d1117;color:#fff}
-header{background:linear-gradient(135deg,#00c6ff,#00ff99);padding:50px 20px;text-align:center}
-.wrap{max-width:1200px;margin:auto;padding:20px}
-input{width:100%;padding:12px;border-radius:10px;border:none;margin:20px 0}
-h2{border-left:4px solid #00d4ff;padding-left:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:#1f2630;border-radius:14px;padding:16px}
-.card a{display:inline-block;margin-top:10px;background:#00d4ff;color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none}
-</style></head><body>
-<header><h1>🎮 Prince Arcade</h1><p>37 HTML Games</p></header>
-<div class='wrap'>
-<input placeholder='Search games...'>
-<h2>Arcade</h2><div class='grid'><div class='card'><h3>Pac-Man</h3><a href='02-Pac-Man-Game/'>Play</a></div><div class='card'><h3>Flappy Bird</h3><a href='09-Flappy-Bird-Game/'>Play</a></div><div class='card'><h3>Crossy Road</h3><a href='07-Crossy-Road-Game/'>Play</a></div><div class='card'><h3>Breakout</h3><a href='18-Breakout-Game/'>Play</a></div><div class='card'><h3>Doodle Jump</h3><a href='04-Doodle-Jump-Game/'>Play</a></div><div class='card'><h3>Fruit Slicer</h3><a href='32-Fruit-Slicer-Game/'>Play</a></div><div class='card'><h3>Candy Crush</h3><a href='01-Candy-Crush-Game/'>Play</a></div></div><h2>Puzzle</h2><div class='grid'><div class='card'><h3>Sudoku</h3><a href='06-Sudoku-Game/'>Play</a></div><div class='card'><h3>2048</h3><a href='10-2048-Game/'>Play</a></div><div class='card'><h3>Sliding Puzzle</h3><a href='37-Sliding-Puzzle-Game/'>Play</a></div><div class='card'><h3>Memory Card</h3><a href='22-Memory-Card-Game/'>Play</a></div><div class='card'><h3>Tower Blocks</h3><a href='13-Tower-Blocks/'>Play</a></div><div class='card'><h3>Tilting Maze</h3><a href='21-Tilting-Maze-Game/'>Play</a></div></div><h2>Classic</h2><div class='grid'><div class='card'><h3>Chess</h3><a href='03-Chess-Game/'>Play</a></div><div class='card'><h3>Solitaire</h3><a href='05-Solitaire-Game/'>Play</a></div><div class='card'><h3>Tic Tac Toe</h3><a href='15-Tic-Tac-Toe/'>Play</a></div><div class='card'><h3>Snake</h3><a href='24-Snake-Game/'>Play</a></div><div class='card'><h3>Minesweeper</h3><a href='16-Minesweeper-Game/'>Play</a></div><div class='card'><h3>Connect Four</h3><a href='25-Connect-Four-Game/'>Play</a></div></div><h2>Skill</h2><div class='grid'><div class='card'><h3>Archery</h3><a href='14-Archery-Game/'>Play</a></div><div class='card'><h3>Shape Clicker</h3><a href='29-Shape-Clicker-Game/'>Play</a></div><div class='card'><h3>Insect Catch</h3><a href='26-Insect-Catch-Game/'>Play</a></div><div class='card'><h3>Whack A Mole</h3><a href='35-Whack-A-Mole-Game/'>Play</a></div><div class='card'><h3>Simon Says</h3><a href='36-Simon-Says-Game/'>Play</a></div><div class='card'><h3>Rock Paper Scissors</h3><a href='08-Rock-Paper-Scissors/'>Play</a></div></div><h2>Word & Quiz</h2><div class='grid'><div class='card'><h3>Hangman</h3><a href='12-Hangman-Game/'>Play</a></div><div class='card'><h3>Wordle</h3><a href='11-Wordle-Game/'>Play</a></div><div class='card'><h3>Quiz</h3><a href='33-Quiz-Game/'>Play</a></div><div class='card'><h3>Type Number Guessing</h3><a href='23-Type-Number-Guessing-Game/'>Play</a></div><div class='card'><h3>Speak Number Guessing</h3><a href='31-Speak-Number-Guessing-Game/'>Play</a></div></div><h2>Typing</h2><div class='grid'><div class='card'><h3>Speed Typing</h3><a href='17-Speed-Typing-Game/'>Play</a></div><div class='card'><h3>Typing Challenge</h3><a href='30-Typing-Game/'>Play</a></div></div><h2>Sports</h2><div class='grid'><div class='card'><h3>Ping Pong</h3><a href='19-Ping-Pong-Game/'>Play</a></div><div class='card'><h3>Dice Roll Simulator</h3><a href='28-Dice-Roll-Simulator/'>Play</a></div><div class='card'><h3>Emoji Catcher</h3><a href='34-Emoji-Catcher-Game/'>Play</a></div></div></div></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="description" content="Play lightweight browser games at Prince Arcade. Browse arcade, puzzle, classic, typing and skill games.">
+  <title>Prince Arcade | Browser Games</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --surface: #171b23;
+      --surface-raised: #1b2330;
+      --text: #e7ebf3;
+      --muted: #aeb9ca;
+      --blue: #3986ee;
+      --blue-soft: #8dbaff;
+      --green: #39c98a;
+      --border: #2b3547;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); line-height: 1.55; }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--blue-soft); outline-offset: 3px; }
+    .skip-link { position: absolute; left: -9999px; top: .5rem; z-index: 10; padding: .6rem .85rem; border-radius: .5rem; color: #fff; background: var(--blue); }
+    .skip-link:focus { left: .7rem; }
+    .container { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+    .site-header { border-bottom: 1px solid var(--border); background: #10141b; }
+    .header-inner { min-height: 4.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; font-weight: 850; letter-spacing: -.02em; }
+    .brand-mark { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border-radius: .7rem; background: #18345a; color: #a8ceff; border: 1px solid #315784; }
+    .back-home { color: var(--muted); text-decoration: none; font-size: .92rem; }
+    .back-home:hover { color: var(--text); }
+    .hero { padding: clamp(2.8rem, 8vw, 5.2rem) 0 2.25rem; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(210px, .6fr); align-items: end; gap: 2rem; }
+    .eyebrow { margin: 0 0 .5rem; color: var(--green); font-weight: 800; font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { max-width: 700px; margin: 0; font-size: clamp(2.45rem, 7vw, 4.4rem); line-height: 1.02; letter-spacing: -.055em; }
+    .hero-copy { max-width: 650px; margin: 1rem 0 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.1rem); }
+    .hero-note { border: 1px solid var(--border); border-radius: .9rem; padding: 1rem; background: var(--surface); }
+    .hero-note strong { display: block; margin-bottom: .25rem; color: var(--blue-soft); }
+    .hero-note p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .library { padding: 1.5rem 0 4rem; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1rem; }
+    h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 1.9rem); letter-spacing: -.025em; }
+    .count { margin: 0; color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; }
+    .tools { padding: 1rem; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 1rem; background: var(--surface); }
+    .search-label { display: block; margin-bottom: .45rem; color: var(--muted); font-size: .84rem; font-weight: 700; }
+    .search-wrap { position: relative; }
+    .search { width: 100%; min-height: 3rem; padding: .7rem 1rem; border: 1px solid var(--border); border-radius: .7rem; color: var(--text); background: #0f141d; }
+    .filters { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .85rem; }
+    .filter {
+      min-height: 2.35rem; padding: .45rem .8rem; border: 1px solid var(--border);
+      border-radius: 999px; color: var(--muted); background: var(--surface-raised);
+      font-size: .84rem; font-weight: 700; cursor: pointer;
+    }
+    .filter[aria-pressed="true"] { color: #fff; border-color: var(--blue); background: #18345a; }
+    .originals { margin: 1.3rem 0 2rem; }
+    .original-card {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 1rem;
+      padding: 1.2rem; border: 1px solid #315784; border-radius: 1rem;
+      background: linear-gradient(110deg, #17263b 0%, #171b23 70%);
+    }
+    .original-label { display: inline-block; margin-bottom: .45rem; color: #a8ceff; font-size: .73rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .original-card h3 { margin: 0; font-size: 1.35rem; }
+    .original-card p { margin: .35rem 0 0; color: var(--muted); font-size: .9rem; }
+    .play-link { display: inline-flex; align-items: center; justify-content: center; min-height: 2.7rem; padding: .6rem 1rem; border-radius: .65rem; color: #fff; background: var(--blue); text-decoration: none; font-weight: 800; white-space: nowrap; }
+    .play-link:hover { background: #276fc8; }
+    .game-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+    .game-card { min-width: 0; display: flex; flex-direction: column; padding: 1rem; border: 1px solid var(--border); border-radius: .9rem; background: var(--surface); transition: border-color .15s ease, transform .15s ease; }
+    .game-card:hover { border-color: #456b9d; transform: translateY(-2px); }
+    .game-card[hidden] { display: none; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .55rem; }
+    .game-icon { font-size: 1.25rem; line-height: 1; }
+    .game-category { color: var(--muted); font-size: .72rem; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+    .game-card h3 { margin: 0; font-size: 1.02rem; letter-spacing: -.01em; }
+    .game-card p { flex: 1; margin: .35rem 0 .85rem; color: var(--muted); font-size: .85rem; }
+    .game-card .play-link { align-self: flex-start; min-height: 2.35rem; padding: .45rem .8rem; font-size: .85rem; }
+    .empty { padding: 2rem 1rem; border: 1px dashed var(--border); border-radius: .9rem; color: var(--muted); text-align: center; }
+    .empty[hidden] { display: none; }
+    .performance { display: flex; align-items: flex-start; gap: .75rem; margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: .9rem; background: #121923; }
+    .performance-icon { font-size: 1.2rem; }
+    .performance p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .performance strong { color: var(--text); }
+    .site-footer { padding: 1.2rem 0 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .7rem 1rem; }
+    .site-footer a { color: var(--blue-soft); text-decoration: none; }
+    @media (max-width: 850px) { .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 650px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .hero-note { max-width: 420px; }
+      .section-head { align-items: flex-start; flex-direction: column; gap: .2rem; }
+    }
+    @media (max-width: 460px) {
+      .container { width: min(100% - 1.2rem, 1120px); }
+      .game-grid { grid-template-columns: 1fr; }
+      .original-card { grid-template-columns: 1fr; }
+      .original-card .play-link { justify-self: start; }
+      .back-home { font-size: .82rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#game-library">Skip to games</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="Prince Arcade home">
+        <span class="brand-mark" aria-hidden="true">PA</span>
+        <span>Prince Arcade</span>
+      </a>
+      <a class="back-home" href="../">← PrinceHacky website</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">The PrinceHacky game collection</p>
+          <h1>Choose a game.<br>Play your way.</h1>
+          <p class="hero-copy">A growing collection of browser games, from quick puzzles to classic arcade challenges. Search the library or choose a category.</p>
+        </div>
+        <aside class="hero-note">
+          <strong>Fast by design</strong>
+          <p>No game frameworks, remote fonts or autoplay media on this page. The library stays light and works on phones, tablets and computers.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="library container" id="game-library" aria-labelledby="library-title">
+      <div class="section-head">
+        <h2 id="library-title">Game library</h2>
+        <p class="count" id="result-count" aria-live="polite">35 games</p>
+      </div>
+
+      <div class="tools">
+        <label class="search-label" for="game-search">Search games</label>
+        <input class="search" id="game-search" type="search" placeholder="Try “snake”, “puzzle” or “typing”" autocomplete="off">
+        <div class="filters" role="group" aria-label="Filter games by category">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="arcade" aria-pressed="false">Arcade</button>
+          <button class="filter" type="button" data-filter="puzzle" aria-pressed="false">Puzzle</button>
+          <button class="filter" type="button" data-filter="classic" aria-pressed="false">Classic</button>
+          <button class="filter" type="button" data-filter="skill" aria-pressed="false">Skill</button>
+          <button class="filter" type="button" data-filter="word" aria-pressed="false">Word & Quiz</button>
+          <button class="filter" type="button" data-filter="typing" aria-pressed="false">Typing</button>
+          <button class="filter" type="button" data-filter="sports" aria-pressed="false">Sports</button>
+        </div>
+      </div>
+
+      <section class="originals" aria-labelledby="originals-title">
+        <div class="original-card">
+          <div>
+            <span class="original-label">Prince original · 01</span>
+            <h3 id="originals-title">Math Blitz</h3>
+            <p>60-second mental-maths challenge. Three difficulty levels, pause and resume, streak counter and a locally saved best score.</p>
+          </div>
+          <a class="play-link" href="math-blitz/">Play Math Blitz</a>
+        </div>
+      </section>
+
+      <div class="game-grid" id="game-grid">
+        <article class="game-card" data-category="arcade" data-search="pac-man maze arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">👾</span><span class="game-category">Arcade</span></div><h3>Pac-Man</h3><p>Navigate the maze and collect the dots.</p><a class="play-link" href="02-Pac-Man-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="flappy bird flying arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🐦</span><span class="game-category">Arcade</span></div><h3>Flappy Bird</h3><p>Fly through gaps and aim for a high score.</p><a class="play-link" href="09-Flappy-Bird-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="crossy road crossing arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🚦</span><span class="game-category">Arcade</span></div><h3>Crossy Road</h3><p>Cross roads and obstacles one move at a time.</p><a class="play-link" href="07-Crossy-Road-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="breakout bricks ball arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🧱</span><span class="game-category">Arcade</span></div><h3>Breakout</h3><p>Move the paddle and clear the brick wall.</p><a class="play-link" href="18-Breakout-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="doodle jump jumping platforms">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🦘</span><span class="game-category">Arcade</span></div><h3>Doodle Jump</h3><p>Jump between platforms and climb higher.</p><a class="play-link" href="04-Doodle-Jump-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="fruit slicer swipe fruit arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🍉</span><span class="game-category">Arcade</span></div><h3>Fruit Slicer</h3><p>Slice the fruit and avoid the obstacles.</p><a class="play-link" href="32-Fruit-Slicer-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="candy crush match three puzzle arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🍬</span><span class="game-category">Arcade</span></div><h3>Candy Crush</h3><p>Match candies and clear the board.</p><a class="play-link" href="01-Candy-Crush-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="arcade" data-search="tetris blocks lines arcade puzzle">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🧩</span><span class="game-category">Arcade</span></div><h3>Tetris</h3><p>Arrange falling blocks to complete lines.</p><a class="play-link" href="20-Tetris-Game/">Play game</a>
+        </article>
+
+        <article class="game-card" data-category="puzzle" data-search="sudoku number logic puzzle">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔢</span><span class="game-category">Puzzle</span></div><h3>Sudoku</h3><p>Fill the grid using number logic.</p><a class="play-link" href="06-Sudoku-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="puzzle" data-search="sliding puzzle tiles">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔲</span><span class="game-category">Puzzle</span></div><h3>Sliding Puzzle</h3><p>Slide the tiles into the correct order.</p><a class="play-link" href="37-Sliding-Puzzle-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="puzzle" data-search="memory card matching pairs concentration">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🃏</span><span class="game-category">Puzzle</span></div><h3>Memory Card</h3><p>Find matching pairs by remembering each card.</p><a class="play-link" href="22-Memory-Card-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="puzzle" data-search="tower blocks stacking">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🏗️</span><span class="game-category">Puzzle</span></div><h3>Tower Blocks</h3><p>Stack blocks and keep your tower standing.</p><a class="play-link" href="13-Tower-Blocks/">Play game</a>
+        </article>
+        <article class="game-card" data-category="puzzle" data-search="tilting maze ball puzzle">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🌀</span><span class="game-category">Puzzle</span></div><h3>Tilting Maze</h3><p>Guide the ball through the maze.</p><a class="play-link" href="21-Tilting-Maze-Game/">Play game</a>
+        </article>
+
+        <article class="game-card" data-category="classic" data-search="chess board strategy classic">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">♟️</span><span class="game-category">Classic</span></div><h3>Chess</h3><p>Play the classic board game of strategy.</p><a class="play-link" href="03-Chess-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="classic" data-search="solitaire cards classic">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🂡</span><span class="game-category">Classic</span></div><h3>Solitaire</h3><p>Build card foundations by suit.</p><a class="play-link" href="05-Solitaire-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="classic" data-search="tic tac toe noughts crosses">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">⭕</span><span class="game-category">Classic</span></div><h3>Tic Tac Toe</h3><p>Line up three marks to win.</p><a class="play-link" href="15-Tic-Tac-Toe/">Play game</a>
+        </article>
+        <article class="game-card" data-category="classic" data-search="snake classic arcade">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🐍</span><span class="game-category">Classic</span></div><h3>Snake</h3><p>Collect food and avoid running into yourself.</p><a class="play-link" href="24-Snake-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="classic" data-search="minesweeper logic classic">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">💣</span><span class="game-category">Classic</span></div><h3>Minesweeper</h3><p>Use clues to reveal safe squares.</p><a class="play-link" href="16-Minesweeper-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="classic" data-search="connect four board strategy">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔴</span><span class="game-category">Classic</span></div><h3>Connect Four</h3><p>Connect four discs in a row.</p><a class="play-link" href="25-Connect-Four-Game/">Play game</a>
+        </article>
+
+        <article class="game-card" data-category="skill" data-search="archery aim bow skill">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🏹</span><span class="game-category">Skill</span></div><h3>Archery</h3><p>Test your aim and timing.</p><a class="play-link" href="14-Archery-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="skill" data-search="shape clicker reaction speed">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔷</span><span class="game-category">Skill</span></div><h3>Shape Clicker</h3><p>Click the shapes before time runs out.</p><a class="play-link" href="29-Shape-Clicker-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="skill" data-search="insect catch reflex">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🐞</span><span class="game-category">Skill</span></div><h3>Insect Catch</h3><p>Test your reflexes with a quick catch game.</p><a class="play-link" href="26-Insect-Catch-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="skill" data-search="whack a mole reaction">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔨</span><span class="game-category">Skill</span></div><h3>Whack A Mole</h3><p>React quickly when a mole appears.</p><a class="play-link" href="35-Whack-A-Mole-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="skill" data-search="simon says sequence memory">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🎨</span><span class="game-category">Skill</span></div><h3>Simon Says</h3><p>Remember and repeat the colour sequence.</p><a class="play-link" href="36-Simon-Says-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="skill" data-search="rock paper scissors classic hand game">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">✊</span><span class="game-category">Skill</span></div><h3>Rock Paper Scissors</h3><p>Choose your move and play against the computer.</p><a class="play-link" href="08-Rock-Paper-Scissors/">Play game</a>
+        </article>
+
+        <article class="game-card" data-category="word" data-search="hangman word guessing">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔤</span><span class="game-category">Word & Quiz</span></div><h3>Hangman</h3><p>Guess the hidden word one letter at a time.</p><a class="play-link" href="12-Hangman-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="word" data-search="wordle vocabulary word guessing">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🟩</span><span class="game-category">Word & Quiz</span></div><h3>Wordle</h3><p>Find the hidden word in a limited number of tries.</p><a class="play-link" href="11-Wordle-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="word" data-search="quiz trivia questions knowledge">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🧠</span><span class="game-category">Word & Quiz</span></div><h3>Quiz</h3><p>Answer questions and test what you know.</p><a class="play-link" href="33-Quiz-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="word" data-search="type number guessing">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔢</span><span class="game-category">Word & Quiz</span></div><h3>Type Number Guessing</h3><p>Use hints to find the hidden number.</p><a class="play-link" href="23-Type-Number-Guessing-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="word" data-search="speak number guessing voice">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🗣️</span><span class="game-category">Word & Quiz</span></div><h3>Speak Number Guessing</h3><p>Try the voice-based number guessing game.</p><a class="play-link" href="31-Speak-Number-Guessing-Game/">Play game</a>
+        </article>
+
+        <article class="game-card" data-category="typing" data-search="typing game words keyboard">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">⌨️</span><span class="game-category">Typing</span></div><h3>Typing Challenge</h3><p>Improve your typing speed and accuracy.</p><a class="play-link" href="30-Typing-Game/">Play game</a>
+        </article>
+
+        <article class="game-card" data-category="sports" data-search="ping pong table tennis sports">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🏓</span><span class="game-category">Sports</span></div><h3>Ping Pong</h3><p>Play table tennis against the computer.</p><a class="play-link" href="19-Ping-Pong-Game/">Play game</a>
+        </article>
+        <article class="game-card" data-category="sports" data-search="dice roll simulator random dice">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🎲</span><span class="game-category">Sports</span></div><h3>Dice Roll Simulator</h3><p>Roll a virtual die and see the result.</p><a class="play-link" href="28-Dice-Roll-Simulator/">Play game</a>
+        </article>
+        <article class="game-card" data-category="sports" data-search="emoji catcher falling catch">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">😄</span><span class="game-category">Sports</span></div><h3>Emoji Catcher</h3><p>Catch the falling emojis.</p><a class="play-link" href="34-Emoji-Catcher-Game/">Play game</a>
+        </article>
+      </div>
+
+      <p class="empty" id="no-results" hidden>No games match your search. Try another word or choose All.</p>
+
+      <aside class="performance">
+        <span class="performance-icon" aria-hidden="true">⚡</span>
+        <p><strong>Lightweight collection.</strong> This hub uses plain HTML, CSS and a small filter script. Games load only when you open them. No account, tracking script or external game framework is required here.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>Prince Arcade · Part of PrinceHacky</span>
+      <a href="../">Back to PrinceHacky</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".game-card"));
+      var buttons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
+      var search = document.getElementById("game-search");
+      var count = document.getElementById("result-count");
+      var empty = document.getElementById("no-results");
+      var activeFilter = "all";
+
+      function applyFilters() {
+        var query = search.value.trim().toLowerCase();
+        var visible = 0;
+
+        cards.forEach(function (card) {
+          var categoryMatches = activeFilter === "all" || card.getAttribute("data-category") === activeFilter;
+          var searchable = (card.textContent + " " + card.getAttribute("data-search")).toLowerCase();
+          var searchMatches = query === "" || searchable.indexOf(query) !== -1;
+          var show = categoryMatches && searchMatches;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+
+        count.textContent = visible + (visible === 1 ? " game" : " games");
+        empty.hidden = visible !== 0;
+      }
+
+      buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          activeFilter = button.getAttribute("data-filter");
+          buttons.forEach(function (item) {
+            item.setAttribute("aria-pressed", item === button ? "true" : "false");
+          });
+          applyFilters();
+        });
+      });
+
+      search.addEventListener("input", applyFilters);
+      applyFilters();
+    }());
+  </script>
+</body>
+</html>
