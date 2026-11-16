@@ -76,6 +76,8 @@
     .card-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .55rem; }
     .game-icon { font-size: 1.25rem; line-height: 1; }
     .game-category { color: var(--muted); font-size: .72rem; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+    .card-tags { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+    .source-tag { padding: .16rem .42rem; border: 1px solid #315784; border-radius: 999px; color: #a8ceff; background: #17263b; font-size: .65rem; font-weight: 800; letter-spacing: .02em; text-transform: none; }
     .game-card h3 { margin: 0; font-size: 1.02rem; letter-spacing: -.01em; }
     .game-card p { flex: 1; margin: .35rem 0 .85rem; color: var(--muted); font-size: .85rem; }
     .game-card .play-link { align-self: flex-start; min-height: 2.35rem; padding: .45rem .8rem; font-size: .85rem; }
@@ -137,7 +139,7 @@
     <section class="library container" id="game-library" aria-labelledby="library-title">
       <div class="section-head">
         <h2 id="library-title">Game library</h2>
-        <p class="count" id="result-count" aria-live="polite">35 games</p>
+        <p class="count" id="result-count" aria-live="polite">35 games in the library</p>
       </div>
 
       <div class="tools">
@@ -152,6 +154,7 @@
           <button class="filter" type="button" data-filter="word" aria-pressed="false">Word & Quiz</button>
           <button class="filter" type="button" data-filter="typing" aria-pressed="false">Typing</button>
           <button class="filter" type="button" data-filter="sports" aria-pressed="false">Sports</button>
+          <button class="filter" type="button" data-filter="open-source" aria-pressed="false">Open source</button>
         </div>
       </div>
 
@@ -195,6 +198,9 @@
         <article class="game-card" data-category="puzzle" data-search="sudoku number logic puzzle">
           <div class="card-top"><span class="game-icon" aria-hidden="true">🔢</span><span class="game-category">Puzzle</span></div><h3>Sudoku</h3><p>Fill the grid using number logic.</p><a class="play-link" href="06-Sudoku-Game/">Play game</a>
         </article>
+        <article class="game-card" data-category="puzzle" data-open-source="true" data-search="2048 number tile puzzle merge open source">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🔢</span><div class="card-tags"><span class="game-category">Puzzle</span><span class="source-tag">Open source</span></div></div><h3>2048</h3><p>Merge matching number tiles. Includes swipe, touch controls, undo and local progress.</p><a class="play-link" href="2048/">Play game</a>
+        </article>
         <article class="game-card" data-category="puzzle" data-search="sliding puzzle tiles">
           <div class="card-top"><span class="game-icon" aria-hidden="true">🔲</span><span class="game-category">Puzzle</span></div><h3>Sliding Puzzle</h3><p>Slide the tiles into the correct order.</p><a class="play-link" href="37-Sliding-Puzzle-Game/">Play game</a>
         </article>
@@ -220,8 +226,8 @@
         <article class="game-card" data-category="classic" data-search="snake classic arcade">
           <div class="card-top"><span class="game-icon" aria-hidden="true">🐍</span><span class="game-category">Classic</span></div><h3>Snake</h3><p>Collect food and avoid running into yourself.</p><a class="play-link" href="24-Snake-Game/">Play game</a>
         </article>
-        <article class="game-card" data-category="classic" data-search="minesweeper logic classic">
-          <div class="card-top"><span class="game-icon" aria-hidden="true">💣</span><span class="game-category">Classic</span></div><h3>Minesweeper</h3><p>Use clues to reveal safe squares.</p><a class="play-link" href="16-Minesweeper-Game/">Play game</a>
+        <article class="game-card" data-category="classic" data-open-source="true" data-search="minesweeper logic classic open source first click safe">
+          <div class="card-top"><span class="game-icon" aria-hidden="true">🧩</span><div class="card-tags"><span class="game-category">Classic</span><span class="source-tag">Open source</span></div></div><h3>Minesweeper</h3><p>Three levels, first-click safety, touch flag mode and keyboard navigation.</p><a class="play-link" href="16-Minesweeper-Game/">Play game</a>
         </article>
         <article class="game-card" data-category="classic" data-search="connect four board strategy">
           <div class="card-top"><span class="game-icon" aria-hidden="true">🔴</span><span class="game-category">Classic</span></div><h3>Connect Four</h3><p>Connect four discs in a row.</p><a class="play-link" href="25-Connect-Four-Game/">Play game</a>
@@ -308,7 +314,7 @@
         var visible = 0;
 
         cards.forEach(function (card) {
-          var categoryMatches = activeFilter === "all" || card.getAttribute("data-category") === activeFilter;
+          var categoryMatches = activeFilter === "all" || (activeFilter === "open-source" ? card.getAttribute("data-open-source") === "true" : card.getAttribute("data-category") === activeFilter);
           var searchable = (card.textContent + " " + card.getAttribute("data-search")).toLowerCase();
           var searchMatches = query === "" || searchable.indexOf(query) !== -1;
           var show = categoryMatches && searchMatches;
@@ -316,7 +322,7 @@
           if (show) visible += 1;
         });
 
-        count.textContent = visible + (visible === 1 ? " game" : " games");
+        count.textContent = visible + (visible === 1 ? " game" : " games") + " in the library";
         empty.hidden = visible !== 0;
       }
 

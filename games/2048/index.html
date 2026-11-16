@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="description" content="Play 2048, a lightweight number puzzle in Prince Arcade. Combine matching tiles and beat your best score.">
+  <title>2048 | Prince Arcade</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: #171b23;
+      --panel-raised: #1c2430;
+      --text: #e7ebf3;
+      --muted: #aeb9ca;
+      --blue: #3986ee;
+      --blue-soft: #8dbaff;
+      --green: #39c98a;
+      --border: #2b3547;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); line-height: 1.5; }
+    button, a { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid var(--blue-soft); outline-offset: 3px; }
+    .app { width: min(520px, calc(100% - 1.4rem)); margin: 0 auto; padding: 1rem 0 2.5rem; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: .8rem; padding: .35rem 0 1.5rem; }
+    .back { color: var(--blue-soft); font-size: .9rem; font-weight: 750; text-decoration: none; }
+    .tag { padding: .3rem .6rem; border: 1px solid #315784; border-radius: 999px; color: #a8ceff; background: #17263b; font-size: .72rem; font-weight: 800; }
+    .intro { margin-bottom: 1.15rem; }
+    .eyebrow { margin: 0 0 .25rem; color: var(--green); font-size: .74rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2.4rem, 9vw, 3.6rem); line-height: 1; letter-spacing: -.06em; }
+    .intro p:last-child { margin: .55rem 0 0; color: var(--muted); font-size: .95rem; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .55rem; margin: 1rem 0; }
+    .stat { padding: .7rem .8rem; border: 1px solid var(--border); border-radius: .8rem; background: var(--panel); }
+    .stat span { display: block; color: var(--muted); font-size: .75rem; font-weight: 700; }
+    .stat strong { display: block; margin-top: .1rem; font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: .55rem; margin: .9rem 0; }
+    .button { min-height: 2.65rem; padding: .55rem .9rem; border: 1px solid var(--border); border-radius: .65rem; color: var(--text); background: var(--panel-raised); font-weight: 750; cursor: pointer; }
+    .button.primary { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .button:disabled { opacity: .42; cursor: not-allowed; }
+    .board-wrap { padding: .7rem; border: 1px solid var(--border); border-radius: 1rem; background: #121923; }
+    .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.28rem, 1.5vw, .55rem); width: 100%; aspect-ratio: 1; padding: .25rem; border-radius: .65rem; background: #263244; touch-action: none; user-select: none; }
+    .cell { display: grid; min-width: 0; place-items: center; aspect-ratio: 1; border-radius: .5rem; background: #1c2736; color: #65748a; font-size: clamp(1.15rem, 6vw, 2rem); font-weight: 850; font-variant-numeric: tabular-nums; }
+    .cell[data-value="2"] { background: #dce8f2; color: #26364a; }
+    .cell[data-value="4"] { background: #c3dcf2; color: #26364a; }
+    .cell[data-value="8"] { background: #67a9e7; color: #07182b; }
+    .cell[data-value="16"] { background: #3986ee; color: #fff; }
+    .cell[data-value="32"] { background: #2673c8; color: #fff; }
+    .cell[data-value="64"] { background: #2458a1; color: #fff; }
+    .cell[data-value="128"] { background: #50b98a; color: #071e17; font-size: clamp(1rem, 5vw, 1.7rem); }
+    .cell[data-value="256"] { background: #39c98a; color: #071e17; font-size: clamp(1rem, 5vw, 1.7rem); }
+    .cell[data-value="512"] { background: #a3d96b; color: #15200b; font-size: clamp(1rem, 5vw, 1.7rem); }
+    .cell[data-value="1024"] { background: #e3c45f; color: #201a08; font-size: clamp(.9rem, 4.6vw, 1.45rem); }
+    .cell[data-value="2048"] { background: #f2df8e; color: #241d08; font-size: clamp(.9rem, 4.6vw, 1.45rem); }
+    .cell[data-large="true"] { background: #8f7bd6; color: #fff; font-size: clamp(.85rem, 4vw, 1.35rem); }
+    .status { min-height: 2.8rem; margin: .65rem 0 0; color: var(--muted); font-size: .87rem; }
+    .controls { display: grid; grid-template-columns: repeat(3, 3.2rem); grid-template-rows: repeat(2, 2.7rem); justify-content: center; gap: .35rem; margin: 1rem auto .25rem; }
+    .controls button { border: 1px solid var(--border); border-radius: .6rem; color: var(--text); background: var(--panel-raised); font-size: 1.25rem; font-weight: 850; cursor: pointer; }
+    .controls button[data-move="up"] { grid-column: 2; grid-row: 1; }
+    .controls button[data-move="left"] { grid-column: 1; grid-row: 2; }
+    .controls button[data-move="down"] { grid-column: 2; grid-row: 2; }
+    .controls button[data-move="right"] { grid-column: 3; grid-row: 2; }
+    .help { margin: 1.25rem 0 0; padding: 1rem; border: 1px solid var(--border); border-radius: .8rem; background: var(--panel); }
+    .help h2 { margin: 0 0 .35rem; font-size: 1rem; }
+    .help p { margin: 0; color: var(--muted); font-size: .86rem; }
+    .credit { margin: 1.1rem 0 0; color: var(--muted); font-size: .78rem; }
+    .credit a { color: var(--blue-soft); }
+    [hidden] { display: none !important; }
+    @media (prefers-reduced-motion: no-preference) {
+      .cell { transition: background-color .1s ease; }
+      .button, .controls button { transition: background-color .12s ease, border-color .12s ease; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="back" href="../">← Prince Arcade</a>
+      <span class="tag">Open-source game</span>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">Number puzzle</p>
+      <h1>2048</h1>
+      <p>Slide the tiles. Join matching numbers. Reach 2048 and keep going for a bigger score.</p>
+    </section>
+
+    <section class="stats" aria-label="Game statistics">
+      <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+      <div class="stat"><span>Best</span><strong id="best">0</strong></div>
+      <div class="stat"><span>Moves</span><strong id="moves">0</strong></div>
+    </section>
+
+    <div class="toolbar">
+      <button class="button" id="undo" type="button" disabled>Undo move</button>
+      <button class="button primary" id="restart" type="button">New game</button>
+      <button class="button" id="continue" type="button" hidden>Keep playing</button>
+    </div>
+
+    <section class="board-wrap" aria-label="2048 game">
+      <div class="board" id="board" role="grid" aria-label="Four by four number board"></div>
+      <p class="status" id="status" role="status" aria-live="polite">Use the arrow keys, WASD, swipe or the direction pad.</p>
+    </section>
+
+    <div class="controls" role="group" aria-label="Touch direction controls">
+      <button type="button" data-move="up" aria-label="Move up">↑</button>
+      <button type="button" data-move="left" aria-label="Move left">←</button>
+      <button type="button" data-move="down" aria-label="Move down">↓</button>
+      <button type="button" data-move="right" aria-label="Move right">→</button>
+    </div>
+
+    <section class="help">
+      <h2>How to play</h2>
+      <p>Move all tiles in one direction. Matching numbers merge into one tile. Each move adds a new 2 or 4. Your best score and current board stay on this device.</p>
+    </section>
+
+    <p class="credit">Standalone Prince Arcade rebuild. Inspired by <a href="https://github.com/gabrielecirulli/2048" target="_blank" rel="noopener noreferrer">2048 by Gabriele Cirulli</a>. Original project: MIT License. See <a href="LICENSE">license and attribution</a>.</p>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var SIZE = 4;
+      var STATE_KEY = "princehacky-2048-state-v1";
+      var BEST_KEY = "princehacky-2048-best-v1";
+      var boardEl = document.getElementById("board");
+      var scoreEl = document.getElementById("score");
+      var bestEl = document.getElementById("best");
+      var movesEl = document.getElementById("moves");
+      var statusEl = document.getElementById("status");
+      var undoButton = document.getElementById("undo");
+      var continueButton = document.getElementById("continue");
+      var cellEls = [];
+      var grid = [];
+      var score = 0;
+      var best = readBest();
+      var moves = 0;
+      var won = false;
+      var keepPlaying = false;
+      var gameOver = false;
+      var undoSnapshot = null;
+      var touchStart = null;
+
+      function safeGet(key) {
+        try { return window.localStorage.getItem(key); } catch (error) { return null; }
+      }
+
+      function safeSet(key, value) {
+        try { window.localStorage.setItem(key, value); } catch (error) { /* Storage is optional. */ }
+      }
+
+      function readBest() {
+        var value = Number(safeGet(BEST_KEY));
+        return Number.isFinite(value) && value >= 0 ? value : 0;
+      }
+
+      function makeEmptyGrid() {
+        return Array.from({ length: SIZE }, function () {
+          return Array(SIZE).fill(0);
+        });
+      }
+
+      function copyGrid(source) {
+        return source.map(function (row) { return row.slice(); });
+      }
+
+      function snapshot() {
+        return {
+          grid: copyGrid(grid),
+          score: score,
+          moves: moves,
+          won: won,
+          keepPlaying: keepPlaying,
+          gameOver: gameOver
+        };
+      }
+
+      function saveState() {
+        safeSet(STATE_KEY, JSON.stringify({
+          grid: grid,
+          score: score,
+          moves: moves,
+          won: won,
+          keepPlaying: keepPlaying,
+          gameOver: gameOver
+        }));
+      }
+
+      function loadState() {
+        var raw = safeGet(STATE_KEY);
+        if (!raw) return false;
+
+        try {
+          var saved = JSON.parse(raw);
+          var validGrid = Array.isArray(saved.grid) && saved.grid.length === SIZE &&
+            saved.grid.every(function (row) {
+              return Array.isArray(row) && row.length === SIZE && row.every(function (value) {
+                return Number.isSafeInteger(value) && value >= 0;
+              });
+            });
+          if (!validGrid) return false;
+
+          grid = copyGrid(saved.grid);
+          score = Number.isFinite(saved.score) && saved.score >= 0 ? saved.score : 0;
+          moves = Number.isSafeInteger(saved.moves) && saved.moves >= 0 ? saved.moves : 0;
+          won = saved.won === true;
+          keepPlaying = saved.keepPlaying === true;
+          gameOver = saved.gameOver === true;
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function createCells() {
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < SIZE * SIZE; i += 1) {
+          var cell = document.createElement("div");
+          cell.className = "cell";
+          cell.setAttribute("role", "gridcell");
+          cell.setAttribute("aria-label", "Empty");
+          fragment.appendChild(cell);
+          cellEls.push(cell);
+        }
+        boardEl.appendChild(fragment);
+      }
+
+      function render() {
+        for (var row = 0; row < SIZE; row += 1) {
+          for (var col = 0; col < SIZE; col += 1) {
+            var value = grid[row][col];
+            var index = row * SIZE + col;
+            var cell = cellEls[index];
+            cell.className = "cell";
+            cell.textContent = value ? String(value) : "";
+            cell.setAttribute("data-value", value ? String(value) : "0");
+            if (value > 2048) cell.setAttribute("data-large", "true");
+            else cell.removeAttribute("data-large");
+            cell.setAttribute("aria-label", value ? "Tile " + value : "Empty cell");
+          }
+        }
+
+        scoreEl.textContent = String(score);
+        bestEl.textContent = String(best);
+        movesEl.textContent = String(moves);
+        undoButton.disabled = !undoSnapshot;
+        continueButton.hidden = !won;
+      }
+
+      function spawnTile() {
+        var empty = [];
+        for (var row = 0; row < SIZE; row += 1) {
+          for (var col = 0; col < SIZE; col += 1) {
+            if (grid[row][col] === 0) empty.push([row, col]);
+          }
+        }
+        if (!empty.length) return;
+
+        var location = empty[Math.floor(Math.random() * empty.length)];
+        grid[location[0]][location[1]] = Math.random() < 0.9 ? 2 : 4;
+      }
+
+      function hasMoves(source) {
+        for (var row = 0; row < SIZE; row += 1) {
+          for (var col = 0; col < SIZE; col += 1) {
+            if (source[row][col] === 0) return true;
+            if (col < SIZE - 1 && source[row][col] === source[row][col + 1]) return true;
+            if (row < SIZE - 1 && source[row][col] === source[row + 1][col]) return true;
+          }
+        }
+        return false;
+      }
+
+      function processLine(values) {
+        var compact = values.filter(function (value) { return value !== 0; });
+        var output = [];
+        var gained = 0;
+
+        for (var i = 0; i < compact.length; i += 1) {
+          if (i + 1 < compact.length && compact[i] === compact[i + 1]) {
+            var merged = compact[i] * 2;
+            output.push(merged);
+            gained += merged;
+            i += 1;
+          } else {
+            output.push(compact[i]);
+          }
+        }
+
+        while (output.length < SIZE) output.push(0);
+        return { values: output, gained: gained };
+      }
+
+      function getLineCoordinates(direction, line) {
+        var coords = [];
+        for (var step = 0; step < SIZE; step += 1) {
+          if (direction === "left") coords.push([line, step]);
+          else if (direction === "right") coords.push([line, SIZE - 1 - step]);
+          else if (direction === "up") coords.push([step, line]);
+          else coords.push([SIZE - 1 - step, line]);
+        }
+        return coords;
+      }
+
+      function move(direction) {
+        if (gameOver || (won && !keepPlaying)) return;
+
+        var nextGrid = makeEmptyGrid();
+        var changed = false;
+        var scoreGain = 0;
+
+        for (var line = 0; line < SIZE; line += 1) {
+          var coords = getLineCoordinates(direction, line);
+          var oldValues = coords.map(function (coord) { return grid[coord[0]][coord[1]]; });
+          var result = processLine(oldValues);
+          scoreGain += result.gained;
+
+          for (var step = 0; step < SIZE; step += 1) {
+            var r = coords[step][0];
+            var c = coords[step][1];
+            nextGrid[r][c] = result.values[step];
+            if (result.values[step] !== oldValues[step]) changed = true;
+          }
+        }
+
+        if (!changed) return;
+
+        undoSnapshot = snapshot();
+        grid = nextGrid;
+        score += scoreGain;
+        moves += 1;
+        spawnTile();
+
+        if (score > best) {
+          best = score;
+          safeSet(BEST_KEY, String(best));
+        }
+
+        if (!keepPlaying && grid.some(function (row) { return row.indexOf(2048) !== -1; })) {
+          won = true;
+          statusEl.textContent = "You reached 2048. Keep playing for a higher score, or start a new game.";
+        } else if (!hasMoves(grid)) {
+          gameOver = true;
+          statusEl.textContent = "No moves left. Your final score is " + score + ". Start a new game to play again.";
+        } else {
+          statusEl.textContent = "Score " + score + ". Move " + moves + ".";
+        }
+
+        render();
+        saveState();
+      }
+
+      function startNewGame() {
+        grid = makeEmptyGrid();
+        score = 0;
+        moves = 0;
+        won = false;
+        keepPlaying = false;
+        gameOver = false;
+        undoSnapshot = null;
+        spawnTile();
+        spawnTile();
+        statusEl.textContent = "Use the arrow keys, WASD, swipe or the direction pad.";
+        render();
+        saveState();
+      }
+
+      function undoMove() {
+        if (!undoSnapshot) return;
+        var previous = undoSnapshot;
+        grid = copyGrid(previous.grid);
+        score = previous.score;
+        moves = previous.moves;
+        won = previous.won;
+        keepPlaying = previous.keepPlaying;
+        gameOver = previous.gameOver;
+        undoSnapshot = null;
+        statusEl.textContent = "Last move undone.";
+        render();
+        saveState();
+      }
+
+      function continueGame() {
+        if (!won) return;
+        won = false;
+        keepPlaying = true;
+        statusEl.textContent = "You chose to keep playing. Aim for a larger tile.";
+        render();
+        saveState();
+      }
+
+      document.addEventListener("keydown", function (event) {
+        var target = event.target;
+        if (target && /INPUT|TEXTAREA|SELECT/.test(target.tagName)) return;
+
+        var key = event.key.toLowerCase();
+        var direction = null;
+        if (key === "arrowleft" || key === "a") direction = "left";
+        else if (key === "arrowright" || key === "d") direction = "right";
+        else if (key === "arrowup" || key === "w") direction = "up";
+        else if (key === "arrowdown" || key === "s") direction = "down";
+
+        if (direction) {
+          event.preventDefault();
+          move(direction);
+        }
+      });
+
+      boardEl.addEventListener("pointerdown", function (event) {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        touchStart = { x: event.clientX, y: event.clientY };
+      });
+
+      boardEl.addEventListener("pointerup", function (event) {
+        if (!touchStart) return;
+        var dx = event.clientX - touchStart.x;
+        var dy = event.clientY - touchStart.y;
+        touchStart = null;
+        if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+        move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up"));
+      });
+
+      boardEl.addEventListener("pointercancel", function () { touchStart = null; });
+      document.getElementById("restart").addEventListener("click", startNewGame);
+      undoButton.addEventListener("click", undoMove);
+      continueButton.addEventListener("click", continueGame);
+
+      Array.prototype.forEach.call(document.querySelectorAll("[data-move]"), function (button) {
+        button.addEventListener("click", function () {
+          move(button.getAttribute("data-move"));
+        });
+      });
+
+      createCells();
+      if (!loadState()) startNewGame();
+      else {
+        statusEl.textContent = gameOver ? "No moves left. Start a new game to play again." :
+          (won ? "You reached 2048. Keep playing or start a new game." : "Game restored on this device.");
+        render();
+      }
+    }());
+  </script>
+</body>
+</html>
