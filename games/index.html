@@ -139,7 +139,7 @@
     <section class="library container" id="game-library" aria-labelledby="library-title">
       <div class="section-head">
         <h2 id="library-title">Game library</h2>
-        <p class="count" id="result-count" aria-live="polite">36 games</p>
+        <p class="count" id="result-count" aria-live="polite">35 games in the library</p>
       </div>
 
       <div class="tools">
@@ -322,7 +322,7 @@
           if (show) visible += 1;
         });
 
-        count.textContent = visible + (visible === 1 ? " game" : " games");
+        count.textContent = visible + (visible === 1 ? " game" : " games") + " in the library";
         empty.hidden = visible !== 0;
       }
 
