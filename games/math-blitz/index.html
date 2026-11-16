@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="description" content="Play Math Blitz, a quick mental-maths game by PrinceHacky.">
+  <title>Math Blitz | Prince Arcade</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f1115;
+      --panel: #171b23;
+      --panel-2: #1c2431;
+      --text: #e7ebf3;
+      --muted: #aeb9ca;
+      --blue: #3986ee;
+      --green: #39c98a;
+      --border: #2b3547;
+      --danger: #ff8585;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: #91bdff; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 3px solid #91bdff;
+      outline-offset: 3px;
+    }
+    .shell { width: min(100% - 2rem, 760px); margin: 0 auto; padding: 1.25rem 0 2rem; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+    .back-link { text-decoration: none; font-weight: 650; }
+    .brand { color: var(--muted); font-size: .88rem; }
+    .hero { margin-bottom: 1.4rem; }
+    .eyebrow { margin: 0 0 .35rem; color: #8dbaff; font-size: .78rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2rem, 7vw, 3.25rem); line-height: 1.08; letter-spacing: -.04em; }
+    .intro { max-width: 590px; color: var(--muted); margin: .75rem 0 0; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .65rem; margin: 1.4rem 0; }
+    .stat { min-width: 0; padding: .8rem .7rem; background: var(--panel); border: 1px solid var(--border); border-radius: .85rem; }
+    .stat-label { display: block; color: var(--muted); font-size: .76rem; }
+    .stat-value { display: block; margin-top: .1rem; font-size: clamp(1.15rem, 4vw, 1.55rem); font-weight: 800; font-variant-numeric: tabular-nums; }
+    .game-panel { padding: clamp(1rem, 4vw, 1.6rem); border: 1px solid var(--border); border-radius: 1.15rem; background: var(--panel); }
+    .settings-head { margin: 0 0 .55rem; font-size: .88rem; color: var(--muted); }
+    .difficulty { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem; }
+    .difficulty button, .action {
+      min-height: 2.7rem;
+      padding: .6rem .95rem;
+      border: 1px solid var(--border);
+      border-radius: .7rem;
+      background: var(--panel-2);
+      color: var(--text);
+      font-weight: 700;
+    }
+    .difficulty button[aria-pressed="true"] { border-color: var(--blue); background: #18345a; }
+    .difficulty button:disabled { cursor: not-allowed; opacity: .55; }
+    .question-box {
+      min-height: 190px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: .9rem;
+      background: #111722;
+    }
+    .question-label { margin: 0 0 .5rem; color: var(--muted); font-size: .9rem; }
+    .question { margin: 0; font-size: clamp(2.6rem, 12vw, 4.6rem); line-height: 1.1; font-weight: 850; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .answer-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem; margin-top: 1rem; }
+    .answer-row input {
+      width: 100%; min-width: 0; min-height: 3.2rem; padding: .7rem 1rem;
+      color: var(--text); background: #0f141d; border: 1px solid var(--border); border-radius: .7rem;
+    }
+    .action { border-color: transparent; background: var(--blue); color: #fff; }
+    .action.secondary { background: var(--panel-2); border-color: var(--border); color: var(--text); }
+    .action:disabled { cursor: not-allowed; opacity: .5; }
+    .controls { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .8rem; }
+    .controls .action { flex: 1 1 9rem; }
+    .feedback { min-height: 1.6rem; margin: .75rem 0 0; color: var(--muted); font-size: .92rem; }
+    .feedback.good { color: var(--green); }
+    .feedback.bad { color: var(--danger); }
+    .progress-track { height: .45rem; margin-top: 1.1rem; overflow: hidden; border-radius: 999px; background: #2a3444; }
+    .progress-fill { width: 100%; height: 100%; background: var(--green); transform-origin: left center; }
+    .tip { margin: 1rem 0 0; color: var(--muted); font-size: .85rem; }
+    footer { margin-top: 1.4rem; color: var(--muted); font-size: .82rem; text-align: center; }
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 1.2rem, 760px); }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .topbar { margin-bottom: 1.4rem; }
+      .answer-row { grid-template-columns: 1fr; }
+      .answer-row .action { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <nav class="topbar" aria-label="Game navigation">
+      <a class="back-link" href="../">← All games</a>
+      <span class="brand">PRINCE ARCADE</span>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Prince Original 01</p>
+      <h1>Math Blitz</h1>
+      <p class="intro">Solve as many questions as you can in 60 seconds. Pick a level, start the round and beat your personal best.</p>
+    </header>
+
+    <section class="stats" aria-label="Game statistics">
+      <div class="stat"><span class="stat-label">Score</span><strong class="stat-value" id="score">0</strong></div>
+      <div class="stat"><span class="stat-label">Time left</span><strong class="stat-value" id="time">60</strong></div>
+      <div class="stat"><span class="stat-label">Best score</span><strong class="stat-value" id="best">0</strong></div>
+      <div class="stat"><span class="stat-label">Streak</span><strong class="stat-value" id="streak">0</strong></div>
+    </section>
+
+    <section class="game-panel" aria-label="Math Blitz game">
+      <p class="settings-head">Choose difficulty</p>
+      <div class="difficulty" role="group" aria-label="Difficulty">
+        <button type="button" data-level="easy" aria-pressed="true">Easy</button>
+        <button type="button" data-level="normal" aria-pressed="false">Normal</button>
+        <button type="button" data-level="hard" aria-pressed="false">Hard</button>
+      </div>
+
+      <div class="question-box" aria-live="polite">
+        <p class="question-label" id="question-label">Ready when you are</p>
+        <p class="question" id="question">?</p>
+      </div>
+
+      <form id="answer-form" class="answer-row" autocomplete="off">
+        <label class="visually-hidden" for="answer" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Your answer</label>
+        <input id="answer" type="number" inputmode="numeric" step="1" placeholder="Type your answer" disabled>
+        <button class="action" id="submit" type="submit" disabled>Answer</button>
+      </form>
+
+      <div class="controls">
+        <button class="action" id="start" type="button">Start game</button>
+        <button class="action secondary" id="pause" type="button" disabled>Pause</button>
+      </div>
+
+      <p class="feedback" id="feedback" role="status" aria-live="polite">Choose a difficulty and press Start game.</p>
+      <div class="progress-track" role="progressbar" aria-label="Time remaining" aria-valuemin="0" aria-valuemax="60" aria-valuenow="60" id="progress">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="tip">Each correct answer gives 10 points. Your best score stays on this device.</p>
+    </section>
+
+    <footer>Made for learning and quick brain-training. No account or internet connection needed.</footer>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var ROUND_MS = 60000;
+      var BEST_KEY = "princehacky.mathBlitz.best.v1";
+      var scoreEl = document.getElementById("score");
+      var timeEl = document.getElementById("time");
+      var bestEl = document.getElementById("best");
+      var streakEl = document.getElementById("streak");
+      var questionEl = document.getElementById("question");
+      var questionLabel = document.getElementById("question-label");
+      var answerEl = document.getElementById("answer");
+      var submitEl = document.getElementById("submit");
+      var startEl = document.getElementById("start");
+      var pauseEl = document.getElementById("pause");
+      var feedbackEl = document.getElementById("feedback");
+      var progressEl = document.getElementById("progress");
+      var progressFill = document.getElementById("progress-fill");
+      var levelButtons = Array.prototype.slice.call(document.querySelectorAll("[data-level]"));
+
+      var level = "easy";
+      var score = 0;
+      var streak = 0;
+      var best = readBest();
+      var answer = null;
+      var running = false;
+      var paused = false;
+      var ended = false;
+      var startedAt = 0;
+      var elapsedBeforePause = 0;
+      var timerId = 0;
+
+      bestEl.textContent = String(best);
+
+      function readBest() {
+        try {
+          var saved = Number(window.localStorage.getItem(BEST_KEY));
+          return Number.isFinite(saved) && saved > 0 ? Math.floor(saved) : 0;
+        } catch (error) {
+          return 0;
+        }
+      }
+
+      function saveBest(value) {
+        try {
+          window.localStorage.setItem(BEST_KEY, String(value));
+        } catch (error) {
+          feedback("Score saved for this session only because browser storage is unavailable.", "");
+        }
+      }
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function makeQuestion() {
+        var a;
+        var b;
+        var operation;
+        var maximum = level === "easy" ? 20 : level === "normal" ? 50 : 100;
+
+        if (level === "easy") {
+          operation = Math.random() < 0.5 ? "+" : "−";
+        } else if (level === "normal") {
+          operation = ["+", "−", "×"][randomInt(0, 2)];
+        } else {
+          operation = ["+", "−", "×", "×"][randomInt(0, 3)];
+        }
+
+        if (operation === "×") {
+          var factorMax = level === "hard" ? 12 : 10;
+          a = randomInt(2, factorMax);
+          b = randomInt(2, factorMax);
+          answer = a * b;
+        } else if (operation === "−") {
+          a = randomInt(2, maximum);
+          b = randomInt(1, a);
+          answer = a - b;
+        } else {
+          a = randomInt(1, maximum);
+          b = randomInt(1, maximum);
+          answer = a + b;
+        }
+
+        questionEl.textContent = a + " " + operation + " " + b;
+        questionLabel.textContent = "Solve this question";
+        answerEl.value = "";
+      }
+
+      function feedback(message, type) {
+        feedbackEl.textContent = message;
+        feedbackEl.className = "feedback" + (type ? " " + type : "");
+      }
+
+      function updateStats() {
+        scoreEl.textContent = String(score);
+        streakEl.textContent = String(streak);
+      }
+
+      function stopTimer() {
+        if (timerId) {
+          window.clearTimeout(timerId);
+          timerId = 0;
+        }
+      }
+
+      function currentElapsed() {
+        return elapsedBeforePause + (running ? performance.now() - startedAt : 0);
+      }
+
+      function renderTime() {
+        var remaining = Math.max(0, ROUND_MS - currentElapsed());
+        var seconds = Math.ceil(remaining / 1000);
+        timeEl.textContent = String(seconds);
+        progressFill.style.width = (remaining / ROUND_MS * 100) + "%";
+        progressEl.setAttribute("aria-valuenow", String(seconds));
+        if (seconds <= 10) {
+          progressFill.style.background = "#ff8585";
+        } else {
+          progressFill.style.background = "var(--green)";
+        }
+      }
+
+      function tick() {
+        if (!running || paused || ended) return;
+        renderTime();
+        if (currentElapsed() >= ROUND_MS) {
+          finishGame();
+          return;
+        }
+        var elapsed = currentElapsed();
+        var untilNextSecond = 1000 - (elapsed % 1000);
+        timerId = window.setTimeout(tick, Math.max(30, untilNextSecond + 5));
+      }
+
+      function setInputsEnabled(enabled) {
+        answerEl.disabled = !enabled;
+        submitEl.disabled = !enabled;
+      }
+
+      function startGame() {
+        stopTimer();
+        score = 0;
+        streak = 0;
+        elapsedBeforePause = 0;
+        running = true;
+        paused = false;
+        ended = false;
+        startedAt = performance.now();
+        updateStats();
+        makeQuestion();
+        setInputsEnabled(true);
+        pauseEl.disabled = false;
+        pauseEl.textContent = "Pause";
+        startEl.textContent = "Restart game";
+        levelButtons.forEach(function (button) { button.disabled = true; });
+        feedback("Go! Answer as many as you can.", "");
+        renderTime();
+        tick();
+        answerEl.focus();
+      }
+
+      function pauseGame() {
+        if (!running || ended) return;
+        if (paused) {
+          paused = false;
+          startedAt = performance.now();
+          pauseEl.textContent = "Pause";
+          setInputsEnabled(true);
+          feedback("Back in the game. You have got this.", "");
+          tick();
+          answerEl.focus();
+        } else {
+          elapsedBeforePause += performance.now() - startedAt;
+          paused = true;
+          stopTimer();
+          pauseEl.textContent = "Resume";
+          setInputsEnabled(false);
+          feedback("Game paused. Press Resume when you are ready.", "");
+          renderTime();
+        }
+      }
+
+      function finishGame() {
+        stopTimer();
+        running = false;
+        paused = false;
+        ended = true;
+        elapsedBeforePause = ROUND_MS;
+        renderTime();
+        setInputsEnabled(false);
+        pauseEl.disabled = true;
+        pauseEl.textContent = "Pause";
+        startEl.textContent = "Play again";
+        levelButtons.forEach(function (button) { button.disabled = false; });
+        questionLabel.textContent = "Round complete";
+        questionEl.textContent = score + " points";
+        feedback("Time is up! You scored " + score + " points.", "good");
+        if (score > best) {
+          best = score;
+          bestEl.textContent = String(best);
+          saveBest(best);
+          feedback("New personal best! You scored " + score + " points.", "good");
+        }
+      }
+
+      function submitAnswer(event) {
+        event.preventDefault();
+        if (!running || paused || ended) return;
+        var raw = answerEl.value.trim();
+        if (raw === "") {
+          feedback("Type an answer first.", "");
+          answerEl.focus();
+          return;
+        }
+        var given = Number(raw);
+        if (!Number.isFinite(given) || !Number.isInteger(given)) {
+          feedback("Enter a whole number.", "bad");
+          answerEl.focus();
+          return;
+        }
+        if (given === answer) {
+          score += 10;
+          streak += 1;
+          updateStats();
+          feedback(streak > 1 ? "Correct! " + streak + " in a row." : "Correct! +10 points.", "good");
+          makeQuestion();
+        } else {
+          streak = 0;
+          updateStats();
+          feedback("Not quite. Try again, no points lost.", "bad");
+          answerEl.select();
+        }
+        answerEl.focus();
+      }
+
+      levelButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          if (running) return;
+          level = button.getAttribute("data-level");
+          levelButtons.forEach(function (item) {
+            item.setAttribute("aria-pressed", item === button ? "true" : "false");
+          });
+          feedback(level.charAt(0).toUpperCase() + level.slice(1) + " difficulty selected.", "");
+        });
+      });
+
+      document.getElementById("answer-form").addEventListener("submit", submitAnswer);
+      startEl.addEventListener("click", startGame);
+      pauseEl.addEventListener("click", pauseGame);
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden && running && !paused && !ended) pauseGame();
+      });
+
+      renderTime();
+    }());
+  </script>
+</body>
+</html>
